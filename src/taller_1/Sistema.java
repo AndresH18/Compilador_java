@@ -5,6 +5,8 @@ package taller_1;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +44,6 @@ public final class Sistema {
      */
     private static final String LOG_FILE = OUTPUT_DIRECTORY + "log.txt";
 
-
     /**
      * <p>Nombre del archivo: texto-Mapa.</p>
      */
@@ -78,7 +79,6 @@ public final class Sistema {
     public static void main(String[] args) {
 //        System.out.println(System.getProperty("user.dir") + File.separatorChar + "input" + File.separatorChar + "prueba.txt");
 //        displaySymbols();
-        Sistema.log("Hello");
         Sistema.log("World");
     }
 
@@ -266,7 +266,49 @@ public final class Sistema {
 
     /*----------------- SOURCE FILE SECTION START -----------------*/
 
-    public static void loadSource(String fileName) {
+    /**
+     * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto</p>
+     * <p>Guarda las lineas en {@code List<List<String>>}, mientras que las palabras de la linea las separa y las
+     * guarda en {@code List<String>}.</p>
+     *
+     * TODO: DECIDIR UNA EXTENSION PARA EL TIPO DE ARCHIVO DEL SOURCE CODE
+     *
+     * @param fileName nombre del archivo que se va a leer, dentro de la carpeta .\input\ .
+     * @return {@code List<List<String>>} con las palabras sepa.
+     */
+    public static List<List<String>> loadSource(String fileName) {
+        File file = new File(INPUT_DIRECTORY + fileName);
+
+        // leer el archivo
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            // lista para guardar la lista de palabras
+            List<List<String>> lineList = new LinkedList<>();
+            // lista para guardar las palabras de la linea
+            List<String> wordList;
+            // String para guardar la linea
+            String line;
+            // ciclo para leer las lineas
+            while ((line = in.readLine()) != null) {
+                // inicializar la lista de palabras
+                wordList = new LinkedList<>();
+                // for-each para guardar separar y guardar las palabras
+                for (String s : line.split(" ")) {
+                    // revisar que la palabra no este en blanco
+                    if (!s.isBlank()) {
+                        // guardar la palabra en la lista de palabras
+                        wordList.add(s);
+                    }
+                }
+                // guardar la lista de palabras(la linea)
+                lineList.add(wordList);
+            }
+            // retornar la lista de lineas
+            return lineList;
+        } catch (IOException e) {
+            // se imprime el error a la consola estandar de errores
+            e.printStackTrace(System.err);
+        }
+        return null;
 
     }
 
@@ -278,13 +320,20 @@ public final class Sistema {
 
         System.out.println();
 
-        try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true))) {
-            out.println("YYYYAY");
+
+        /* TODO: document effect of invoked parameters
+         *
+         * autoFlush = true; Every print flushes the stream, writing it to the file
+         * append = true; Appends to the file
+         */
+        try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
+            out.printf("%tS\n", System.currentTimeMillis());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static void log(String message, char type) {
 
     }

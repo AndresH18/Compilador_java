@@ -1,15 +1,34 @@
 while
-name : ciclo_while
-type : loop
+name : ciclo_while_start
+type1 : loop_starting
+
+end_while
+name : ciclo_while_end
+type1 : loop_ending
 
 for
-name : ciclo_for
+name : ciclo_for_start
+type1 : loop
+
+end_for
+name : ciclo_for_end
+type1 : loop
+
+do
+name : do
+type1 : loop
 
 if
 name : condicional_if
+type1 : conditional
+
+then
+name : then
+type1 : conditional
 
 else
 name : condicional_else
+type1 : conditional
 
 int
 name : integer_number
@@ -19,3 +38,64 @@ name : floating_number
 
 String
 name : string_representation
+
++
+name : addition
+type1 : operator
+type2 : concatenation
+
+-
+name : subtraction
+type1 : operator
+
+*
+name : multiplication
+type1 : operator
+
+/
+name : division
+type1 : operator
+
+=
+name : assignment
+type1 : operator
+
+0
+name : zero
+type1 : number
+
+1
+name : one
+type1 : number
+
+2
+name : two
+type1 : number
+
+3
+name : three
+type1 : number
+
+4
+name : four
+type1 : number
+
+5
+name : five
+type1 : number
+
+6
+name : six
+type1 : number
+
+7
+name : seven
+type1 : number
+
+8
+name : eight
+type1 : number
+
+9
+name : nine
+type1 : number
