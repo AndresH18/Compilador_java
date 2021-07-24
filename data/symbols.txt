@@ -1,0 +1,21 @@
+while
+name : ciclo_while
+type : loop
+
+for
+name : ciclo_for
+
+if
+name : condicional_if
+
+else
+name : condicional_else
+
+int
+name : integer_number
+
+double
+name : floating_number
+
+String
+name : string_representation
