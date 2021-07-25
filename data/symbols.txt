@@ -1,6 +1,13 @@
 ## this is a comment
 ## for now, Comments should be done before or after the complete object body(including the header)
 
+
+define
+type : keyword
+
+class
+type : keyword
+
 start
 name : start_next_command
 type : keyword
@@ -46,12 +53,6 @@ type1 : boolean
 or
 type : keyword
 type1 : boolean
-
-define
-type : keyword
-
-class
-type : keyword
 
 ==
 name : equal_to
