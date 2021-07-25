@@ -24,7 +24,12 @@ type : keyword
 type1 : loop
 
 if
-name : condicional_if
+name : if_start
+type : keyword
+type1 : conditional
+
+end_if
+name : if_end
 type : keyword
 type1 : conditional
 
@@ -34,18 +39,55 @@ type : keyword
 type1 : conditional
 
 else
-name : condicional_else
+name : else_start
 type : keyword
 type1 : conditional
 
-int
-name : integer_number
+end_else
+name : else_end
+type : keyword
+type1 : conditional
 
-double
-name : floating_number
+and
+type : keyword
+type1 : boolean
 
-String
-name : string_representation
+or
+type : keyword
+type1 : boolean
+
+==
+name : equal_to
+type : operator
+type1 : boolean
+
+<
+name : less_than
+type : operator
+type1 : boolean
+
+>
+name : greater_than
+type : operator
+type1 : boolean
+
+<=
+name : less_equal
+type : operator
+type1 : boolean
+
+>=
+name : greater_equal
+type : operator
+type1 : boolean
+
+!
+name : not
+type : operator
+type1 : boolean
+
+;
+type : end_of_statement
 
 +
 name : plus
@@ -112,3 +154,12 @@ type : number
 9
 name : nine
 type : number
+
+int
+name : integer_number
+
+double
+name : floating_number
+
+String
+name : string_representation

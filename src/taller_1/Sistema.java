@@ -16,6 +16,10 @@ import java.util.*;
  * DONE: distinguish words
  * DONE: write output
  * TODO: Document new methods
+ * TODO: make it so you can comment symbols file
+ * TODO: piensa si cambiar end_for a usar la palabra end y juntar con for
+ *  end for. tambien se podria pensar en usar start/begin if.
+ *  Servirian como los brackets de java
  * log(String), log(Throwable), categorizar(List<List<String>>, String...)
  */
 public final class Sistema {
@@ -90,7 +94,7 @@ public final class Sistema {
 //
 //        System.out.println(now.format(format));
 
-        categorizar(loadSource("prueba.txt"));
+        categorizar(loadSource("prueba.txt"), args);
 
     }
 

@@ -1,0 +1,34 @@
+HEL
+MMASMssssS
+16
+  2021-07-24 20:06:38World
+2021-07-24 20:07:38  World
+2021-07-24 20:07:47  World
+2021-07-24 22:53:27  C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+2021-07-24 22:55:07  java.io.FileNotFoundException: C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+2021-07-24 23:10:17  java.io.FileNotFoundException: C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+
+2021-07-24 23:13:56  C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+                     java.base/java.io.FileInputStream.open0(Native Method)                     java.base/java.io.FileInputStream.open(FileInputStream.java:211)                     java.base/java.io.FileInputStream.<init>(FileInputStream.java:153)                     java.base/java.io.FileReader.<init>(FileReader.java:75)                     taller_1.Sistema.loadSource(Sistema.java:294)                     taller_1.Sistema.main(Sistema.java:91)2021-07-24 23:14:19  C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+                     java.base/java.io.FileInputStream.open0(Native Method)
+                     java.base/java.io.FileInputStream.open(FileInputStream.java:211)
+                     java.base/java.io.FileInputStream.<init>(FileInputStream.java:153)
+                     java.base/java.io.FileReader.<init>(FileReader.java:75)
+                     taller_1.Sistema.loadSource(Sistema.java:294)
+                     taller_1.Sistema.main(Sistema.java:91)
+
+
+2021-07-24 23:14:55  C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+                     java.base/java.io.FileInputStream.open0(Native Method)
+                     java.base/java.io.FileInputStream.open(FileInputStream.java:211)
+                     java.base/java.io.FileInputStream.<init>(FileInputStream.java:153)
+                     java.base/java.io.FileReader.<init>(FileReader.java:75)
+                     taller_1.Sistema.loadSource(Sistema.java:294)
+                     taller_1.Sistema.main(Sistema.java:91)
+2021-07-24 23:16:12  C:\Users\Andres\OneDrive - Universidad EIA\Documents\Universidad\Lenguajes y Compiladores\Talleres\Compilador_java\input\prueba.txt (The system cannot find the file specified)
+                     java.base/java.io.FileInputStream.open0(Native Method)
+                     java.base/java.io.FileInputStream.open(FileInputStream.java:211)
+                     java.base/java.io.FileInputStream.<init>(FileInputStream.java:153)
+                     java.base/java.io.FileReader.<init>(FileReader.java:75)
+                     taller_1.Sistema.loadSource(Sistema.java:294)
+                     taller_1.Sistema.main(Sistema.java:91)

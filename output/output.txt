@@ -1,0 +1,14 @@
+    symbol      line    column              type                name               type1
+       for         1         1           keyword     ciclo_for_start                loop
+    andres         1         5     identificador
+        se         1        12     identificador
+ encuentra         1        15     identificador
+       for         1        25           keyword     ciclo_for_start                loop
+        if         1        29           keyword      condicional_if         conditional
+    before         1        32     identificador
+     while         2         1           keyword   ciclo_while_start       loop_starting
+      this         2         7     identificador
+        is         2        12     identificador
+ happening         2        15     identificador
+      then         2        25           keyword                then         conditional
+      else         2        30           keyword    condicional_else         conditional
