@@ -1,21 +1,21 @@
 ## this is a comment
+## for now, Comments should be done before or after the complete object body(including the header)
+
+start
+name : start_next_command
+type : keyword
+
+end
+name : end_command
+type : keyword
+
 while
-name : ciclo_while_start
-type : keyword
-type1 : loop_starting
-
-end_while
-name : ciclo_while_end
-type : keyword
-type1 : loop_ending
-
-for
-name : ciclo_for_start
+name : while_loop
 type : keyword
 type1 : loop
 
-end_for
-name : ciclo_for_end
+for
+name : for_loop
 type : keyword
 type1 : loop
 
@@ -25,12 +25,7 @@ type : keyword
 type1 : loop
 
 if
-name : if_start
-type : keyword
-type1 : conditional
-
-end_if
-name : if_end
+name : if_statement
 type : keyword
 type1 : conditional
 
@@ -40,12 +35,7 @@ type : keyword
 type1 : conditional
 
 else
-name : else_start
-type : keyword
-type1 : conditional
-
-end_else
-name : else_end
+name : else_statement
 type : keyword
 type1 : conditional
 
