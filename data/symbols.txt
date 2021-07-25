@@ -47,6 +47,12 @@ or
 type : keyword
 type1 : boolean
 
+define
+type : keyword
+
+class
+type : keyword
+
 ==
 name : equal_to
 type : operator
