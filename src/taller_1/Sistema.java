@@ -16,11 +16,13 @@ import java.util.*;
  * DONE: distinguish words
  * DONE: write output
  * TODO: Document new methods
- * TODO: make it so you can comment symbols file
- * TODO: piensa si cambiar end_for a usar la palabra end y juntar con for
- *  end for. tambien se podria pensar en usar start/begin if.
- *  Servirian como los brackets de java
  * log(String), log(Throwable), categorizar(List<List<String>>, String...)
+ * DONE: make it so you can comment symbols file
+ * TODO: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
+ *  en el archivo de symbols
+ * TODO: piensa si cambiar end_for a usar la palabra end y juntar con for
+ * end for. tambien se podria pensar en usar start/begin if.
+ * Servirian como los brackets de java
  */
 public final class Sistema {
 
@@ -30,7 +32,7 @@ public final class Sistema {
     public static final String PROJECT_DIRECTORY = System.getProperty("user.dir") + File.separatorChar;
 
     /**
-     * <p>Direccion de la carpeta data, dentro del proyecto..</p>
+     * <p>Direccion de la carpeta data, dentro del proyecto.</p>
      */
     private static final String DATA_DIRECTORY = PROJECT_DIRECTORY + "data" + File.separatorChar;
 
@@ -45,7 +47,7 @@ public final class Sistema {
     private static final String INPUT_DIRECTORY = PROJECT_DIRECTORY + "input" + File.separatorChar;
 
     /**
-     * <p>Direccion del archivo en el cual se va a hacer log</p>
+     * <p>Direccion del archivo en el cual se va a hacer log.</p>
      */
     private static final String LOG_FILE = OUTPUT_DIRECTORY + "log.txt";
 
@@ -58,6 +60,11 @@ public final class Sistema {
      * <p>Nombre del archivo: Objeto-Mapa.</p>
      */
     private static final String SYMBOL_OBJECT_FILE = "symbols.symb";
+
+    /**
+     * <p>El simbolo que identifica los comentarios en el archivo de simbolos.</p>
+     */
+    private static final String SYMBOL_COMMENT = "##";
 
     /**
      * <p>{@code Map<String, Map<String, String>>} de los simbolos, con {@code Map<String, String>} de las caracteristicas del simbolo.</p>
@@ -93,8 +100,8 @@ public final class Sistema {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
 //
 //        System.out.println(now.format(format));
-
-        categorizar(loadSource("prueba.txt"), args);
+//        categorizar(loadSource("prueba.txt"), args);
+        displaySymbols();
 
     }
 
@@ -116,6 +123,7 @@ public final class Sistema {
                 // se imprime la key y el value, caracteristicas del simbolo
                 System.out.println(stringEntry.getKey() + " : " + stringEntry.getValue());
             }
+            System.out.println();
         }
     }
 
@@ -123,6 +131,7 @@ public final class Sistema {
      * <p>Lee el archivo de simbolos en la version de objeto y de texto. Si uno de los 2 no esta, usa el otro.</p>
      * <p>En caso de que esten los 2, usa la version de texto, ya que se considera la mas actualizada.</p>
      * <p><b>El mapa es inmodificable.</b></p>
+     *
      * @return {@code Map<String, Map<String, String>>}, String de los simbolos, {@code Map<String, String} con las caracteristicas.
      * @throws RuntimeException si los 2 archivos no estan o no se pudieron leer.
      */
@@ -193,32 +202,38 @@ public final class Sistema {
                 }
                 // revisar que no se este en el fin del archivo
                 if (line != null) {
-                    // almacenar el header(keyword)
-                    header = line;
-                    // leer la siguiente linea
-                    line = in.readLine();
-                    // inicializar el mapa de caracteristicas
-                    body = new HashMap<>();
-                    // ciclo para mapear las caracteristicas en keys y values
-                    // revisar que no este en el fin del archivo y que la linea no este en blanco
-                    while (line != null && !line.isBlank()) {
-                        // !(line == null || line.isBlank())
-                        // quitar los espacios " " de la linea
-                        line = line.replaceAll(" ", "");
-                        // revisar que la linea tiene una ":" para poder separarla
-                        if (line.contains(":")) {
-                            // almacenar la parte antes de ":" como la key
-                            key = line.split(":")[0];
-                            // almacenar la parte que esta despues del ":" como el value
-                            value = line.split(":")[1];
-                            // mapear la key con el value
-                            body.put(key, value);
-                        }
+                    // Si la linea empieza con el simbolo de comentarios(ej. ##), se salta esa linea
+                    if (!line.startsWith(SYMBOL_COMMENT)) {
+                        // almacenar el header(keyword)
+                        header = line;
                         // leer la siguiente linea
                         line = in.readLine();
+                        // inicializar el mapa de caracteristicas
+                        body = new HashMap<>();
+                        // ciclo para mapear las caracteristicas en keys y values
+                        // revisar que no este en el fin del archivo y que la linea no este en blanco
+                        while (line != null && !line.isBlank()) {
+                            // !(line == null || line.isBlank())
+                            // quitar los espacios " " de la linea
+                            line = line.strip(); // line = line.replaceAll(" ", "");
+                            // revisar que la linea tiene una ":" para poder separarla
+                            if (line.contains(":")) {
+                                // almacenar la parte antes de ":" como la key
+                                key = line.split(":")[0];
+                                // almacenar la parte que esta despues del ":" como el value
+                                value = line.split(":")[1];
+                                // mapear la key con el value
+                                body.put(key, value);
+                            }
+                            // leer la siguiente linea
+                            line = in.readLine();
+                        }
+                        // mapear el header com key y el mapa de caracteristicas como el value
+                        head.put(header, Collections.unmodifiableMap(body));
+                    } else {
+                        // se pasa a la siguiente linea, porque era de comentarios
+                        line = in.readLine();
                     }
-                    // mapear el header com key y el mapa de caracteristicas como el value
-                    head.put(header, Collections.unmodifiableMap(body));
                 }
             }
             // retornar el mapa completo, no modificable
@@ -292,7 +307,7 @@ public final class Sistema {
     /*----------------- SOURCE FILE SECTION START -----------------*/
 
     /**
-     * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto</p>
+     * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto.</p>
      * <p>Guarda las lineas en {@code List<List<String>>}, mientras que las palabras de la linea las separa y las
      * guarda en {@code List<String>}.</p>
      *
@@ -343,37 +358,55 @@ public final class Sistema {
         return null;
     }
 
+    /**
+     * <p>Categoriza las palabras del codigo fuente de acuerdo a los symbolos. El output se envia al
+     * archivo .\output\tabla.txt, dentro de la carpeta del proyecto.</p>
+     *
+     * @param list
+     * @param args
+     */
     public static void categorizar(List<List<String>> list, String... args) {
+        // revisar que list no sea null
         Objects.requireNonNull(list);
-
-        try (PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "output.txt"))) {
-
+        // abrir conexion con el archivo para escribir
+        try (PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "tabla.txt"), true)) {
+            // imprimir los titulos por defecto de las columnas
             out.printf("%10s%10s%10s%18s", "symbol", "line", "column", "type");
+            // ciclo para imprimir los titulos dados por args
             for (String arg : args) {
                 out.printf("%20s", arg);
             }
+            // pasar a la siguiente linea del archivo
             out.print("\n");
-
+            // variables para almacenar la linea actual y la columna
             int line = 0, pos;
-
+            // ciclo para recorrer las lineas
             for (List<String> lines : list) {
-
+                // agregar 1 al contador de lineas
                 line++;
+                // poner el contador de la columna en 1
                 pos = 1;
-
+                // ciclo para recorrer las palabras de la linea
                 for (String word : lines) {
+                    // imprimir los valores por defecto. La palabra, la linea y la columna
                     out.printf("%10s%10s%10s", word, line, pos);
+                    // revisar si la palabra esta en los simbolos
                     if (SYMBOLS.containsKey(word)) {
                         // belongs to symbols
+                        // imprimir el tipo de la palabra
                         out.printf("%18s", SYMBOLS.get(word).get("type"));
+                        // ciclo para imprimir los datos de la palabra dados por args
                         for (String arg : args) {
                             out.printf("%20s", SYMBOLS.get(word).get(arg));
                         }
                     } else {
+                        // la palabra no pertenece a los simbolos
                         // for now, they are identifiers
                         out.printf("%18s", "identificador");
                     }
+                    // pasar a la siguiente linea del archivo
                     out.print("\n");
+                    // agregar a la columna el largo de la palabra, +1 por el espacio
                     pos += word.length() + 1;
                 }
 
@@ -396,8 +429,7 @@ public final class Sistema {
         System.out.println();
 
 
-        /* TODO: document effect of invoked parameters
-         *
+         /*
          * autoFlush = true; Every print flushes the stream, writing it to the file
          * append = true; Appends to the file
          */
