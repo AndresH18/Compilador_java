@@ -4,18 +4,19 @@
 package taller_1;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * @author Andres David Hoyos Velasquez
  * <p>
- * TODO: create/expand symbols table
- * TODO: read source file
- * TODO: distinguish words
- * TODO: write output
+ * TODO: expand symbols table
+ * DONE: read source file
+ * DONE: distinguish words
+ * DONE: write output
+ * TODO: Document new methods
+ *  log(String), log(Throwable), categorizar(List<List<String>>, String...)
  */
 public final class Sistema {
 
@@ -79,7 +80,18 @@ public final class Sistema {
     public static void main(String[] args) {
 //        System.out.println(System.getProperty("user.dir") + File.separatorChar + "input" + File.separatorChar + "prueba.txt");
 //        displaySymbols();
-        Sistema.log("World");
+//        Sistema.log("World");
+//        LocalDateTime now = LocalDateTime.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String formatedDate = now.format(formatter);
+//        System.out.println(formatedDate);
+//        now = LocalDateTime.now();
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
+//
+//        System.out.println(now.format(format));
+
+        categorizar(loadSource("prueba.txt"));
+
     }
 
     /*-------------------- SYMBOLS SECTION START --------------------*/
@@ -209,6 +221,8 @@ public final class Sistema {
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
         }
         // retornar null
         return null;
@@ -230,6 +244,8 @@ public final class Sistema {
         } catch (IOException | ClassNotFoundException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
         }
         return null;
     }
@@ -249,6 +265,8 @@ public final class Sistema {
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
         }
     }
 
@@ -270,15 +288,16 @@ public final class Sistema {
      * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto</p>
      * <p>Guarda las lineas en {@code List<List<String>>}, mientras que las palabras de la linea las separa y las
      * guarda en {@code List<String>}.</p>
-     *
+     * <p>
      * TODO: DECIDIR UNA EXTENSION PARA EL TIPO DE ARCHIVO DEL SOURCE CODE
      *
      * @param fileName nombre del archivo que se va a leer, dentro de la carpeta .\input\ .
      * @return {@code List<List<String>>} con las palabras sepa.
      */
     public static List<List<String>> loadSource(String fileName) {
-        File file = new File(INPUT_DIRECTORY + fileName);
+        Objects.requireNonNull(fileName);
 
+        File file = new File(INPUT_DIRECTORY + fileName);
         // leer el archivo
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             // lista para guardar la lista de palabras
@@ -307,8 +326,57 @@ public final class Sistema {
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
+
         }
         return null;
+    }
+
+    public static void categorizar(List<List<String>> list, String... args) {
+        Objects.requireNonNull(list);
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "output.txt"))) {
+
+            out.printf("%10s%10s%10s%18s", "symbol", "line", "column", "type");
+            for (String arg : args) {
+                out.printf("%20s", arg);
+            }
+            out.print("\n");
+
+            int line = 0, pos;
+
+            for (List<String> lines : list) {
+
+                line++;
+                pos = 1;
+
+                for (String word : lines) {
+                    out.printf("%10s%10s%10s", word, line, pos);
+                    if (SYMBOLS.containsKey(word)) {
+                        // belongs to symbols
+                        out.printf("%18s", SYMBOLS.get(word).get("type"));
+                        for (String arg : args) {
+                            out.printf("%20s", SYMBOLS.get(word).get(arg));
+                        }
+                    } else {
+                        // for now, they are identifiers
+                        out.printf("%18s", "identificador");
+                    }
+                    out.print("\n");
+                    pos += word.length() + 1;
+                }
+
+            }
+
+        } catch (IOException e) {
+            // se imprime el error a la consola estandar de errores
+            e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
+
+        }
+
 
     }
 
@@ -327,14 +395,33 @@ public final class Sistema {
          * append = true; Appends to the file
          */
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
-            out.printf("%tS\n", System.currentTimeMillis());
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            out.printf("%-21s%s\n", now.format(formatter), message);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            // se imprime el error a la consola estandar de errores
+            e.printStackTrace(System.err);
+            // no se imprime en el log para evitar problemas de recusivas,
+            // ya que si se genera un error lo más probable sea que se continue repitiendo
         }
     }
 
-    public static void log(String message, char type) {
+    public static void log(Throwable throwable) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            out.printf("%-21s%s\n", now.format(formatter), throwable.getMessage());
 
+            for (StackTraceElement stack : throwable.getStackTrace()) {
+                out.printf("%-21s%s\n", "", stack.toString());
+            }
+
+        } catch (IOException e) {
+            // se imprime el error a la consola estandar de errores
+            e.printStackTrace(System.err);
+            // no se imprime en el log para evitar problemas de recusivas,
+            // ya que si se genera un error lo más probable sea que se continue repitiendo
+        }
     }
 }

@@ -48,62 +48,67 @@ String
 name : string_representation
 
 +
-name : addition
-type1 : operator
+name : plus
+type : operator
+type1 : addition
 type2 : concatenation
 
 -
-name : subtraction
-type1 : operator
+name : minus
+type : operator
+type1 : subtraction
 
 *
-name : multiplication
-type1 : operator
+name : asterisk
+type : operator
+type1 : multiply
 
 /
-name : division
-type1 : operator
+name : slash
+type : operator
+type1 : division
 
 =
-name : assignment
-type1 : operator
+name : equal
+type : operator
+type1 : assignment
 
 0
 name : zero
-type1 : number
+type : number
 
 1
 name : one
-type1 : number
+type : number
 
 2
 name : two
-type1 : number
+type : number
 
 3
 name : three
-type1 : number
+type : number
 
 4
 name : four
-type1 : number
+type : number
 
 5
 name : five
-type1 : number
+type : number
 
 6
 name : six
-type1 : number
+type : number
 
 7
 name : seven
-type1 : number
+type : number
 
 8
 name : eight
-type1 : number
+type : number
 
 9
 name : nine
-type1 : number
+type : number
