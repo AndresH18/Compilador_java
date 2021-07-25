@@ -16,7 +16,7 @@ import java.util.*;
  * DONE: distinguish words
  * DONE: write output
  * TODO: Document new methods
- *  log(String), log(Throwable), categorizar(List<List<String>>, String...)
+ * log(String), log(Throwable), categorizar(List<List<String>>, String...)
  */
 public final class Sistema {
 
@@ -118,7 +118,7 @@ public final class Sistema {
     /**
      * <p>Lee el archivo de simbolos en la version de objeto y de texto. Si uno de los 2 no esta, usa el otro.</p>
      * <p>En caso de que esten los 2, usa la version de texto, ya que se considera la mas actualizada.</p>
-     *
+     * <p><b>El mapa es inmodificable.</b></p>
      * @return {@code Map<String, Map<String, String>>}, String de los simbolos, {@code Map<String, String} con las caracteristicas.
      * @throws RuntimeException si los 2 archivos no estan o no se pudieron leer.
      */
@@ -162,6 +162,8 @@ public final class Sistema {
     /**
      * <p>Mapear el titulo con un mapa de las caracteristicas de manera similar a lo que
      * interprete que funciona un mapeado de informacion .jason .</p>
+     *
+     * <p><b>El mapa es inmodificable.</b></p>
      *
      * @return un mapeado de tipo {@code Map<String, Map<String, String>>}.
      */
@@ -212,11 +214,11 @@ public final class Sistema {
                         line = in.readLine();
                     }
                     // mapear el header com key y el mapa de caracteristicas como el value
-                    head.put(header, body);
+                    head.put(header, Collections.unmodifiableMap(body));
                 }
             }
-            // retornar el mapa completo
-            return head;
+            // retornar el mapa completo, no modificable
+            return Collections.unmodifiableMap(head);
 
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
@@ -230,6 +232,7 @@ public final class Sistema {
 
     /**
      * <p>Carga el archivo con el mapeado de los simbolos.</p>
+     * <p><b>El mapa es inmodificable.</b></p>
      *
      * @return {@code Map<String, Map<String, String>>} de los simbolos con sus caracteristicas.
      */
@@ -238,8 +241,8 @@ public final class Sistema {
         File file = new File(DATA_DIRECTORY + SYMBOL_OBJECT_FILE);
         // try-catch para posibles errores al guardar el objeto, o al hacer casting
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
-            // se retorna el archivo leido, despues de hacerle casting a Map<String, Map<String, String>>
-            return (Map<String, Map<String, String>>) in.readObject();
+            // se retorna el archivo leido, despues de hacerle casting a Map<String, Map<String, String>>, no modificable
+            return Collections.unmodifiableMap((HashMap<String, Map<String, String>>) in.readObject());
 
         } catch (IOException | ClassNotFoundException e) {
             // se imprime el error a la consola estandar de errores
@@ -288,6 +291,9 @@ public final class Sistema {
      * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto</p>
      * <p>Guarda las lineas en {@code List<List<String>>}, mientras que las palabras de la linea las separa y las
      * guarda en {@code List<String>}.</p>
+     *
+     * <p><b>La lista es inmodificable.</b></p>
+     *
      * <p>
      * TODO: DECIDIR UNA EXTENSION PARA EL TIPO DE ARCHIVO DEL SOURCE CODE
      *
@@ -319,10 +325,10 @@ public final class Sistema {
                     }
                 }
                 // guardar la lista de palabras(la linea)
-                lineList.add(wordList);
+                lineList.add(Collections.unmodifiableList(wordList));
             }
             // retornar la lista de lineas
-            return lineList;
+            return Collections.unmodifiableList(lineList);
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
@@ -374,10 +380,7 @@ public final class Sistema {
             e.printStackTrace(System.err);
             // se imprime el error al log
             log(e);
-
         }
-
-
     }
 
     /*------------------ SOURCE FILE SECTION END ------------------*/
