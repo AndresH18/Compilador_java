@@ -19,7 +19,7 @@ import java.util.*;
  * log(String), log(Throwable), categorizar(List<List<String>>, String...)
  * DONE: make it so you can comment symbols file
  * TODO: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
- *  en el archivo de symbols
+ * en el archivo de symbols
  * TODO: piensa si cambiar end_for a usar la palabra end y juntar con for
  * end for. tambien se podria pensar en usar start/begin if.
  * Servirian como los brackets de java
@@ -362,8 +362,8 @@ public final class Sistema {
      * <p>Categoriza las palabras del codigo fuente de acuerdo a los symbolos. El output se envia al
      * archivo .\output\tabla.txt, dentro de la carpeta del proyecto.</p>
      *
-     * @param list
-     * @param args
+     * @param list la lista de las palabras
+     * @param args los argumentos opcionales para ver
      */
     public static void categorizar(List<List<String>> list, String... args) {
         // revisar que list no sea null
@@ -422,14 +422,15 @@ public final class Sistema {
 
     /*------------------ SOURCE FILE SECTION END ------------------*/
 
-    // TODO: DOCUMENTATION FOR LOGGER
 
+    /**
+     * <p>Imprime el mensaje en el archivo .\output\log.txt.</p>
+     * <p>Se imprime de la forma: yyyy-MM-dd HH:mm:ss   message</p>
+     *
+     * @param message mensaje a imprimir en log.
+     */
     public static void log(String message) {
-
-        System.out.println();
-
-
-         /*
+        /*
          * autoFlush = true; Every print flushes the stream, writing it to the file
          * append = true; Appends to the file
          */
@@ -446,12 +447,28 @@ public final class Sistema {
         }
     }
 
+    /**
+     * <p>Imprime el throwable en el archivo .\output\log.txt.</p>
+     * <p>Se imprime de la forma:<br>
+     * yyyy-MM-dd HH:mm:ss     message<br>
+     * &emsp &emsp &emsp &emsp &emsp &emsp &emsp &emsp &nbsp stackTrace<br>
+     * &emsp &emsp &emsp &emsp &emsp &emsp &emsp &emsp &nbsp stackTrace<br>
+     * </p>
+     *
+     * @param throwable throwable to print
+     */
     public static void log(Throwable throwable) {
+        // Imprimir
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            out.printf("%-21s%s\n", now.format(formatter), throwable.getMessage());
+//            LocalDateTime now = LocalDateTime.now();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            out.printf("%-21s%s\n", now.format(formatter), throwable.getMessage());
 
+            // imprime el tiempo en el que se dio, ademas del mensaje
+            out.printf("%-21s%s\n",
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                    throwable.getMessage());
+            // imprime el stacktrace
             for (StackTraceElement stack : throwable.getStackTrace()) {
                 out.printf("%-21s%s\n", "", stack.toString());
             }
@@ -463,4 +480,5 @@ public final class Sistema {
             // ya que si se genera un error lo más probable sea que se continue repitiendo
         }
     }
+
 }
