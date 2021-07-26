@@ -2,19 +2,43 @@
 ## for now, Comments should be done before or after the complete object body(including the header)
 
 
+;
+name : punto_coma
+type : end_statement
+
 define
+type : keyword
+
+as
 type : keyword
 
 class
 type : keyword
 
+var
+name : variable
+type : keyword
+
+const
+name : constant
+type : keyword
+
 start
-name : start_next_command
+name : start_command
 type : keyword
 
 end
 name : end_command
 type : keyword
+
+return
+name : return 
+type : keyword
+
+void
+name : void
+type : keyword
+type1 : return_type
 
 while
 name : while_loop
@@ -46,16 +70,33 @@ name : else_statement
 type : keyword
 type1 : conditional
 
+true
+name : true_value
+type : keyword
+type1 : boolean
+
+false
+name : false_value
+type : keyword
+type1 : boolean
+
 and
+name : logical_and
 type : keyword
 type1 : boolean
 
 or
+name : logical_or
 type : keyword
 type1 : boolean
 
 ==
 name : equal_to
+type : operator
+type1 : boolean
+
+!= 
+name : not_equal
 type : operator
 type1 : boolean
 
@@ -84,9 +125,6 @@ name : not
 type : operator
 type1 : boolean
 
-;
-type : end_of_statement
-
 +
 name : plus
 type : operator
@@ -112,6 +150,12 @@ type1 : division
 name : equal
 type : operator
 type1 : assignment
+
+[]
+name : array
+type : array_operator
+symbol : [regex]
+regex : (0|[1-9][0-9]*])
 
 0
 name : zero
@@ -154,10 +198,13 @@ name : nine
 type : number
 
 int
-name : integer_number
+name : integer
 
 double
-name : floating_number
+name : floating
 
 String
-name : string_representation
+name : string
+
+boo
+name : boolean
