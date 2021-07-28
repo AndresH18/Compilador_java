@@ -20,9 +20,10 @@ import java.util.*;
  * DONE: make it so you can comment symbols file
  * TODO: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
  * en el archivo de symbols
- * TODO: piensa si cambiar end_for a usar la palabra end y juntar con for
+ * DONE: piensa si cambiar end_for a usar la palabra end y juntar con for
  * end for. tambien se podria pensar en usar start/begin if.
  * Servirian como los brackets de java
+ * TODO: Arreglar que si se encuentra una expresion tipo string, no se quiten los espacios
  */
 public final class Sistema {
 
@@ -100,8 +101,8 @@ public final class Sistema {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
 //
 //        System.out.println(now.format(format));
-//        categorizar(loadSource("prueba.txt"), args);
-        displaySymbols();
+        categorizar(loadSource("prueba.txt"), args);
+//        displaySymbols();
 
     }
 
@@ -215,7 +216,7 @@ public final class Sistema {
                         while (line != null && !line.isBlank()) {
                             // !(line == null || line.isBlank())
                             // quitar los espacios " " de la linea
-                            line = line.strip(); // line = line.replaceAll(" ", "");
+                            line = line.replaceAll(" ", ""); // line = line.strip();
                             // revisar que la linea tiene una ":" para poder separarla
                             if (line.contains(":")) {
                                 // almacenar la parte antes de ":" como la key
