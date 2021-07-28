@@ -15,10 +15,10 @@ import java.util.*;
  * DONE: read source file
  * DONE: distinguish words
  * DONE: write output
- * TODO: Document new methods
+ * DONE: Document new methods
  * log(String), log(Throwable), categorizar(List<List<String>>, String...)
  * DONE: make it so you can comment symbols file
- * TODO: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
+ * DONE: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
  * en el archivo de symbols
  * DONE: piensa si cambiar end_for a usar la palabra end y juntar con for
  * end for. tambien se podria pensar en usar start/begin if.
@@ -101,8 +101,8 @@ public final class Sistema {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
 //
 //        System.out.println(now.format(format));
-        categorizar(loadSource("prueba.txt"), args);
-//        displaySymbols();
+//        categorizar(loadSource("prueba.txt"), args);
+        displaySymbols();
 
     }
 

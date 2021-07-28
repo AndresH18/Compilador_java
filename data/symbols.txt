@@ -197,13 +197,9 @@ type : number
 name : nine
 type : number
 
-##
-
 \t
 name : tap_h
 type : separator
-
-
 
 int
 name : integer
