@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/**
- * @author Andres David Hoyos Velasquez
- * <p>
+/*
  * TODO: expand symbols table
  * DONE: read source file
  * DONE: distinguish words
@@ -24,6 +22,10 @@ import java.util.*;
  * end for. tambien se podria pensar en usar start/begin if.
  * Servirian como los brackets de java
  * TODO: Arreglar que si se encuentra una expresion tipo string, no se quiten los espacios
+ */
+
+/**
+ * @author Andres David Hoyos Velasquez
  */
 public final class Sistema {
 
@@ -90,6 +92,7 @@ public final class Sistema {
      * @param args No hay implementacion actual para usar algun argumento de entrada
      */
     public static void main(String[] args) {
+        // FIXME: Delete commented lines
 //        System.out.println(System.getProperty("user.dir") + File.separatorChar + "input" + File.separatorChar + "prueba.txt");
 //        displaySymbols();
 //        Sistema.log("World");
@@ -361,7 +364,7 @@ public final class Sistema {
 
     /**
      * <p>Categoriza las palabras del codigo fuente de acuerdo a los symbolos. El output se envia al
-     * archivo .\output\tabla.txt, dentro de la carpeta del proyecto.</p>
+     * archivo .\output\tabla1.txt, dentro de la carpeta del proyecto.</p>
      *
      * @param list la lista de las palabras
      * @param args los argumentos opcionales para ver
@@ -370,7 +373,7 @@ public final class Sistema {
         // revisar que list no sea null
         Objects.requireNonNull(list);
         // abrir conexion con el archivo para escribir
-        try (PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "tabla.txt"), true)) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "tabla1.txt"), true)) {
             // imprimir los titulos por defecto de las columnas
             out.printf("%10s%10s%10s%18s", "symbol", "line", "column", "type");
             // ciclo para imprimir los titulos dados por args
@@ -429,6 +432,7 @@ public final class Sistema {
      * <p>Se imprime de la forma: yyyy-MM-dd HH:mm:ss   message</p>
      *
      * @param message mensaje a imprimir en log.
+     * @see #log(Throwable)
      */
     public static void log(String message) {
         /*
@@ -452,15 +456,16 @@ public final class Sistema {
      * <p>Imprime el throwable en el archivo .\output\log.txt.</p>
      * <p>Se imprime de la forma:<br>
      * yyyy-MM-dd HH:mm:ss     message<br>
-     * &emsp &emsp &emsp &emsp &emsp &emsp &emsp &emsp &nbsp stackTrace<br>
-     * &emsp &emsp &emsp &emsp &emsp &emsp &emsp &emsp &nbsp stackTrace<br>
+     * stackTrace<br>
      * </p>
      *
      * @param throwable throwable to print
+     * @see #log(String)
      */
     public static void log(Throwable throwable) {
         // Imprimir
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
+            // FIXME: Delete commented code lines
 //            LocalDateTime now = LocalDateTime.now();
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //            out.printf("%-21s%s\n", now.format(formatter), throwable.getMessage());

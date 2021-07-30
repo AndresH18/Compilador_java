@@ -2,7 +2,7 @@ for condition do 1 + 1 end_for
 if true do print hello end
 
 
-if string = "some string not modified" then
+if string == "some string not modified" then
     for condition do
         something
     end for
