@@ -1,10 +1,24 @@
-for condition do 1 + 1 end_for
-if true do print hello end
 
+define var string s = "my String";
+define var int i = 0;
 
-if string == "some string not modified" then
-    for condition do
-        something
-    end for
-end if
+start for (condition number 1) do
+    i = i + 1;
+end for;
+
+start if (true != false) then
+    print "hello";
+    print " ";
+    print "world";
+end if;
+
+start if (s == "some string") then
+    for (condition) do
+        print 1;
+    end for;
+end if;
+
+start do
+    printl "printing";
+while (condition) end;
     
