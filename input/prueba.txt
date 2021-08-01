@@ -1,6 +1,5 @@
-
-define var string s = "my String";
-define var int i = 0;
+define var string s as "my String";
+define var int i as 0;
 
 start for (condition number 1) do
     i = i + 1;
@@ -12,13 +11,14 @@ start if (true != false) then
     print "world";
 end if;
 
-start if (s == "some string") then
-    for (condition) do
-        print 1;
+start if (s == "some string" or false) then
+    define var int j = 0;
+    for (j < 10) do
+        print j;
+        j = j + 1;
     end for;
 end if;
 
 start do
     printl "printing";
 while (condition) end;
-    

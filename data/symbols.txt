@@ -1,6 +1,5 @@
 ## this is a comment
-## for now, Comments should be done before or after the complete object body(including the header)
-
+## it can be used to...comment
 
 ;
 name : punto_coma
@@ -8,9 +7,12 @@ type : end_statement
 
 define
 type : keyword
+type1 : definition
 
 as
 type : keyword
+type1 : definition
+type2 : assignment
 
 class
 type : keyword
@@ -151,11 +153,41 @@ name : equal
 type : operator
 type1 : assignment
 
-[]
-name : array
-type : array_operator
-symbol : [regex]
-regex : (0|[1-9][0-9]*])
+## []
+## name : array
+## type : array_operator
+## symbol : [regex]
+## regex : 0|[1-9][0-9]*
+
+## ()
+## name : parenthesis
+## type : grouper
+## symbol : (regex)
+## regex : [0-9a-zA-Z][0-9a-zA-Z]*
+
+## ""
+## name : quote
+## type : string
+## type1 : grouper
+## symbol : "regex"
+## regex : *
+
+## ----------------
+
+"
+name : quote
+type : string_q
+type1 : grouper
+
+(
+name : opening_p
+type : grouper
+
+)
+name : closing_p
+type : grouper
+
+## ----------------
 
 0
 name : zero
@@ -210,5 +242,5 @@ name : floating
 string
 name : string
 
-boo
+bool
 name : boolean

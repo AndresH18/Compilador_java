@@ -10,6 +10,7 @@ import java.util.*;
 
 /*
  * TODO: expand symbols table
+ * TODO: make so that files inside input are analyzed, edit output format to display what file it belongs
  * DONE: read source file
  * DONE: distinguish words
  * DONE: write output
@@ -26,6 +27,7 @@ import java.util.*;
 
 /**
  * @author Andres David Hoyos Velasquez
+ * @author Alejandro Garcia
  */
 public final class Sistema {
 
@@ -37,42 +39,42 @@ public final class Sistema {
     /**
      * <p>Direccion de la carpeta data, dentro del proyecto.</p>
      */
-    private static final String DATA_DIRECTORY = PROJECT_DIRECTORY + "data" + File.separatorChar;
+    public static final String DATA_DIRECTORY = PROJECT_DIRECTORY + "data" + File.separatorChar;
 
     /**
      * <p>Direccion de la carpeta de output, dentro del proyecto.</p>
      */
-    private static final String OUTPUT_DIRECTORY = PROJECT_DIRECTORY + "output" + File.separatorChar;
+    public static final String OUTPUT_DIRECTORY = PROJECT_DIRECTORY + "output" + File.separatorChar;
 
     /**
      * <p>Direccion de la carpeta de input, dentro del proyecto.</p>
      */
-    private static final String INPUT_DIRECTORY = PROJECT_DIRECTORY + "input" + File.separatorChar;
+    public static final String INPUT_DIRECTORY = PROJECT_DIRECTORY + "input" + File.separatorChar;
 
     /**
      * <p>Direccion del archivo en el cual se va a hacer log.</p>
      */
-    private static final String LOG_FILE = OUTPUT_DIRECTORY + "log.txt";
+    public static final String LOG_FILE = OUTPUT_DIRECTORY + "log.txt";
 
     /**
      * <p>Nombre del archivo: texto-Mapa.</p>
      */
-    private static final String SYMBOLS_TXT_FILE = "symbols.txt";
+    public static final String SYMBOLS_TXT_FILE = "symbols.txt";
 
     /**
      * <p>Nombre del archivo: Objeto-Mapa.</p>
      */
-    private static final String SYMBOL_OBJECT_FILE = "symbols.symb";
+    public static final String SYMBOL_OBJECT_FILE = "symbols.symb";
 
     /**
      * <p>El simbolo que identifica los comentarios en el archivo de simbolos.</p>
      */
-    private static final String SYMBOL_COMMENT = "##";
+    public static final String SYMBOL_COMMENT = "##";
 
     /**
      * <p>{@code Map<String, Map<String, String>>} de los simbolos, con {@code Map<String, String>} de las caracteristicas del simbolo.</p>
      */
-    private static final Map<String, Map<String, String>> SYMBOLS;
+    public static final Map<String, Map<String, String>> SYMBOLS;
 
     // bloque estatico para cargar los symbolos
     static {
@@ -104,7 +106,8 @@ public final class Sistema {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
 //
 //        System.out.println(now.format(format));
-//        categorizar(loadSource("prueba.txt"), args);
+        loadSource(null);
+        categorizar(loadSource("prueba.txt"), args);
         displaySymbols();
 
     }
@@ -150,6 +153,7 @@ public final class Sistema {
         // both the text-based and the object-based maps were not found
         if (o == null && f == null) {
             // throw exception
+            log("Symbols were not found.");
             throw new RuntimeException("SYMBOLS NOT FOUND");
 
             // object-based was not found
@@ -172,8 +176,6 @@ public final class Sistema {
             // check if they are different, if different return text-based(assuming it's and updated version)
             return f.equals(o) ? o : f;
         }
-
-
     }
 
     /**
@@ -219,8 +221,8 @@ public final class Sistema {
                         while (line != null && !line.isBlank()) {
                             // !(line == null || line.isBlank())
                             // quitar los espacios " " de la linea
-                            line = line.replaceAll(" ", ""); // line = line.strip();
-                            // revisar que la linea tiene una ":" para poder separarla
+                            line = line.replaceAll(" ", "");
+                            // revisar que la linea tiene un":" para poder separarla
                             if (line.contains(":")) {
                                 // almacenar la parte antes de ":" como la key
                                 key = line.split(":")[0];
@@ -288,6 +290,8 @@ public final class Sistema {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             // guarda el objeto
             out.writeObject(map);
+            // escribir al registro
+            log("Symbols object created.");
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
@@ -310,6 +314,144 @@ public final class Sistema {
 
     /*----------------- SOURCE FILE SECTION START -----------------*/
 
+
+    /**
+     * Clasifica las palabras del archivo fuente de acuerdo a la tabla de simbolos y lo guarda en un archivo.
+     *
+     * @param fileName el archivo en el que se encuentra el codigo para crear la tabla.
+     * @param args     argumentos extra con los que clasificar la palabra, que se encuentren en la tabla de simbolos.
+     * @see #printWordInfo(PrintWriter, String, int, int, String...)
+     */
+    public static void createTable(String fileName, String... args) {
+        // Crear un objeto para leer el archivo y otro para escribir
+        try (
+                BufferedReader in = new BufferedReader(new FileReader(INPUT_DIRECTORY + fileName));
+                PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "table_" + fileName))) {
+
+            // imprimir los titulos por defecto de las columnas
+            out.printf("%10s%10s%10s%18s", "symbol", "line", "column", "type");
+            // ciclo para imprimir los titulos dados por args
+            for (String arg : args) {
+                out.printf("%20s", arg);
+            }
+            // pasar a la siguiente linea del archivo
+            out.print("\n");
+
+            int c;
+            int line = 1, col = 1;
+            StringBuilder sb = new StringBuilder();
+            while ((c = in.read()) != -1) {
+
+                switch (c) {
+                    case '\n', ' ' -> {
+
+                        if (!sb.isEmpty()) {
+                            printWordInfo(out, sb.toString(), line, col - sb.length(), args);
+                            sb.setLength(0);
+                        }
+                        // print word
+                        if (c == '\n') {
+                            line++;
+                            col = 1;
+                        } else if (c == ' ') {
+                            col++;
+                        }
+                    }
+
+                    case ';' -> {
+                        printWordInfo(out, sb.toString(), line, col - sb.length(), args);
+                        sb.setLength(0);
+
+                        printWordInfo(out, String.valueOf(';'), line, col++, args);
+                        col++;
+                    }
+
+                    case '+', '-', '*', '/', '=' -> {
+
+//                        printWordInfo(out, sb.toString(), line, col, args);
+//                        sb.setLength(0);
+//                        printWordInfo(out, String.valueOf((char) c), line, col, args);
+                        sb.append((char) c);
+                        col++;
+                    }
+
+                    case '"' -> {
+
+                        printWordInfo(out, sb.toString(), line, col, args);
+                        sb.setLength(0);
+                        printWordInfo(out, "\"", line, col, args);
+
+                        col++;
+                    }
+
+                    case '(', ')' -> {
+
+
+                        printWordInfo(out, sb.toString(), line, col, args);
+                        printWordInfo(out, String.valueOf((char) c), line, col, args);
+
+                        col++;
+                    }
+
+                    default -> {
+                        if (Character.isLetterOrDigit(c) || c == '_') {
+                            sb.append((char) c);
+                            col++;
+
+                        } else if (SYMBOLS.containsKey(sb.toString())) {
+
+                        }
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            // se imprime el error a la consola estandar de errores
+            e.printStackTrace(System.err);
+            // se imprime el error al log
+            log(e);
+
+        }
+    }
+
+    /**
+     * Imprime la palabra, junto con su clasificacion en el {@code PrintWriter} que se le pasa.
+     *
+     * @param out    PrintWriter para escribir.
+     * @param word   la palabra clasificar.
+     * @param line   linea en la que se encuentra la palabra.
+     * @param column columna en la que se encuentra la palabra.
+     * @param args   argumentos extra con los que clasificar la palabra, que se encuentren en la tabla de simbolos.
+     * @see #createTable(String, String...)
+     */
+    public static void printWordInfo(PrintWriter out, String word, int line, int column, String... args) {
+        // revisar que el PrintWriter no este nulo
+        Objects.requireNonNull(out);
+        // no hacer nada si la palabra esta vacia o en blanco
+        if (word.isBlank()) {
+            return;
+        }
+        // imprimir los valores por defecto. La palabra, la linea y la columna
+        out.printf("%10s%10s%10s", word, line, column);
+        // revisar si la palabra esta en los simbolos
+        if (SYMBOLS.containsKey(word)) {
+            // belongs to symbols
+            // imprimir el tipo de la palabra
+            out.printf("%18s", SYMBOLS.get(word).get("type"));
+            // ciclo para imprimir los datos de la palabra dados por args
+            for (String arg : args) {
+                out.printf("%20s", SYMBOLS.get(word).get(arg));
+            }
+        } else {
+            // la palabra no pertenece a los simbolos
+            // for now, they are identifiers
+            out.printf("%18s", "identificador");
+        }
+        // pasar a la siguiente linea del archivo
+        out.print("\n");
+    }
+
+
     /**
      * <p>Carga el codigo fuente del archivo "fileName" ubicado en la carpeta ".\input\" dentro del proyecto.</p>
      * <p>Guarda las lineas en {@code List<List<String>>}, mientras que las palabras de la linea las separa y las
@@ -323,6 +465,7 @@ public final class Sistema {
      * @param fileName nombre del archivo que se va a leer, dentro de la carpeta .\input\ .
      * @return {@code List<List<String>>} con las palabras sepa.
      */
+    @Deprecated(forRemoval = true)
     public static List<List<String>> loadSource(String fileName) {
         Objects.requireNonNull(fileName);
 
@@ -369,6 +512,7 @@ public final class Sistema {
      * @param list la lista de las palabras
      * @param args los argumentos opcionales para ver
      */
+    @Deprecated(forRemoval = true)
     public static void categorizar(List<List<String>> list, String... args) {
         // revisar que list no sea null
         Objects.requireNonNull(list);
@@ -423,6 +567,8 @@ public final class Sistema {
             log(e);
         }
     }
+
+
 
     /*------------------ SOURCE FILE SECTION END ------------------*/
 
@@ -486,5 +632,6 @@ public final class Sistema {
             // ya que si se genera un error lo más probable sea que se continue repitiendo
         }
     }
+
 
 }
