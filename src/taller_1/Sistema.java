@@ -56,7 +56,6 @@ public final class Sistema {
      */
     public static final String INPUT_FILE_EXTENSION = ".txt";
 
-
     /**
      * <p>Direccion del archivo en el cual se va a hacer log.</p>
      */
