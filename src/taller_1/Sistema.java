@@ -10,7 +10,7 @@ import java.util.*;
 
 /*
  * TODO: expand symbols table
- * TODO: make so that files inside input are analyzed, edit output format to display what file it belongs
+ * DONE: make so that files inside input are analyzed, edit output format to display what file it belongs
  * DONE: read source file
  * DONE: distinguish words
  * DONE: write output
@@ -22,7 +22,7 @@ import java.util.*;
  * DONE: piensa si cambiar end_for a usar la palabra end y juntar con for
  * end for. tambien se podria pensar en usar start/begin if.
  * Servirian como los brackets de java
- * TODO: Arreglar que si se encuentra una expresion tipo string, no se quiten los espacios
+ * DONE: Arreglar que si se encuentra una expresion tipo string, no se quiten los espacios
  */
 
 /**
@@ -104,7 +104,7 @@ public final class Sistema {
         // argumentos opcionales para la clasificacion.
         String[] mArgs = {"name", "type1", "type2"};
         // Array con los nombres de los archivos en la carpeta, que tengan la extension .txt
-        String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(".txt"));
+        String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(INPUT_FILE_EXTENSION));
         // verificar que el arreglo no sea null
         if (files != null) {
             // ciclo para analizar los archivo
