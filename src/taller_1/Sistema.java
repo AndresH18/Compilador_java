@@ -53,7 +53,6 @@ public final class Sistema {
 
     /**
      * <p>La Extension con la que deben terminar los archivos compatibles para ser leidos por el analizador lexicografico</p>
-     * gg
      */
     public static final String INPUT_FILE_EXTENSION = ".txt";
 
@@ -76,7 +75,6 @@ public final class Sistema {
      * <p>El simbolo que identifica los comentarios en el archivo de simbolos.</p>
      */
     public static final String SYMBOL_COMMENT = "##";
-
 
     /**
      * <p>{@code Map<String, Map<String, String>>} de los simbolos, con {@code Map<String, String>} de las caracteristicas del simbolo.</p>
@@ -102,7 +100,7 @@ public final class Sistema {
      */
     public static void main(String[] args) {
         // argumentos opcionales para la clasificacion.
-        String[] mArgs = {"name", "type1", "type2"};
+        String[] mArgs = {"type1", "name", "type2"};
         // Array con los nombres de los archivos en la carpeta, que tengan la extension .txt
         String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(INPUT_FILE_EXTENSION));
         // verificar que el arreglo no sea null
@@ -146,7 +144,7 @@ public final class Sistema {
      * @see #loadSymbolsFile()
      * @see #loadSymbolsObject()
      */
-    private static Map<String, Map<String, String>> loadSymbols() throws RuntimeException {
+    private static Map<String, Map<String, String>> loadSymbols() {
         // load the Symbols form object file
         Map<String, Map<String, String>> f = loadSymbolsFile();
         // load the symbols form text file
@@ -175,10 +173,16 @@ public final class Sistema {
             return o;
 
         } else {
-            // f != null && o != null
-            // object-based and text-based found
-            // check if they are different, if different return text-based(assuming it's an updated version)
-            return f.equals(o) ? o : f;
+//             f != null && o != null
+//             object-based and text-based found
+//             check if they are different, if different return text-based(assuming it's an updated version)
+            if (f.equals(o)) {
+                return f;
+            } else {
+                writeFileObject(f);
+                return f;
+            }
+
         }
     }
 
@@ -273,7 +277,8 @@ public final class Sistema {
         // try-catch para posibles errores al guardar el objeto, o al hacer casting
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             // se retorna el archivo leido, despues de hacerle casting a Map<String, Map<String, String>>, no modificable
-            return Collections.unmodifiableMap((HashMap<String, Map<String, String>>) in.readObject());
+            Object o = in.readObject();
+            return o instanceof HashMap ? Collections.unmodifiableMap((HashMap<String, Map<String, String>>) o) : null;
 
         } catch (IOException | ClassNotFoundException e) {
             // se imprime el error a la consola estandar de errores
@@ -363,7 +368,7 @@ public final class Sistema {
                             printWordInfo(out, sb.toString(), line, col - sb.length(), args);
                             sb.setLength(0);
                         }
-                        // print word
+
                         if (c == '\n') {
                             line++;
                             col = 1;
