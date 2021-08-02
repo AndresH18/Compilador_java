@@ -101,23 +101,6 @@ public final class Sistema {
      * @param args No hay implementacion actual para usar algun argumento de entrada
      */
     public static void main(String[] args) {
-        // FIXME: Delete commented lines
-//        System.out.println(System.getProperty("user.dir") + File.separatorChar + "input" + File.separatorChar + "prueba.txt");
-//        displaySymbols();
-//        Sistema.log("World");
-//        LocalDateTime now = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        String formatedDate = now.format(formatter);
-//        System.out.println(formatedDate);
-//        now = LocalDateTime.now();
-//        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
-//
-//        System.out.println(now.format(format));
-
-//        loadSource(null);
-//        categorizar(loadSource("prueba.txt"), args);
-//        displaySymbols();
-
         String[] mArgs = {"name", "type1", "type2"};
         String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(".txt"));
         if (files != null) {
