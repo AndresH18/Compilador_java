@@ -53,6 +53,7 @@ public final class Sistema {
 
     /**
      * <p>La Extension con la que deben terminar los archivos compatibles para ser leidos por el analizador lexicografico</p>
+     * gg
      */
     public static final String INPUT_FILE_EXTENSION = ".txt";
 
