@@ -101,15 +101,17 @@ public final class Sistema {
      * @param args No hay implementacion actual para usar algun argumento de entrada
      */
     public static void main(String[] args) {
+        // argumentos opcionales para la clasificacion.
         String[] mArgs = {"name", "type1", "type2"};
+        // Array con los nombres de los archivos en la carpeta, que tengan la extension .txt
         String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(".txt"));
+        // verificar que el arreglo no sea null
         if (files != null) {
+            // ciclo para analizar los archivo
             for (String file : files) {
                 createTable(file, mArgs);
             }
         }
-
-
     }
 
     /*-------------------- SYMBOLS SECTION START --------------------*/
