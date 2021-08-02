@@ -52,6 +52,12 @@ public final class Sistema {
     public static final String INPUT_DIRECTORY = PROJECT_DIRECTORY + "input" + File.separatorChar;
 
     /**
+     * <p>La Extension con la que deben terminar los archivos compatibles para ser leidos por el analizador lexicografico</p>
+     */
+    public static final String INPUT_FILE_EXTENSION = ".txt";
+
+
+    /**
      * <p>Direccion del archivo en el cual se va a hacer log.</p>
      */
     public static final String LOG_FILE = OUTPUT_DIRECTORY + "log.txt";
@@ -70,6 +76,7 @@ public final class Sistema {
      * <p>El simbolo que identifica los comentarios en el archivo de simbolos.</p>
      */
     public static final String SYMBOL_COMMENT = "##";
+
 
     /**
      * <p>{@code Map<String, Map<String, String>>} de los simbolos, con {@code Map<String, String>} de las caracteristicas del simbolo.</p>
@@ -106,9 +113,19 @@ public final class Sistema {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd MM y");
 //
 //        System.out.println(now.format(format));
-        loadSource(null);
-        categorizar(loadSource("prueba.txt"), args);
-        displaySymbols();
+
+//        loadSource(null);
+//        categorizar(loadSource("prueba.txt"), args);
+//        displaySymbols();
+
+        String[] mArgs = {"name", "type1", "type2"};
+        String[] files = new File(INPUT_DIRECTORY).list((dir, name) -> name.endsWith(".txt"));
+        if (files != null) {
+            for (String file : files) {
+                createTable(file, mArgs);
+            }
+        }
+
 
     }
 
@@ -141,6 +158,8 @@ public final class Sistema {
      *
      * @return {@code Map<String, Map<String, String>>}, String de los simbolos, {@code Map<String, String} con las caracteristicas.
      * @throws RuntimeException si los 2 archivos no estan o no se pudieron leer.
+     * @see #loadSymbolsFile()
+     * @see #loadSymbolsObject()
      */
     private static Map<String, Map<String, String>> loadSymbols() throws RuntimeException {
         // load the Symbols form object file
@@ -173,7 +192,7 @@ public final class Sistema {
         } else {
             // f != null && o != null
             // object-based and text-based found
-            // check if they are different, if different return text-based(assuming it's and updated version)
+            // check if they are different, if different return text-based(assuming it's an updated version)
             return f.equals(o) ? o : f;
         }
     }
@@ -185,6 +204,7 @@ public final class Sistema {
      * <p><b>El mapa es inmodificable.</b></p>
      *
      * @return un mapeado de tipo {@code Map<String, Map<String, String>>}.
+     * @see #loadSymbols()
      */
     private static Map<String, Map<String, String>> loadSymbolsFile() {
         File file = new File(DATA_DIRECTORY + SYMBOLS_TXT_FILE);
@@ -211,7 +231,7 @@ public final class Sistema {
                     // Si la linea empieza con el simbolo de comentarios(ej. ##), se salta esa linea
                     if (!line.startsWith(SYMBOL_COMMENT)) {
                         // almacenar el header(keyword)
-                        header = line;
+                        header = line.replaceAll(" ", "");
                         // leer la siguiente linea
                         line = in.readLine();
                         // inicializar el mapa de caracteristicas
@@ -260,6 +280,7 @@ public final class Sistema {
      * <p><b>El mapa es inmodificable.</b></p>
      *
      * @return {@code Map<String, Map<String, String>>} de los simbolos con sus caracteristicas.
+     * @see #loadSymbols()
      */
     private static Map<String, Map<String, String>> loadSymbolsObject() {
         // se crea el archivo para leer
@@ -303,6 +324,8 @@ public final class Sistema {
     /**
      * <p>Guarda el {@code Map<String, Map<String, String>>} como objeto. Es equivalente a
      * llamar {@link #writeFileObject(Map)} con el mapa de simbolos.</p>
+     *
+     * @see #writeFileObject(Map)
      */
     private static void writeFileObject() {
         writeFileObject(SYMBOLS);
@@ -326,7 +349,7 @@ public final class Sistema {
         // Crear un objeto para leer el archivo y otro para escribir
         try (
                 BufferedReader in = new BufferedReader(new FileReader(INPUT_DIRECTORY + fileName));
-                PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "table_" + fileName))) {
+                PrintWriter out = new PrintWriter(new FileWriter(OUTPUT_DIRECTORY + "table_" + fileName), true)) {
 
             // imprimir los titulos por defecto de las columnas
             out.printf("%10s%10s%10s%18s", "symbol", "line", "column", "type");
@@ -337,15 +360,21 @@ public final class Sistema {
             // pasar a la siguiente linea del archivo
             out.print("\n");
 
+            // int para almacenar el caracter
             int c;
+            // contador de lineas y columnas
             int line = 1, col = 1;
+            // Almacenar los caracteres guardados
             StringBuilder sb = new StringBuilder();
+            // ciclo para recorrer el archivo
             while ((c = in.read()) != -1) {
-
+                // switch-case para identificar el tipo de caracter
                 switch (c) {
+                    // espacio o salto de linea
                     case '\n', ' ' -> {
-
+                        // que el String no este vacio
                         if (!sb.isEmpty()) {
+                            // imprimir la informacion de la palabra, con la linea, columna y args
                             printWordInfo(out, sb.toString(), line, col - sb.length(), args);
                             sb.setLength(0);
                         }
@@ -353,57 +382,62 @@ public final class Sistema {
                         if (c == '\n') {
                             line++;
                             col = 1;
-                        } else if (c == ' ') {
+                        } else {
+//                        } else if (c == ' ') {
                             col++;
                         }
                     }
-
+                    // punto y coma
                     case ';' -> {
+                        // imprimir la informacion de la palabra, con la linea, columna y args
                         printWordInfo(out, sb.toString(), line, col - sb.length(), args);
+                        // vaciar el string
                         sb.setLength(0);
-
+                        // imprimir la informacion de la palabra, con la linea, columna y args
                         printWordInfo(out, String.valueOf(';'), line, col++, args);
                         col++;
                     }
-
-                    case '+', '-', '*', '/', '=' -> {
-
-//                        printWordInfo(out, sb.toString(), line, col, args);
-//                        sb.setLength(0);
-//                        printWordInfo(out, String.valueOf((char) c), line, col, args);
+                    // operadores
+                    case '+', '-', '*', '/', '=', '!' -> {
+                        // agregar el caracter al String
                         sb.append((char) c);
+                        // aumentar una columna
                         col++;
                     }
-
+                    // comillas
                     case '"' -> {
-
+                        // imprimir la informacion de la palabra, con la linea, columna y args
                         printWordInfo(out, sb.toString(), line, col, args);
+                        // vaciar el String
                         sb.setLength(0);
+                        // imprimir la informacion de ", con la linea, columna y args
                         printWordInfo(out, "\"", line, col, args);
-
+                        // aumentar una columna
                         col++;
                     }
-
+                    // parenthesis
                     case '(', ')' -> {
-
-
+                        // imprimir la informacion de la palabra, con la linea, columna y args
                         printWordInfo(out, sb.toString(), line, col, args);
+                        // vaciar el String
+                        sb.setLength(0);
+                        // imprimir la informacion de ( o ), con la linea, columna y args
                         printWordInfo(out, String.valueOf((char) c), line, col, args);
-
+                        // aumentar una columna
                         col++;
                     }
 
                     default -> {
+                        // si el caracter es letra o digito o _
                         if (Character.isLetterOrDigit(c) || c == '_') {
+                            // agregar el caracter al String
                             sb.append((char) c);
+                            // sumar 1 a las columnas
                             col++;
-
-                        } else if (SYMBOLS.containsKey(sb.toString())) {
-
                         }
                     }
-                }
-            }
+                } // end switch
+            } // end while
 
         } catch (IOException e) {
             // se imprime el error a la consola estandar de errores
@@ -460,12 +494,12 @@ public final class Sistema {
      * <p><b>La lista es inmodificable.</b></p>
      *
      * <p>
-     * TODO: DECIDIR UNA EXTENSION PARA EL TIPO DE ARCHIVO DEL SOURCE CODE
      *
      * @param fileName nombre del archivo que se va a leer, dentro de la carpeta .\input\ .
      * @return {@code List<List<String>>} con las palabras sepa.
+     * @see #createTable(String, String...)
      */
-    @Deprecated(forRemoval = true)
+    @Deprecated
     public static List<List<String>> loadSource(String fileName) {
         Objects.requireNonNull(fileName);
 
@@ -511,8 +545,9 @@ public final class Sistema {
      *
      * @param list la lista de las palabras
      * @param args los argumentos opcionales para ver
+     * @see #createTable(String, String...)
      */
-    @Deprecated(forRemoval = true)
+    @Deprecated
     public static void categorizar(List<List<String>> list, String... args) {
         // revisar que list no sea null
         Objects.requireNonNull(list);
@@ -595,6 +630,9 @@ public final class Sistema {
             e.printStackTrace(System.err);
             // no se imprime en el log para evitar problemas de recusivas,
             // ya que si se genera un error lo más probable sea que se continue repitiendo
+
+            // lanzar una excepcion de que no se pueden generar logs
+            throw new RuntimeException("No es posible generar logs.", e);
         }
     }
 
@@ -611,10 +649,6 @@ public final class Sistema {
     public static void log(Throwable throwable) {
         // Imprimir
         try (PrintWriter out = new PrintWriter(new FileWriter(LOG_FILE, true), true)) {
-            // FIXME: Delete commented code lines
-//            LocalDateTime now = LocalDateTime.now();
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            out.printf("%-21s%s\n", now.format(formatter), throwable.getMessage());
 
             // imprime el tiempo en el que se dio, ademas del mensaje
             out.printf("%-21s%s\n",
@@ -630,8 +664,9 @@ public final class Sistema {
             e.printStackTrace(System.err);
             // no se imprime en el log para evitar problemas de recusivas,
             // ya que si se genera un error lo más probable sea que se continue repitiendo
+
+            // lanzar una excepcion de que no se pueden generar logs
+            throw new RuntimeException("No es posible generar logs.", e);
         }
     }
-
-
 }

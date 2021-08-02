@@ -1,7 +1,7 @@
-define var string s as "my String";
+define const string s as "my String";
 define var int i as 0;
 
-start for (condition number 1) do
+start for (condition1) do
     i = i + 1;
 end for;
 
