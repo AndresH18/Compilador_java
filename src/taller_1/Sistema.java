@@ -8,23 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-/*
- * TODO: expand symbols table
- * DONE: make so that files inside input are analyzed, edit output format to display what file it belongs
- * DONE: read source file
- * DONE: distinguish words
- * DONE: write output
- * DONE: Document new methods
- * log(String), log(Throwable), categorizar(List<List<String>>, String...)
- * DONE: make it so you can comment symbols file
- * DONE: crear un metodo para hacer el readLine de forma que se puedan poner comentarios en diferentes partes
- * en el archivo de symbols
- * DONE: piensa si cambiar end_for a usar la palabra end y juntar con for
- * end for. tambien se podria pensar en usar start/begin if.
- * Servirian como los brackets de java
- * DONE: Arreglar que si se encuentra una expresion tipo string, no se quiten los espacios
- */
-
 /**
  * @author Andres David Hoyos Velasquez
  * @author Alejandro Garcia
