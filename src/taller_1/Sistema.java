@@ -146,6 +146,7 @@ public final class Sistema {
             // o == null && f != null
             // creates copy of the text-based as an object file on storage
             writeFileObject(f);
+            log("Object was null");
             // return text-based
             return f;
 
@@ -160,9 +161,12 @@ public final class Sistema {
 //             object-based and text-based found
 //             check if they are different, if different return text-based(assuming it's an updated version)
             if (f.equals(o)) {
+                log("Symbols are equal");
                 return f;
             } else {
+                log("Symbols have changed");
                 writeFileObject(f);
+
                 return f;
             }
 
@@ -261,8 +265,8 @@ public final class Sistema {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             // se retorna el archivo leido, despues de hacerle casting a Map<String, Map<String, String>>, no modificable
             Object o = in.readObject();
-            return o instanceof HashMap ? Collections.unmodifiableMap((HashMap<String, Map<String, String>>) o) : null;
-
+//            return o instanceof HashMap ? Collections.unmodifiableMap((HashMap<String, Map<String, String>>) o) : null;
+            return Collections.unmodifiableMap((Map<String, Map<String, String>>) o);
         } catch (IOException | ClassNotFoundException e) {
             // se imprime el error a la consola estandar de errores
             e.printStackTrace(System.err);
