@@ -1,20 +1,20 @@
 package taller_2;
 
-import taller_2.gui.MainPageG;
+import taller_2.gui.MainPageTab;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SystemGUI implements WindowEvents {
 
-    private JFrame window;
+    private final JFrame window;
 
     public SystemGUI() {
         window = new JFrame("APP");
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        window.add(new MainPageG(this).getMAIN_PANEL());
+        window.add(new MainPageTab(this).getTabbedPane());
 
         this.resize();
 
@@ -41,7 +41,7 @@ public class SystemGUI implements WindowEvents {
     @Override
     public void resize() {
         window.pack();
-        
+
     }
 }
 

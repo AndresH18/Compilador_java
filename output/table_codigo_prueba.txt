@@ -1,112 +1,112 @@
-    symbol      line    column              type                name               type1               type2
-    define         1         1           keyword                null          definition                null
-     const         1         8           keyword            constant                null                null
-    string         1        14              null              string                null                null
+    symbol      line    column              type               type1                name               type2
+    define         1         1           keyword          definition                null                null
+     const         1         8           keyword                null            constant                null
+    string         1        14              null                null              string                null
          s         1        21     identificador
-        as         1        23           keyword                null          definition          assignment
-         "         1        26          string_q               quote             grouper                null
+        as         1        23           keyword          definition                null          assignment
+         "         1        26          string_q             grouper               quote                null
         my         1        27     identificador
     String         1        36     identificador
-         "         1        36          string_q               quote             grouper                null
-         ;         1        37     end_statement          punto_coma                null                null
-    define         2         1           keyword                null          definition                null
-       var         2         8           keyword            variable                null                null
-       int         2        12              null             integer                null                null
+         "         1        36          string_q             grouper               quote                null
+         ;         1        37     end_statement                null          punto_coma                null
+    define         2         1           keyword          definition                null                null
+       var         2         8           keyword                null            variable                null
+       int         2        12              null                null             integer                null
          i         2        16     identificador
-        as         2        18           keyword                null          definition          assignment
-         0         2        21            number                zero                null                null
-         ;         2        22     end_statement          punto_coma                null                null
-     start         4         1           keyword       start_command                null                null
-       for         4         7           keyword            for_loop                loop                null
-         (         4        11           grouper           opening_p                null                null
+        as         2        18           keyword          definition                null          assignment
+         0         2        21            number                null                zero                null
+         ;         2        22     end_statement                null          punto_coma                null
+     start         4         1           keyword                null       start_command                null
+       for         4         7           keyword                loop            for_loop                null
+         (         4        11           grouper                null           opening_p                null
 condition1         4        22     identificador
-         )         4        22           grouper           closing_p                null                null
-        do         4        24           keyword                  do                loop                null
+         )         4        22           grouper                null           closing_p                null
+        do         4        24           keyword                loop                  do                null
          i         5         5     identificador
-         =         5         7          operator               equal          assignment                null
+         =         5         7          operator          assignment               equal                null
          i         5         9     identificador
-         +         5        11          operator                plus            addition       concatenation
-         1         5        13            number                 one                null                null
-         ;         5        14     end_statement          punto_coma                null                null
-       end         6         1           keyword         end_command                null                null
-       for         6         5           keyword            for_loop                loop                null
-         ;         6         8     end_statement          punto_coma                null                null
-     start         8         1           keyword       start_command                null                null
-        if         8         7           keyword        if_statement         conditional                null
-         (         8        10           grouper           opening_p                null                null
-      true         8        11           keyword          true_value             boolean                null
-        !=         8        16          operator           not_equal             boolean                null
-     false         8        24           keyword         false_value             boolean                null
-         )         8        24           grouper           closing_p                null                null
-      then         8        26           keyword                then         conditional                null
+         +         5        11          operator            addition                plus       concatenation
+         1         5        13            number                null                 one                null
+         ;         5        14     end_statement                null          punto_coma                null
+       end         6         1           keyword                null         end_command                null
+       for         6         5           keyword                loop            for_loop                null
+         ;         6         8     end_statement                null          punto_coma                null
+     start         8         1           keyword                null       start_command                null
+        if         8         7           keyword         conditional        if_statement                null
+         (         8        10           grouper                null           opening_p                null
+      true         8        11           keyword             boolean          true_value                null
+        !=         8        16          operator             boolean           not_equal                null
+     false         8        24           keyword             boolean         false_value                null
+         )         8        24           grouper                null           closing_p                null
+      then         8        26           keyword         conditional                then                null
      print         9         5     identificador
-         "         9        11          string_q               quote             grouper                null
+         "         9        11          string_q             grouper               quote                null
      hello         9        17     identificador
-         "         9        17          string_q               quote             grouper                null
-         ;         9        18     end_statement          punto_coma                null                null
+         "         9        17          string_q             grouper               quote                null
+         ;         9        18     end_statement                null          punto_coma                null
      print        10         5     identificador
-         "        10        11          string_q               quote             grouper                null
-         "        10        13          string_q               quote             grouper                null
-         ;        10        14     end_statement          punto_coma                null                null
+         "        10        11          string_q             grouper               quote                null
+         "        10        13          string_q             grouper               quote                null
+         ;        10        14     end_statement                null          punto_coma                null
      print        11         5     identificador
-         "        11        11          string_q               quote             grouper                null
+         "        11        11          string_q             grouper               quote                null
      world        11        17     identificador
-         "        11        17          string_q               quote             grouper                null
-         ;        11        18     end_statement          punto_coma                null                null
-       end        12         1           keyword         end_command                null                null
-        if        12         5           keyword        if_statement         conditional                null
-         ;        12         7     end_statement          punto_coma                null                null
-     start        14         1           keyword       start_command                null                null
-        if        14         7           keyword        if_statement         conditional                null
-         (        14        10           grouper           opening_p                null                null
+         "        11        17          string_q             grouper               quote                null
+         ;        11        18     end_statement                null          punto_coma                null
+       end        12         1           keyword                null         end_command                null
+        if        12         5           keyword         conditional        if_statement                null
+         ;        12         7     end_statement                null          punto_coma                null
+     start        14         1           keyword                null       start_command                null
+        if        14         7           keyword         conditional        if_statement                null
+         (        14        10           grouper                null           opening_p                null
          s        14        11     identificador
-        ==        14        13          operator            equal_to             boolean                null
-         "        14        16          string_q               quote             grouper                null
+        ==        14        13          operator             boolean            equal_to                null
+         "        14        16          string_q             grouper               quote                null
       some        14        17     identificador
-    string        14        28              null              string                null                null
-         "        14        28          string_q               quote             grouper                null
-        or        14        30           keyword          logical_or             boolean                null
-     false        14        38           keyword         false_value             boolean                null
-         )        14        38           grouper           closing_p                null                null
-      then        14        40           keyword                then         conditional                null
-    define        15         5           keyword                null          definition                null
-       var        15        12           keyword            variable                null                null
-       int        15        16              null             integer                null                null
+    string        14        28              null                null              string                null
+         "        14        28          string_q             grouper               quote                null
+        or        14        30           keyword             boolean          logical_or                null
+     false        14        38           keyword             boolean         false_value                null
+         )        14        38           grouper                null           closing_p                null
+      then        14        40           keyword         conditional                then                null
+    define        15         5           keyword          definition                null                null
+       var        15        12           keyword                null            variable                null
+       int        15        16              null                null             integer                null
          j        15        20     identificador
-         =        15        22          operator               equal          assignment                null
-         0        15        24            number                zero                null                null
-         ;        15        25     end_statement          punto_coma                null                null
-       for        16         5           keyword            for_loop                loop                null
-         (        16         9           grouper           opening_p                null                null
+         =        15        22          operator          assignment               equal                null
+         0        15        24            number                null                zero                null
+         ;        15        25     end_statement                null          punto_coma                null
+       for        16         5           keyword                loop            for_loop                null
+         (        16         9           grouper                null           opening_p                null
          j        16        10     identificador
         10        16        15     identificador
-         )        16        15           grouper           closing_p                null                null
-        do        16        17           keyword                  do                loop                null
+         )        16        15           grouper                null           closing_p                null
+        do        16        17           keyword                loop                  do                null
      print        17         9     identificador
          j        17        15     identificador
-         ;        17        16     end_statement          punto_coma                null                null
+         ;        17        16     end_statement                null          punto_coma                null
          j        18         9     identificador
-         =        18        11          operator               equal          assignment                null
+         =        18        11          operator          assignment               equal                null
          j        18        13     identificador
-         +        18        15          operator                plus            addition       concatenation
-         1        18        17            number                 one                null                null
-         ;        18        18     end_statement          punto_coma                null                null
-       end        19         5           keyword         end_command                null                null
-       for        19         9           keyword            for_loop                loop                null
-         ;        19        12     end_statement          punto_coma                null                null
-       end        20         1           keyword         end_command                null                null
-        if        20         5           keyword        if_statement         conditional                null
-         ;        20         7     end_statement          punto_coma                null                null
-     start        22         1           keyword       start_command                null                null
-        do        22         7           keyword                  do                loop                null
+         +        18        15          operator            addition                plus       concatenation
+         1        18        17            number                null                 one                null
+         ;        18        18     end_statement                null          punto_coma                null
+       end        19         5           keyword                null         end_command                null
+       for        19         9           keyword                loop            for_loop                null
+         ;        19        12     end_statement                null          punto_coma                null
+       end        20         1           keyword                null         end_command                null
+        if        20         5           keyword         conditional        if_statement                null
+         ;        20         7     end_statement                null          punto_coma                null
+     start        22         1           keyword                null       start_command                null
+        do        22         7           keyword                loop                  do                null
     printl        23         5     identificador
-         "        23        12          string_q               quote             grouper                null
+         "        23        12          string_q             grouper               quote                null
   printing        23        21     identificador
-         "        23        21          string_q               quote             grouper                null
-         ;        23        22     end_statement          punto_coma                null                null
-     while        24         1           keyword          while_loop                loop                null
-         (        24         7           grouper           opening_p                null                null
+         "        23        21          string_q             grouper               quote                null
+         ;        23        22     end_statement                null          punto_coma                null
+     while        24         1           keyword                loop          while_loop                null
+         (        24         7           grouper                null           opening_p                null
  condition        24        17     identificador
-         )        24        17           grouper           closing_p                null                null
-       end        24        19           keyword         end_command                null                null
-         ;        24        22     end_statement          punto_coma                null                null
+         )        24        17           grouper                null           closing_p                null
+       end        24        19           keyword                null         end_command                null
+         ;        24        22     end_statement                null          punto_coma                null
