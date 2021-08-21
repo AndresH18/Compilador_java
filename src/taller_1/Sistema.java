@@ -21,6 +21,7 @@ public final class Sistema {
      * TODO: definir un nombre para el lenguaje
      */
     public static final String LANGUAGE_NAME = "My Language";
+
     /**
      * <p>Language extension.</p>
      * TODO: definir una extension para el lenguaje
