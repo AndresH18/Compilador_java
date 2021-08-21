@@ -385,7 +385,7 @@ public final class Sistema {
                         // vaciar el string
                         sb.setLength(0);
                         // imprimir la informacion de la palabra, con la linea, columna y args
-                        printWordInfo(out, String.valueOf(';'), line, col++, args);
+                        printWordInfo(out, String.valueOf(';'), line, col, args);
                         col++;
                     }
                     // operadores
