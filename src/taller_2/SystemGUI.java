@@ -1,6 +1,6 @@
 package taller_2;
 
-import taller_2.gui.MainPageTab;
+import taller_2.gui.MainPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class SystemGUI implements WindowEvents {
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        window.add(new MainPageTab(this).getTabbedPane());
+        window.add(new MainPage(this).getTabbedPane());
 
         this.resize();
 

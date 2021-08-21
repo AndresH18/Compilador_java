@@ -6,7 +6,7 @@ start for (condition1) do
 end for;
 
 start if (true != false) then
-    print "hello";
+    print "hello";print "hello";
     print " ";
     print "world";
 end if;

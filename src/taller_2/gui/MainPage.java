@@ -1,6 +1,7 @@
 package taller_2.gui;
 
-import taller_1.Sistema;
+
+import taller_2.Analyzer;
 import taller_2.WindowEvents;
 
 import javax.swing.*;
@@ -9,13 +10,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * <p>Graphic Interface class</p>
  * <p>This class makes use of an intellij form to connect the GUI objects to the code</p>
  */
-public class MainPageTab {
+public class MainPage {
 
     /**
      * <p>Window Events Interface.</p>
@@ -86,11 +90,11 @@ public class MainPageTab {
     // Configures the file chooser
     {
         // create the Browser
-        this.fileChooser = new JFileChooser(Sistema.PROJECT_DIRECTORY);
+        this.fileChooser = new JFileChooser(Analyzer.PROJECT_DIRECTORY);
         // set accepting type
         this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         // set accepting files
-        this.fileChooser.setFileFilter(new FileNameExtensionFilter(Sistema.LANGUAGE_NAME + " file", Sistema.LANGUAGE_EXTENSION));
+        this.fileChooser.setFileFilter(new FileNameExtensionFilter(Analyzer.LANGUAGE_NAME + " file", Analyzer.LANGUAGE_EXTENSION));
     }
 
 
@@ -105,7 +109,7 @@ public class MainPageTab {
      *
      * @param windowEvents - interface to interact with the window
      */
-    public MainPageTab(WindowEvents windowEvents) {
+    public MainPage(WindowEvents windowEvents) {
         // passing the Window Event for use
         this.windowEvents = windowEvents;
 
@@ -169,6 +173,7 @@ public class MainPageTab {
         fileFullPath_cbx.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // check if combobox is selected
                 if (fileFullPath_cbx.isSelected() && file != null) {
                     fileName_txf.setText(file.getAbsolutePath());
                 } else if (!fileFullPath_cbx.isSelected() && file != null) {
@@ -201,11 +206,11 @@ public class MainPageTab {
                 return file;
             } else {
                 File f = new File(fileName_txf.getText());
-                return f.exists() && !f.isDirectory() && f.getName().endsWith('.' + Sistema.LANGUAGE_EXTENSION) ? f : null;
+                return f.exists() && !f.isDirectory() && f.getName().endsWith('.' + Analyzer.LANGUAGE_EXTENSION) ? f : null;
             }
         } else {
             File f = new File(fileName_txf.getText());
-            return f.exists() && !f.isDirectory() && f.getName().endsWith('.' + Sistema.LANGUAGE_EXTENSION) ? f : null;
+            return f.exists() && !f.isDirectory() && f.getName().endsWith('.' + Analyzer.LANGUAGE_EXTENSION) ? f : null;
         }
     }
 

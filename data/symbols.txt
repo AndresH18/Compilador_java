@@ -1,246 +1,249 @@
 ## this is a comment
 ## it can be used to...comment
 
+
+## keys {NAME, type, TYPE1, TYPE2, }
+
 ;
-name : punto_coma
-type : end_statement
+NAME : punto_coma
+TYPE: end_statement
 
 define
-type : keyword
-type1 : definition
+TYPE: keyword
+TYPE1 : definition
 
 as
-type : keyword
-type1 : definition
-type2 : assignment
+TYPE: keyword
+TYPE1 : definition
+TYPE2 : assignment
 
 class
-type : keyword
+TYPE: keyword
 
 var
-name : variable
-type : keyword
+NAME : variable
+TYPE: keyword
 
 const
-name : constant
-type : keyword
+NAME : constant
+TYPE: keyword
 
 start
-name : start_command
-type : keyword
+NAME : start_command
+TYPE: keyword
 
 end
-name : end_command
-type : keyword
+NAME : end_command
+TYPE: keyword
 
 return
-name : return 
-type : keyword
+NAME : return 
+TYPE: keyword
 
 void
-name : void
-type : keyword
-type1 : return_type
+NAME : void
+TYPE: keyword
+TYPE1 : return_type
 
 while
-name : while_loop
-type : keyword
-type1 : loop
+NAME : while_loop
+TYPE: keyword
+TYPE1 : loop
 
 for
-name : for_loop
-type : keyword
-type1 : loop
+NAME : for_loop
+TYPE: keyword
+TYPE1 : loop
 
 do
-name : do
-type : keyword
-type1 : loop
+NAME : do
+TYPE: keyword
+TYPE1 : loop
 
 if
-name : if_statement
-type : keyword
-type1 : conditional
+NAME : if_statement
+TYPE: keyword
+TYPE1 : conditional
 
 then
-name : then
-type : keyword
-type1 : conditional
+NAME : then
+TYPE: keyword
+TYPE1 : conditional
 
 else
-name : else_statement
-type : keyword
-type1 : conditional
+NAME : else_statement
+TYPE: keyword
+TYPE1 : conditional
 
 true
-name : true_value
-type : keyword
-type1 : boolean
+NAME : true_value
+TYPE: keyword
+TYPE1 : boolean
 
 false
-name : false_value
-type : keyword
-type1 : boolean
+NAME : false_value
+TYPE: keyword
+TYPE1 : boolean
 
 and
-name : logical_and
-type : keyword
-type1 : boolean
+NAME : logical_and
+TYPE: keyword
+TYPE1 : boolean
 
 or
-name : logical_or
-type : keyword
-type1 : boolean
+NAME : logical_or
+TYPE: keyword
+TYPE1 : boolean
 
 ==
-name : equal_to
-type : operator
-type1 : boolean
+NAME : equal_to
+TYPE: operator
+TYPE1 : boolean
 
 != 
-name : not_equal
-type : operator
-type1 : boolean
+NAME : not_equal
+TYPE: operator
+TYPE1 : boolean
 
 <
-name : less_than
-type : operator
-type1 : boolean
+NAME : less_than
+TYPE: operator
+TYPE1 : boolean
 
 >
-name : greater_than
-type : operator
-type1 : boolean
+NAME : greater_than
+TYPE: operator
+TYPE1 : boolean
 
 <=
-name : less_equal
-type : operator
-type1 : boolean
+NAME : less_equal
+TYPE: operator
+TYPE1 : boolean
 
 >=
-name : greater_equal
-type : operator
-type1 : boolean
+NAME : greater_equal
+TYPE: operator
+TYPE1 : boolean
 
 !
-name : not
-type : operator
-type1 : boolean
+NAME : not
+TYPE: operator
+TYPE1 : boolean
 
 +
-name : plus
-type : operator
-type1 : addition
-type2 : concatenation
+NAME : plus
+TYPE: operator
+TYPE1 : addition
+TYPE2 : concatenation
 
 -
-name : minus
-type : operator
-type1 : subtraction
+NAME : minus
+TYPE: operator
+TYPE1 : subtraction
 
 *
-name : asterisk
-type : operator
-type1 : multiply
+NAME : asterisk
+TYPE: operator
+TYPE1 : multiply
 
 /
-name : slash
-type : operator
-type1 : division
+NAME : slash
+TYPE: operator
+TYPE1 : division
 
 =
-name : equal
-type : operator
-type1 : assignment
+NAME : equal
+TYPE: operator
+TYPE1 : assignment
 
 ## []
-## name : array
-## type : array_operator
+## NAME : array
+## TYPE: array_operator
 ## symbol : [regex]
 ## regex : 0|[1-9][0-9]*
 
 ## ()
-## name : parenthesis
-## type : grouper
+## NAME : parenthesis
+## TYPE: grouper
 ## symbol : (regex)
 ## regex : [0-9a-zA-Z][0-9a-zA-Z]*
 
 ## ""
-## name : quote
-## type : string
-## type1 : grouper
+## NAME : quote
+## TYPE: string
+## TYPE1 : grouper
 ## symbol : "regex"
 ## regex : *
 
 ## ----------------
 
 "
-name : quote
-type : string_q
-type1 : grouper
+NAME : quote
+TYPE: string_q
+TYPE1 : grouper
 
 (
-name : opening_p
-type : grouper
+NAME : opening_p
+TYPE: grouper
 
 )
-name : closing_p
-type : grouper
+NAME : closing_p
+TYPE: grouper
 
 ## ----------------
 
 0
-name : zero
-type : number
+NAME : zero
+TYPE: number
 
 1
-name : one
-type : number
+NAME : one
+TYPE: number
 
 2
-name : two
-type : number
+NAME : two
+TYPE: number
 
 3
-name : three
-type : number
+NAME : three
+TYPE: number
 
 4
-name : four
-type : number
+NAME : four
+TYPE: number
 
 5
-name : five
-type : number
+NAME : five
+TYPE: number
 
 6
-name : six
-type : number
+NAME : six
+TYPE: number
 
 7
-name : seven
-type : number
+NAME : seven
+TYPE: number
 
 8
-name : eight
-type : number
+NAME : eight
+TYPE: number
 
 9
-name : nine
-type : number
+NAME : nine
+TYPE: number
 
 \t
-name : tap_h
-type : separator
+NAME : tap_h
+TYPE: separator
 
 int
-name : integer
+NAME : integer
 
 double
-name : floating
+NAME : floating
 
 string
-name : string
+NAME : string
 
 bool
-name : boolean
+NAME : boolean
