@@ -22,6 +22,11 @@ import java.io.IOException;
 public class MainPage {
 
     /**
+     * <p>Analyzer.</p>
+     */
+    private final Analyzer analyzer;
+
+    /**
      * <p>Window Events Interface.</p>
      */
     private final WindowEvents windowEvents;
@@ -49,7 +54,7 @@ public class MainPage {
     /**
      * <p>Panel for the Table.</p>
      */
-    private JPanel tablePanel;
+    private JPanel tableOptionsPanel;
 
     /**
      * <p>"File" label.</p>
@@ -79,7 +84,8 @@ public class MainPage {
     /**
      * <p>CheckBox to toggle between the File name or the File Absolute Path.</p>
      */
-    private JCheckBox fileFullPath_cbx;
+    private JCheckBox fileFullPath_ckbx;
+    private JButton displayButton;
 
     /**
      * <p>Holds the selected File.</p>
@@ -97,19 +103,20 @@ public class MainPage {
         this.fileChooser.setFileFilter(new FileNameExtensionFilter(Analyzer.LANGUAGE_NAME + " file", Analyzer.LANGUAGE_EXTENSION));
     }
 
-
     // Configures the buttons characteristics.
     {
         //
         search_btn.setIcon(UIManager.getIcon("Tree.openIcon"));
     }
 
+
     /**
      * <p>Constructor to create UI Panels</p>
      *
      * @param windowEvents - interface to interact with the window
      */
-    public MainPage(WindowEvents windowEvents) {
+    public MainPage(Analyzer analyzer, WindowEvents windowEvents) {
+        this.analyzer = analyzer;
         // passing the Window Event for use
         this.windowEvents = windowEvents;
 
@@ -125,72 +132,81 @@ public class MainPage {
                 fileName_txf.setText(file.getName());
             }
             // resizes the window
-            resizeWindow();
+//            resizeWindow();
 
         });
+        displayButton.addActionListener(e -> windowEvents.showTable());
         /*
          * adding action listener for analyse button
          */
-        analyze_btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // checks if the file is valid
-                if ((file = isValidFile()) != null) {
-                    // analyze file
-                    analyse();
-                } else {
-                    System.out.println("no existe");
-                    // show error message to user
-                    JOptionPane.showMessageDialog(tabbedPane, "Invalid File", "", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
+        analyze_btn.addActionListener(this::analyzeSelectedFile);
+        /*
+         * adding action listener for txt field,
+         * triggered when "enter" key is pressed while the txt field is focused
+         */
+        fileName_txf.addActionListener(this::analyzeSelectedFile);
+
         /*
          * adding state change listener for the tabbed pane,
          * triggered when a different tab is selected
+         * TODO: delete listener?
          */
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 // TODO: Implement
                 System.out.println("tab's state changed");
-                resizeWindow();
+//                resizeWindow(); // dont use here, because if the text area changes size, the window will increase size and will not become smaller again
             }
-        });
-
-        /*
-         * adding action listener for txt field,
-         * triggered when "enter" key is pressed while the txt field is focused
-         */
-        fileName_txf.addActionListener(e -> {
-            System.out.println("TextField Action");
-            analyse();
         });
 
         /*
          * adding action listener for the full path combo box
          */
-        fileFullPath_cbx.addActionListener(new ActionListener() {
+        fileFullPath_ckbx.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // check if combobox is selected
-                if (fileFullPath_cbx.isSelected() && file != null) {
+                if (fileFullPath_ckbx.isSelected() && file != null) {
                     fileName_txf.setText(file.getAbsolutePath());
-                } else if (!fileFullPath_cbx.isSelected() && file != null) {
+                } else if (!fileFullPath_ckbx.isSelected() && file != null) {
                     fileName_txf.setText(file.getName());
                 }
             }
         });
+
     }
 
     /**
-     * <p>Adjust the window to fit contents</p>>
+     * <p>Checks if the file is valid and if it is, analyzes it.</p>
+     *
+     * @param e action event sent by the caller
      */
-    private void resizeWindow() {
-        if (windowEvents != null) {
-            windowEvents.resize();
+    private void analyzeSelectedFile(ActionEvent e) {
+        // file is not selected or text field is empty
+        if (file == null && fileName_txf.getText().isBlank()) {
+            JOptionPane.showMessageDialog(tabbedPane, "Select a file", "", JOptionPane.WARNING_MESSAGE);
+
+        } else if ((file = isValidFile()) != null) { // checks if the file is valid
+            // analyze file
+            analyse();
+//            tabbedPane.setSelectedIndex(1);
+        } else {
+            System.out.println("no existe");
+            // show error message to user
+            JOptionPane.showMessageDialog(tabbedPane, "Invalid File", "", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+//    /**
+//     * <p>Adjust the window to fit contents</p>>
+//     */
+//    private void resizeWindow() {
+//        if (windowEvents != null) {
+//            windowEvents.resizeWindow();
+//        }
+//    }
 
     /**
      * <p>Checks if the file is valid.</p>
@@ -216,36 +232,25 @@ public class MainPage {
 
     private void analyse() {
 
-        System.out.println(file.getName());
-
-//            read();
+        System.out.println("Analyzing: " + file.getName());
+        displayCode();
+        analyzer.setCodeFile(file);
+        windowEvents.displaySymbolsData();
+        windowEvents.showTable();
 
     }
 
-    private void read() {
-        if (file != null) {
-            try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-                StringBuilder sb = new StringBuilder();
-                String s;
-                while ((s = in.readLine()) != null)
-                    sb.append(s);
-                codeArea_txtArea.setText(sb.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void displayCode() {
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            codeArea_txtArea.read(in, null);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-
-    public JPanel getFirstPanel() {
-        return filePanel;
-    }
 
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
 
-    public JPanel getSecondPanel() {
-        return codePanel;
-    }
 }

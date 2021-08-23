@@ -77,7 +77,7 @@ public class Analyzer {
     private final String[] elementsTypes;
 
     {
-        // TODO: revisar
+        // TODO: revisar elementos
         elementsTypes = new String[]{"SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"};
     }
 
@@ -286,5 +286,9 @@ public class Analyzer {
         } else {
             throw new UnsupportedOperationException("Invalid File");
         }
+    }
+
+    public String[] getElementsTypes() {
+        return elementsTypes;
     }
 }
