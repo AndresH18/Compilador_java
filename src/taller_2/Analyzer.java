@@ -74,12 +74,8 @@ public class Analyzer {
      */
     private File codeFile;
 
-    private final String[] elementsTypes;
+    private final String[] elementsTypes = new String[]{"SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"};
 
-    {
-        // TODO: revisar elementos
-        elementsTypes = new String[]{"SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"};
-    }
 
     public Analyzer() {
     }
@@ -167,6 +163,8 @@ public class Analyzer {
                 int c;
                 // counters for line and column
                 int line = 1, col = 1;
+                // boolean to control if elements are considered part of a string
+                boolean isString = false;
                 // store the characters
                 StringBuilder sb = new StringBuilder();
                 // loop through the file
@@ -178,7 +176,7 @@ public class Analyzer {
                             // builder is not empty
                             if (!sb.isEmpty()) {
                                 // print word info
-                                wordInfo(list, sb.toString(), line, col - sb.length());
+                                wordInfo(list, sb.toString(), line, col - sb.length(), isString);
                                 sb.setLength(0);
                             }
 
@@ -192,39 +190,48 @@ public class Analyzer {
 
                         // ;
                         case ';' -> {
-                            // print the word information
-                            wordInfo(list, sb.toString(), line, col - sb.length());
+                            // add the word information
+                            wordInfo(list, sb.toString(), line, col - sb.length(), isString);
                             // empty builder
                             sb.setLength(0);
-                            // print information of ;
-                            wordInfo(list, String.valueOf(';'), line, col);
+                            // add information of ;
+                            wordInfo(list, String.valueOf(';'), line, col, isString);
                             col++;
                         }
                         case '+', '-', '*', '/', '=', '!' -> {
-                            // agregar el caracter al String
+                            // add character to builder
                             sb.append((char) c);
-                            // aumentar una columna
+
                             col++;
                         }
                         // "
                         case '"' -> {
-                            // print the word information
-                            wordInfo(list, sb.toString(), line, col);
+//                            if (!isString){
+//                                isString = true;
+//                            } else {
+//                                isString = false,
+//                            }
+                            // toggles the isString flag
+                            isString = !isString;
+                            // add the word information
+                            wordInfo(list, sb.toString(), line, col, isString);
                             // empty builder
                             sb.setLength(0);
-                            // print " information
-                            wordInfo(list, "\"", line, col);
+                            // add " information
+                            wordInfo(list, "\"", line, col, isString);
+
                             col++;
+
                         }
 
                         case '(', ')' -> {
-                            // imprimir la informacion de la palabra, con la linea, columna y args
-                            wordInfo(list, sb.toString(), line, col);
+                            //
+                            wordInfo(list, sb.toString(), line, col, isString);
                             // vaciar el String
                             sb.setLength(0);
-                            // imprimir la informacion de ( o ), con la linea, columna y args
-                            wordInfo(list, String.valueOf((char) c), line, col);
-                            // aumentar una columna
+                            // add information of ( or )
+                            wordInfo(list, String.valueOf((char) c), line, col, isString);
+
                             col++;
                         }
 
@@ -246,13 +253,14 @@ public class Analyzer {
         return null;
     }
 
-    private void wordInfo(List<String[]> l, String word, int line, int col) {
+    private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
         Objects.requireNonNull(l);
         Objects.requireNonNull(word);
 
         if (word.isBlank()) {
             return;
         }
+
         // "SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"
         String[] s = new String[elementsTypes.length];
 
@@ -262,7 +270,13 @@ public class Analyzer {
         s[0] = word;
         s[1] = String.valueOf(line);
         s[2] = String.valueOf(col);
-        if (SYMBOLS.containsKey(word)) {
+
+        if (partString) {
+
+            s[3] = s[5] = s[6] = "";
+            s[4] = "string";
+
+        } else if (SYMBOLS.containsKey(word)) {
             for (int i = 3; i < s.length; i++) {
                 s[i] = SYMBOLS.get(word).get(elementsTypes[i]);
             }
