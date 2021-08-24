@@ -1,6 +1,7 @@
 package taller_2.gui;
 
 import taller_2.Analyzer;
+import taller_2.ColumnType;
 import taller_2.WindowEvents;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class TableGUI {
                 return false;
             }
         }));
-        tableModel.setColumnIdentifiers(analyzer.getElementsTypes());
+        tableModel.setColumnIdentifiers(ColumnType.values());
     }
 
     public JPanel getTablePanel() {

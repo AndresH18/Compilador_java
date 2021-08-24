@@ -11,7 +11,7 @@ import java.util.*;
  * <p>
  *     TODO: DO the Key's with enums
  */
-public class Analyzer_WITH_ENUM_TODO {
+public class Analyzer {
     /**
      * <p>Language name.</p>
      * TODO: definir un nombre para el lenguaje
@@ -60,9 +60,9 @@ public class Analyzer_WITH_ENUM_TODO {
     public static final String SYMBOL_COMMENT = "##";
 
     /**
-     * <p>{@code Map<String, Map<String, String>> } to containing the symbols.</p>
+     * <p>{@code Map<String, Map<ColumnType, String>> } to containing the symbols.</p>
      */
-    public static final Map<String, Map<ColumnTypes, String>> SYMBOLS;
+    public static final Map<String, Map<ColumnType, String>> SYMBOLS;
 
     // static initializer to load symbols
     static {
@@ -74,12 +74,8 @@ public class Analyzer_WITH_ENUM_TODO {
      */
     private File codeFile;
 
-//    private final String[] elementsTypes = new String[]{"SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"};
 
-    ColumnTypes[] elementsTypes = ColumnTypes.values();
-
-
-    public Analyzer_WITH_ENUM_TODO() {
+    public Analyzer() {
     }
 
     /**
@@ -89,24 +85,32 @@ public class Analyzer_WITH_ENUM_TODO {
      *
      * @return a map containing the symbols
      */
-    private static Map<String, Map<ColumnTypes, String>> loadSymbols() {
+    private static Map<String, Map<ColumnType, String>> loadSymbols() {
         File file = new File(DATA_DIRECTORY + SYMBOLS_TXT_FILE);
+        // long to count the lines in the file to address syntax errors
+        long lineCounter = 0x00;
+        // strings to store the header, key and value
+        String header = "", key = "", value = "";
+        // column type to get the "key" in the enum
+        ColumnType typeKey;
+        // Map to contain the headers and characteristic maps
+        Map<String, Map<ColumnType, String>> head = new HashMap<>();
+        // Map to contain the characteristics of the header
+        Map<ColumnType, String> body;
+
         // read the file
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+
             // string to store the read lines, starting from the first line
             String line = in.readLine();
-            // strings to store the header, key and value
-            String header, key, value;
-            // Map to contain the headers and characteristic maps
-            Map<String, Map<ColumnTypes, String>> head = new HashMap<>();
-            // Map to contain the characteristics of the header
-            Map<ColumnTypes, String> body;
+
             // loop to navigate the file lines
             while (line != null) {
                 // loop to skip blank lines
                 while (line != null && line.isBlank()) {
                     // read next line
                     line = in.readLine();
+                    lineCounter++;
                 }
                 // check if it is not the end of the file
                 if (line != null) {
@@ -116,6 +120,7 @@ public class Analyzer_WITH_ENUM_TODO {
                         header = line.replaceAll(" ", "");
                         // read next line
                         line = in.readLine();
+                        lineCounter++;
                         // initialize the characteristics map
                         body = new HashMap<>();
                         // loop to map the key value pairs
@@ -131,23 +136,25 @@ public class Analyzer_WITH_ENUM_TODO {
                                 // stores the part after the ":"
                                 value = line.split(":")[1];
                                 // maps the key value pair
-                                body.put(ColumnTypes.valueOf(key), value);
+                                body.put(ColumnType.valueOf(key), value);
                             }
                             // read next line
                             line = in.readLine();
+                            lineCounter++;
                         }
                         // maps the header as the key and the characteristics map as the value
                         head.put(header, Collections.unmodifiableMap(body));
                     } else {
                         // read next line, to skip comment
                         line = in.readLine();
+                        lineCounter++;
                     }
                 }
             }
             // return the map, unmodifiable
             return Collections.unmodifiableMap(head);
 
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             // prints the Exception to the standard error stream
             e.printStackTrace(System.err);
         }
@@ -264,7 +271,7 @@ public class Analyzer_WITH_ENUM_TODO {
         }
 
         // "SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"
-        String[] s = new String[elementsTypes.length];
+        String[] s = new String[ColumnType.values().length];
 
         if (s.length < 4)
             throw new RuntimeException("Invalid length");
@@ -280,7 +287,7 @@ public class Analyzer_WITH_ENUM_TODO {
 
         } else if (SYMBOLS.containsKey(word)) {
             for (int i = 3; i < s.length; i++) {
-                s[i] = SYMBOLS.get(word).get(elementsTypes[i]);
+                s[i] = SYMBOLS.get(word).get(ColumnType.values()[i]);
             }
         } else {
             s[3] = "Identificador";
@@ -302,9 +309,5 @@ public class Analyzer_WITH_ENUM_TODO {
         } else {
             throw new UnsupportedOperationException("Invalid File");
         }
-    }
-
-    public ColumnTypes[] getElementsTypes() {
-        return elementsTypes;
     }
 }

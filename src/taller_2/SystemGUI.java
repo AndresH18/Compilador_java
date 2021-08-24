@@ -25,6 +25,7 @@ public class SystemGUI implements WindowEvents {
     }
 
     public SystemGUI() {
+
         mainWindow = new JFrame("APP");
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.add(mainPage.getTabbedPane());

@@ -8,12 +8,3 @@ public enum SymbolsKeys {
     ;
 }
 
-enum ColumnTypes {
-    SYMBOL,
-    LINE,
-    COLUMN,
-    NAME,
-    TYPE,
-    TYPE1,
-    TYPE2;
-}
