@@ -5,19 +5,22 @@
 ## keys {TOKEN, type, TYPE1, TYPE2, }
 
 ;
-TOKEN : punto_coma
+TOKEN : finnish_statement
 TYPE: end_statement
 
 define
+TOKEN : definition
 TYPE: keyword
 TYPE1 : definition
 
 as
+TOKEN : assigment
 TYPE: keyword
 TYPE1 : definition
 TYPE2 : assignment
 
 class
+TOKEN : class
 TYPE: keyword
 
 var
@@ -29,11 +32,11 @@ TOKEN : constant
 TYPE: keyword
 
 start
-TOKEN : start_command
+TOKEN : start_statement
 TYPE: keyword
 
 end
-TOKEN : end_command
+TOKEN : end_statement
 TYPE: keyword
 
 return
@@ -46,17 +49,17 @@ TYPE: keyword
 TYPE1 : return_type
 
 while
-TOKEN : while_loop
+TOKEN : while_statement
 TYPE: keyword
 TYPE1 : loop
 
 for
-TOKEN : for_loop
+TOKEN : for_statement
 TYPE: keyword
 TYPE1 : loop
 
 do
-TOKEN : do
+TOKEN : do_statement
 TYPE: keyword
 TYPE1 : loop
 
@@ -66,7 +69,7 @@ TYPE: keyword
 TYPE1 : conditional
 
 then
-TOKEN : then
+TOKEN : then_statement
 TYPE: keyword
 TYPE1 : conditional
 
