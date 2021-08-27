@@ -113,7 +113,8 @@ public class MainPage {
     /**
      * <p>Constructor to create UI Panels</p>
      *
-     * @param windowEvents - interface to interact with the window
+     * @param analyzer     the analyzer to use
+     * @param windowEvents interface to interact with the window
      */
     public MainPage(Analyzer analyzer, WindowEvents windowEvents) {
         this.analyzer = analyzer;
@@ -230,6 +231,9 @@ public class MainPage {
         }
     }
 
+    /**
+     * TODO: DOCUMENT
+     */
     private void analyse() {
 
         System.out.println("Analyzing: " + file.getName());
@@ -240,6 +244,9 @@ public class MainPage {
 
     }
 
+    /**
+     * TODO: DOCUMENT
+     */
     private void displayCode() {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             codeArea_txtArea.read(in, null);
@@ -247,7 +254,6 @@ public class MainPage {
             e.printStackTrace();
         }
     }
-
 
     public JTabbedPane getTabbedPane() {
         return tabbedPane;

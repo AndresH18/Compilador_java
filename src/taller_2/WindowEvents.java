@@ -13,8 +13,14 @@ public interface WindowEvents {
      */
     void resizeWindow(JFrame window);
 
+    /**
+     * TODO: DOCUMENT
+     */
     void displaySymbolsData();
 
+    /**
+     * TODO: DOCUMENT
+     */
     void showTable();
 
 }

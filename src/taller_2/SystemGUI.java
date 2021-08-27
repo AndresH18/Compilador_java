@@ -6,6 +6,9 @@ import taller_2.gui.TableGUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * TODO: DOCUMENT ALL
+ */
 public class SystemGUI implements WindowEvents {
 
 

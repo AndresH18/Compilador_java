@@ -14,7 +14,6 @@ import java.util.*;
 public class Analyzer {
     /**
      * <p>Language name.</p>
-     * TODO: definir un nombre para el lenguaje
      */
     public static final String LANGUAGE_NAME = "AlejiNdres";
 
@@ -58,7 +57,10 @@ public class Analyzer {
      * <p>Symbols' comment identifier.</p>
      */
     public static final String SYMBOL_COMMENT = "##";
-    
+
+    /**
+     * <p>Subset of {@link ColumnType} containing the allowed keys. </p>
+     */
     private static final EnumSet<ColumnType> SYMBOLS_KEYS = EnumSet.range(ColumnType.TOKEN, ColumnType.TYPE2);
 
     /**
@@ -171,6 +173,11 @@ public class Analyzer {
         throw new RuntimeException("Symbols file not found");
     }
 
+    /**
+     * TODO: DOCUMENT
+     *
+     * @return
+     */
     public List<String[]> analyzeFile() {
         // check file is not null
         if (codeFile != null) {
@@ -272,6 +279,15 @@ public class Analyzer {
         return null;
     }
 
+    /**
+     * TODO: DOCUMENT
+     *
+     * @param l
+     * @param word
+     * @param line
+     * @param col
+     * @param partString
+     */
     private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
         Objects.requireNonNull(l);
         Objects.requireNonNull(word);
@@ -309,10 +325,11 @@ public class Analyzer {
         l.add(s);
     }
 
-    public File getCodeFile() {
-        return codeFile;
-    }
-
+    /**
+     * TODO: DOCUMENT
+     *
+     * @param codeFile
+     */
     public void setCodeFile(File codeFile) {
         if (codeFile.getName().endsWith("." + LANGUAGE_EXTENSION)) {
             this.codeFile = codeFile;
