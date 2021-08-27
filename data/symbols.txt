@@ -2,10 +2,10 @@
 ## it can be used to...comment
 
 
-## keys {NAME, type, TYPE1, TYPE2, }
+## keys {TOKEN, type, TYPE1, TYPE2, }
 
 ;
-NAME : punto_coma
+TOKEN : punto_coma
 TYPE: end_statement
 
 define
@@ -21,155 +21,155 @@ class
 TYPE: keyword
 
 var
-NAME : variable
+TOKEN : variable
 TYPE: keyword
 
 const
-NAME : constant
+TOKEN : constant
 TYPE: keyword
 
 start
-NAME : start_command
+TOKEN : start_command
 TYPE: keyword
 
 end
-NAME : end_command
+TOKEN : end_command
 TYPE: keyword
 
 return
-NAME : return 
+TOKEN : return
 TYPE: keyword
 
 void
-NAME : void
+TOKEN : void
 TYPE: keyword
 TYPE1 : return_type
 
 while
-NAME : while_loop
+TOKEN : while_loop
 TYPE: keyword
 TYPE1 : loop
 
 for
-NAME : for_loop
+TOKEN : for_loop
 TYPE: keyword
 TYPE1 : loop
 
 do
-NAME : do
+TOKEN : do
 TYPE: keyword
 TYPE1 : loop
 
 if
-NAME : if_statement
+TOKEN : if_statement
 TYPE: keyword
 TYPE1 : conditional
 
 then
-NAME : then
+TOKEN : then
 TYPE: keyword
 TYPE1 : conditional
 
 else
-NAME : else_statement
+TOKEN : else_statement
 TYPE: keyword
 TYPE1 : conditional
 
 true
-NAME : true_value
+TOKEN : true_value
 TYPE: keyword
 TYPE1 : boolean
 
 false
-NAME : false_value
+TOKEN : false_value
 TYPE: keyword
 TYPE1 : boolean
 
 and
-NAME : logical_and
+TOKEN : logical_and
 TYPE: keyword
 TYPE1 : boolean
 
 or
-NAME : logical_or
+TOKEN : logical_or
 TYPE: keyword
 TYPE1 : boolean
 
 ==
-NAME : equal_to
+TOKEN : equal_to
 TYPE: operator
 TYPE1 : boolean
 
 != 
-NAME : not_equal
+TOKEN : not_equal
 TYPE: operator
 TYPE1 : boolean
 
 <
-NAME : less_than
+TOKEN : less_than
 TYPE: operator
 TYPE1 : boolean
 
 >
-NAME : greater_than
+TOKEN : greater_than
 TYPE: operator
 TYPE1 : boolean
 
 <=
-NAME : less_equal
+TOKEN : less_equal
 TYPE: operator
 TYPE1 : boolean
 
 >=
-NAME : greater_equal
+TOKEN : greater_equal
 TYPE: operator
 TYPE1 : boolean
 
 !
-NAME : not
+TOKEN : not
 TYPE: operator
 TYPE1 : boolean
 
 +
-NAME : plus
+TOKEN : plus
 TYPE: operator
 TYPE1 : addition
 TYPE2 : concatenation
 
 -
-NAME : minus
+TOKEN : minus
 TYPE: operator
 TYPE1 : subtraction
 
 *
-NAME : asterisk
+TOKEN : asterisk
 TYPE: operator
 TYPE1 : multiply
 
 /
-NAME : slash
+TOKEN : slash
 TYPE: operator
 TYPE1 : division
 
 =
-NAME : equal
+TOKEN : equal
 TYPE: operator
 TYPE1 : assignment
 
 ## []
-## NAME : array
+## TOKEN : array
 ## TYPE: array_operator
 ## symbol : [regex]
 ## regex : 0|[1-9][0-9]*
 
 ## ()
-## NAME : parenthesis
+## TOKEN : parenthesis
 ## TYPE: grouper
 ## symbol : (regex)
 ## regex : [0-9a-zA-Z][0-9a-zA-Z]*
 
 ## ""
-## NAME : quote
+## TOKEN : quote
 ## TYPE: string
 ## TYPE1 : grouper
 ## symbol : "regex"
@@ -178,72 +178,72 @@ TYPE1 : assignment
 ## ----------------
 
 "
-NAME : quote
+TOKEN : quote
 TYPE: string_q
 TYPE1 : grouper
 
 (
-NAME : opening_p
+TOKEN : opening_p
 TYPE: grouper
 
 )
-NAME : closing_p
+TOKEN : closing_p
 TYPE: grouper
 
 ## ----------------
 
 0
-NAME : zero
+TOKEN : zero
 TYPE: number
 
 1
-NAME : one
+TOKEN : one
 TYPE: number
 
 2
-NAME : two
+TOKEN : two
 TYPE: number
 
 3
-NAME : three
+TOKEN : three
 TYPE: number
 
 4
-NAME : four
+TOKEN : four
 TYPE: number
 
 5
-NAME : five
+TOKEN : five
 TYPE: number
 
 6
-NAME : six
+TOKEN : six
 TYPE: number
 
 7
-NAME : seven
+TOKEN : seven
 TYPE: number
 
 8
-NAME : eight
+TOKEN : eight
 TYPE: number
 
 9
-NAME : nine
+TOKEN : nine
 TYPE: number
 
 \t
-NAME : tap_h
+TOKEN : tap_h
 TYPE: separator
 
 int
-NAME : integer
+TOKEN : integer
 
 double
-NAME : floating
+TOKEN : floating
 
 string
-NAME : string
+TOKEN : string
 
 bool
-NAME : boolean
+TOKEN : boolean

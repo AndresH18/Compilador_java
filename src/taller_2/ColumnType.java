@@ -4,8 +4,16 @@ public enum ColumnType {
     SYMBOL,
     LINE,
     COLUMN,
-    NAME,
+    TOKEN,
     TYPE,
     TYPE1,
     TYPE2;
+}
+
+enum SymbolsKeys {
+    NAME,
+    TYPE,
+    TYPE1,
+    TYPE2,
+    ;
 }
