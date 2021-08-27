@@ -7,13 +7,23 @@ import taller_2.WindowEvents;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * TODO: DOCUMENT ALL
+ */
 public class TableGUI {
+
     private final Analyzer analyzer;
     private final WindowEvents windowEvents;
     private JPanel tablePanel;
     private JTable symbolsTable;
     private DefaultTableModel tableModel;
 
+    /**
+     * TODO: DOCUMENT
+     *
+     * @param analyzer     the analyzer to use
+     * @param windowEvents interface to interact with the window
+     */
     public TableGUI(Analyzer analyzer, WindowEvents windowEvents) {
         if (analyzer == null) {
             throw new NullPointerException("Analyzer cannot be null.");
