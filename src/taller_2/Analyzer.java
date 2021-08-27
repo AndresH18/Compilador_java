@@ -8,19 +8,19 @@ import java.util.*;
 
 /**
  * @author Andres Hoyos
+ * @author Alejandro Garcia
  * <p>
- *     TODO: DO the Key's with enums
  */
 public class Analyzer {
     /**
      * <p>Language name.</p>
      * TODO: definir un nombre para el lenguaje
      */
-    public static final String LANGUAGE_NAME = "My Language";
+    public static final String LANGUAGE_NAME = "AlejiNdres";
 
     /**
      * <p>Language extension.</p>
-     * TODO: definir una extension para el lenguaje
+     * <p><i>extension = aa</i></p>
      */
     public static final String LANGUAGE_EXTENSION = "txt";
 
@@ -58,6 +58,8 @@ public class Analyzer {
      * <p>Symbols' comment identifier.</p>
      */
     public static final String SYMBOL_COMMENT = "##";
+    
+    private static final EnumSet<ColumnType> SYMBOLS_KEYS = EnumSet.range(ColumnType.TOKEN, ColumnType.TYPE2);
 
     /**
      * <p>{@code Map<String, Map<ColumnType, String>> } to containing the symbols.</p>
@@ -135,6 +137,12 @@ public class Analyzer {
                                 key = line.split(":")[0];
                                 // stores the part after the ":"
                                 value = line.split(":")[1];
+                                // checks if the "key" belongs to the set of valid keys,
+                                // while also checking if that "key" is also an element of ColumnType
+                                if (!SYMBOLS_KEYS.contains(ColumnType.valueOf(key))) {
+                                    // the key is element of ColumnType but is not part of allowed keys
+                                    throw new IllegalArgumentException();
+                                }
                                 // maps the key value pair
                                 body.put(ColumnType.valueOf(key), value);
                             }
@@ -154,9 +162,11 @@ public class Analyzer {
             // return the map, unmodifiable
             return Collections.unmodifiableMap(head);
 
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException e) {
             // prints the Exception to the standard error stream
             e.printStackTrace(System.err);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("ILLEGAL KEY ON LINE " + lineCounter);
         }
         throw new RuntimeException("Symbols file not found");
     }
