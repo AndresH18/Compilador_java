@@ -92,7 +92,7 @@ public class Analyzer {
     private static Map<String, Map<ColumnType, String>> loadSymbols() {
         File file = new File(DATA_DIRECTORY + SYMBOLS_TXT_FILE);
         // long to count the lines in the file to address syntax errors
-        long lineCounter = 0x00;
+        long lineCounter = 0x01;
         // strings to store the header, key and value
         String header = "", key = "", value = "";
         // column type to get the "key" in the enum
@@ -147,6 +147,7 @@ public class Analyzer {
                                 }
                                 // maps the key value pair
                                 body.put(ColumnType.valueOf(key), value);
+                                key = value = "";
                             }
                             // read next line
                             line = in.readLine();
@@ -296,10 +297,10 @@ public class Analyzer {
             return;
         }
 
-        // "SYMBOL", "LINE", "COLUMN", "NAME", "TYPE", "TYPE1", "TYPE2"
+        // "SYMBOL", "LINE", "COLUMN", "TOKEN", "ID_TOKEN", "TYPE", "TYPE1", "TYPE2"
         String[] s = new String[ColumnType.values().length];
 
-        if (s.length < 4)
+        if (s.length < 7) // s.length - 1 < 6 ==> s.length < 6 + 1
             throw new RuntimeException("Invalid length");
 
         s[0] = word;
@@ -308,8 +309,8 @@ public class Analyzer {
 
         if (partString) {
 
-            s[3] = s[5] = s[6] = "";
-            s[4] = "string";
+            s[3] = s[4] = s[6] = s[7] = "";
+            s[5] = "string";
 
         } else if (SYMBOLS.containsKey(word)) {
             for (int i = 3; i < s.length; i++) {

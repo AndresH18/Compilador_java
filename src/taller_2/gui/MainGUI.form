@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="taller_2.gui.MainPage">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="taller_2.gui.MainGUI">
   <tabbedpane id="4029b" binding="tabbedPane">
     <constraints>
       <xy x="20" y="20" width="501" height="400"/>

@@ -1,6 +1,6 @@
 package taller_2;
 
-import taller_2.gui.MainPage;
+import taller_2.gui.MainGUI;
 import taller_2.gui.TableGUI;
 
 import javax.swing.*;
@@ -15,14 +15,14 @@ public class SystemGUI implements WindowEvents {
     private final JFrame mainWindow;
     private final JFrame tableWindow;
     private final Analyzer analyzer;
-    private final MainPage mainPage;
+    private final MainGUI mainPage;
     private final TableGUI tableGUI;
 
 
     // creating Objects
     {
         analyzer = new Analyzer();
-        mainPage = new MainPage(analyzer, this);
+        mainPage = new MainGUI(analyzer, this);
         tableGUI = new TableGUI(analyzer, this);
 
     }

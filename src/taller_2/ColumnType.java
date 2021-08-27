@@ -8,6 +8,7 @@ public enum ColumnType {
     LINE,
     COLUMN,
     TOKEN,
+    ID_TOKEN,
     TYPE,
     TYPE1,
     TYPE2;

@@ -19,7 +19,7 @@ import java.io.IOException;
  * <p>Graphic Interface class</p>
  * <p>This class makes use of an intellij form to connect the GUI objects to the code</p>
  */
-public class MainPage {
+public class MainGUI {
 
     /**
      * <p>Analyzer.</p>
@@ -116,7 +116,7 @@ public class MainPage {
      * @param analyzer     the analyzer to use
      * @param windowEvents interface to interact with the window
      */
-    public MainPage(Analyzer analyzer, WindowEvents windowEvents) {
+    public MainGUI(Analyzer analyzer, WindowEvents windowEvents) {
         this.analyzer = analyzer;
         // passing the Window Event for use
         this.windowEvents = windowEvents;

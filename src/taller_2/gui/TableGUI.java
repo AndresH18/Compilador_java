@@ -38,6 +38,10 @@ public class TableGUI {
             }
         }));
         tableModel.setColumnIdentifiers(ColumnType.values());
+        // move "Token id" column to position 0
+        symbolsTable.moveColumn(4, 0);
+        // move "Token" column to position 1
+        symbolsTable.moveColumn(4, 1);
     }
 
     public JPanel getTablePanel() {

@@ -4,9 +4,6 @@
 
 ## keys {TOKEN, type, TYPE1, TYPE2, }
 
-;
-TOKEN : finnish_statement
-TYPE: end_statement
 
 define
 TOKEN : definition
@@ -17,6 +14,9 @@ as
 TOKEN : assigment
 TYPE: keyword
 TYPE1 : definition
+;
+TOKEN : finnish_statement
+TYPE: end_statement
 TYPE2 : assignment
 
 class
@@ -32,10 +32,12 @@ TOKEN : constant
 TYPE: keyword
 
 start
+ID_TOKEN : 12
 TOKEN : start_statement
 TYPE: keyword
 
 end
+ID_TOKEN : 20
 TOKEN : end_statement
 TYPE: keyword
 
