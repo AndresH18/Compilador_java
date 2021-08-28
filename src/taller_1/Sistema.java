@@ -12,20 +12,17 @@ import java.util.*;
  * @author Andres David Hoyos Velasquez
  * @author Alejandro Garcia
  * <p>
- * TODO: OPTIMIZE {delete unused code, }
  */
 @Deprecated(since = "taller_2")
 public final class Sistema {
 
     /**
      * <p>Language name.</p>
-     * TODO: definir un nombre para el lenguaje
      */
     public static final String LANGUAGE_NAME = "My Language";
 
     /**
      * <p>Language extension.</p>
-     * TODO: definir una extension para el lenguaje
      */
     public static final String LANGUAGE_EXTENSION = "txt";
 

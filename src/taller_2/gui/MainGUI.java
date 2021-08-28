@@ -85,7 +85,8 @@ public class MainGUI {
      * <p>CheckBox to toggle between the File name or the File Absolute Path.</p>
      */
     private JCheckBox fileFullPath_ckbx;
-    private JButton displayButton;
+    private JButton tableButton;
+    private JButton arithmeticButton;
 
     /**
      * <p>Holds the selected File.</p>
@@ -136,7 +137,8 @@ public class MainGUI {
 //            resizeWindow();
 
         });
-        displayButton.addActionListener(e -> windowEvents.showTable());
+        tableButton.addActionListener(e -> windowEvents.showTable());
+        arithmeticButton.addActionListener(e -> windowEvents.showMath());
         /*
          * adding action listener for analyse button
          */
@@ -239,7 +241,7 @@ public class MainGUI {
         System.out.println("Analyzing: " + file.getName());
         displayCode();
         analyzer.setCodeFile(file);
-        windowEvents.displaySymbolsData();
+        windowEvents.modifySymbolsData();
         windowEvents.showTable();
 
     }

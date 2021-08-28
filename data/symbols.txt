@@ -6,196 +6,225 @@
 
 
 define
+ID_TOKEN : 1
 TOKEN : definition
 TYPE: keyword
 TYPE1 : definition
 
 as
+ID_TOKEN : 2
 TOKEN : assigment
 TYPE: keyword
 TYPE1 : definition
+
 ;
+ID_TOKEN : 3
 TOKEN : finnish_statement
 TYPE: end_statement
 TYPE2 : assignment
 
 class
+ID_TOKEN : 4
 TOKEN : class
 TYPE: keyword
 
 var
+ID_TOKEN : 5
 TOKEN : variable
 TYPE: keyword
 
 const
+ID_TOKEN : 6
 TOKEN : constant
 TYPE: keyword
 
 start
-ID_TOKEN : 12
+ID_TOKEN : 7
 TOKEN : start_statement
 TYPE: keyword
 
 end
-ID_TOKEN : 20
+ID_TOKEN : 8
 TOKEN : end_statement
 TYPE: keyword
 
 return
+ID_TOKEN : 9
 TOKEN : return
 TYPE: keyword
 
 void
+ID_TOKEN : 10
 TOKEN : void
 TYPE: keyword
 TYPE1 : return_type
 
 while
+ID_TOKEN : 11
 TOKEN : while_statement
 TYPE: keyword
 TYPE1 : loop
 
 for
+ID_TOKEN : 12
 TOKEN : for_statement
 TYPE: keyword
 TYPE1 : loop
 
 do
+ID_TOKEN : 13
 TOKEN : do_statement
 TYPE: keyword
 TYPE1 : loop
 
 if
+ID_TOKEN : 14
 TOKEN : if_statement
 TYPE: keyword
 TYPE1 : conditional
 
 then
+ID_TOKEN : 15
 TOKEN : then_statement
 TYPE: keyword
 TYPE1 : conditional
 
 else
+ID_TOKEN : 16
 TOKEN : else_statement
 TYPE: keyword
 TYPE1 : conditional
 
 true
+ID_TOKEN : 16
 TOKEN : true_value
 TYPE: keyword
 TYPE1 : boolean
 
 false
+ID_TOKEN : 18
 TOKEN : false_value
 TYPE: keyword
 TYPE1 : boolean
 
 and
+ID_TOKEN : 19
 TOKEN : logical_and
 TYPE: keyword
 TYPE1 : boolean
 
 or
+ID_TOKEN : 20
 TOKEN : logical_or
 TYPE: keyword
 TYPE1 : boolean
 
 ==
+ID_TOKEN : 21
 TOKEN : equal_to
 TYPE: operator
 TYPE1 : boolean
 
-!= 
+!=
+ID_TOKEN : 22
 TOKEN : not_equal
 TYPE: operator
 TYPE1 : boolean
 
 <
+ID_TOKEN : 23
 TOKEN : less_than
 TYPE: operator
 TYPE1 : boolean
 
 >
+ID_TOKEN : 24
 TOKEN : greater_than
 TYPE: operator
 TYPE1 : boolean
 
 <=
+ID_TOKEN : 25
 TOKEN : less_equal
 TYPE: operator
 TYPE1 : boolean
 
 >=
+ID_TOKEN : 26
 TOKEN : greater_equal
 TYPE: operator
 TYPE1 : boolean
 
 !
+ID_TOKEN : 27
 TOKEN : not
 TYPE: operator
 TYPE1 : boolean
 
 +
+ID_TOKEN : 28
 TOKEN : plus
 TYPE: operator
 TYPE1 : addition
 TYPE2 : concatenation
 
 -
+ID_TOKEN : 29
 TOKEN : minus
 TYPE: operator
 TYPE1 : subtraction
 
 *
+ID_TOKEN : 30
 TOKEN : asterisk
 TYPE: operator
 TYPE1 : multiply
 
 /
+ID_TOKEN : 31
 TOKEN : slash
 TYPE: operator
 TYPE1 : division
 
 =
+ID_TOKEN : 32
 TOKEN : equal
 TYPE: operator
 TYPE1 : assignment
 
-## []
-## TOKEN : array
-## TYPE: array_operator
-## symbol : [regex]
-## regex : 0|[1-9][0-9]*
-
-## ()
-## TOKEN : parenthesis
-## TYPE: grouper
-## symbol : (regex)
-## regex : [0-9a-zA-Z][0-9a-zA-Z]*
-
-## ""
-## TOKEN : quote
-## TYPE: string
-## TYPE1 : grouper
-## symbol : "regex"
-## regex : *
-
-## ----------------
 
 "
+ID_TOKEN : 33
 TOKEN : quote
 TYPE: string_q
 TYPE1 : grouper
 
 (
+ID_TOKEN : 34
 TOKEN : opening_p
 TYPE: grouper
 
 )
+ID_TOKEN : 35
 TOKEN : closing_p
 TYPE: grouper
 
-## ----------------
+int
+ID_TOKEN : 36
+TOKEN : integer
+
+double
+ID_TOKEN : 37
+TOKEN : floating
+
+string
+ID_TOKEN : 38
+TOKEN : string
+
+bool
+ID_TOKEN : 39
+TOKEN : boolean
+
 
 0
 TOKEN : zero
@@ -241,14 +270,27 @@ TYPE: number
 TOKEN : tap_h
 TYPE: separator
 
-int
-TOKEN : integer
 
-double
-TOKEN : floating
+## ----------------
 
-string
-TOKEN : string
 
-bool
-TOKEN : boolean
+## []
+## TOKEN : array
+## TYPE: array_operator
+## symbol : [regex]
+## regex : 0|[1-9][0-9]*
+
+## ()
+## TOKEN : parenthesis
+## TYPE: grouper
+## symbol : (regex)
+## regex : [0-9a-zA-Z][0-9a-zA-Z]*
+
+## ""
+## TOKEN : quote
+## TYPE: string
+## TYPE1 : grouper
+## symbol : "regex"
+## regex : *
+
+## ----------------

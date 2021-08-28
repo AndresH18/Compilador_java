@@ -94,7 +94,7 @@ public class Analyzer {
         // long to count the lines in the file to address syntax errors
         long lineCounter = 0x01;
         // strings to store the header, key and value
-        String header = "", key = "", value = "";
+        String header, key, value;
         // column type to get the "key" in the enum
         ColumnType typeKey;
         // Map to contain the headers and characteristic maps
@@ -175,9 +175,9 @@ public class Analyzer {
     }
 
     /**
-     * TODO: DOCUMENT
+     * <p>Analyzes the file to create the symbols table.</p>
      *
-     * @return
+     * @return {@code List<String[]>} containing the data of the analyzed file
      */
     public List<String[]> analyzeFile() {
         // check file is not null
@@ -281,13 +281,13 @@ public class Analyzer {
     }
 
     /**
-     * TODO: DOCUMENT
+     * <p>Adds the word info to the provided {@code List<String[]>}.</p>
      *
-     * @param l
-     * @param word
-     * @param line
-     * @param col
-     * @param partString
+     * @param l          list onto which to add the word
+     * @param word       to analyze
+     * @param line       of the word
+     * @param col        of the word
+     * @param partString if the word is inside " marks, therefore part of a string
      */
     private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
         Objects.requireNonNull(l);
@@ -309,7 +309,7 @@ public class Analyzer {
 
         if (partString) {
 
-            s[3] = s[4] = s[6] = s[7] = "";
+            s[3] = s[6] = s[7] = "";
             s[5] = "string";
 
         } else if (SYMBOLS.containsKey(word)) {
@@ -318,6 +318,7 @@ public class Analyzer {
             }
         } else {
             s[3] = "Identificador";
+            s[4] = "";
             for (int i = 4; i < s.length; i++) {
                 s[i] = "";
             }
@@ -326,10 +327,24 @@ public class Analyzer {
         l.add(s);
     }
 
+    // TODO
+    public void findArithmeticExpressions() {
+        if (codeFile != null) {
+            try (BufferedReader in = new BufferedReader(new FileReader(codeFile))) {
+
+                /*
+                operadores
+                + - * / %
+                ()
+                 */
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
-     * TODO: DOCUMENT
-     *
-     * @param codeFile
+     * <p>Set the File for the analyzer, Checking that is a valid file type</p>
      */
     public void setCodeFile(File codeFile) {
         if (codeFile.getName().endsWith("." + LANGUAGE_EXTENSION)) {

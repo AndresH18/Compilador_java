@@ -9,18 +9,28 @@ public interface WindowEvents {
     /**
      * Resizes the window to fit the elements
      *
-     * @param window
+     * @param window window to resize
      */
     void resizeWindow(JFrame window);
 
     /**
-     * TODO: DOCUMENT
+     * <p>Update the symbols data</p>
      */
-    void displaySymbolsData();
+    void modifySymbolsData();
 
     /**
-     * TODO: DOCUMENT
+     * <p>Displays the Symbols Table.</p>
      */
     void showTable();
+
+    /**
+     * <p>Displays the Arithmetic expressions.</p>
+     */
+    void showMath();
+
+    /**
+     * <p>Updates the arithmetic expressions found.</p>
+     */
+    void updateMath();
 
 }
