@@ -6,6 +6,7 @@ import taller_2.gui.TableGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * <p>Main Class for the GUI.</p>
@@ -62,7 +63,7 @@ public class SystemGUI implements WindowEvents {
      */
     public SystemGUI() {
         // initializing mainWindow
-        mainWindow = new JFrame("APP");
+        mainWindow = new JFrame(Analyzer.LANGUAGE_NAME + " Compiler");
         // setting close operation to terminate program
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // adding mainPage panel
@@ -77,7 +78,7 @@ public class SystemGUI implements WindowEvents {
         mainWindow.setVisible(true);
 
         // initializing tableWindow
-        tableWindow = new JFrame("Table");
+        tableWindow = new JFrame("Symbols Table");
         // setting close operation to hide
         tableWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         // adding tableGUI panel
@@ -88,7 +89,7 @@ public class SystemGUI implements WindowEvents {
         resizeWindow(tableWindow);
 
         // initializing
-        mathWindow = new JFrame("Operations");
+        mathWindow = new JFrame("Arithmetic Expressions");
         // setting close operation to hide
         mathWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         // adding mathGUI panel
@@ -97,6 +98,8 @@ public class SystemGUI implements WindowEvents {
         mathWindow.setLocationRelativeTo(tableWindow);
         // set visible to false
         mathWindow.setVisible(false);
+        // disable resize
+        mathWindow.setResizable(false);
         // resize to fit content
         resizeWindow(mathWindow);
 
@@ -138,7 +141,7 @@ public class SystemGUI implements WindowEvents {
             // remove items
             m.setRowCount(0);
             // add all items of the analyzed file
-            for (String[] strings : analyzer.analyzeFile()) {
+            for (String[] strings : Objects.requireNonNull(analyzer.analyzeFile())) {
                 m.addRow(strings);
             }
             // notify tableModel data has changed
