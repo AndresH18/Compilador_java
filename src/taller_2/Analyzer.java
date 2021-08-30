@@ -11,7 +11,7 @@ import java.util.*;
  * @author Alejandro Garcia
  * <p>
  */
-public class Analyzer {
+public final class Analyzer {
     /**
      * <p>Language name.</p>
      */
@@ -215,7 +215,6 @@ public class Analyzer {
                             }
                         }
 
-                        // ;
                         case ';' -> {
                             // add the word information
                             wordInfo(list, sb.toString(), line, col - sb.length(), isString);
@@ -225,19 +224,15 @@ public class Analyzer {
                             wordInfo(list, String.valueOf(';'), line, col, isString);
                             col++;
                         }
+
                         case '+', '-', '*', '/', '=', '!' -> {
                             // add character to builder
                             sb.append((char) c);
 
                             col++;
                         }
-                        // "
+
                         case '"' -> {
-//                            if (!isString){
-//                                isString = true;
-//                            } else {
-//                                isString = false,
-//                            }
                             // toggles the isString flag
                             isString = !isString;
                             // add the word information
@@ -290,6 +285,8 @@ public class Analyzer {
      * @param partString if the word is inside " marks, therefore part of a string
      */
     private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
+        // TODO DOCUMENT
+
         Objects.requireNonNull(l);
         Objects.requireNonNull(word);
 
@@ -327,20 +324,107 @@ public class Analyzer {
         l.add(s);
     }
 
-    // TODO
-    public void findArithmeticExpressions() {
+    /**
+     * <p>Finds the possible <b><i>Arithmetic Expressions inside the code.</i></b>.
+     * <i>Due to some issues, it can consider what is inside a String as an expression.</i></p>
+     *
+     * @return {@code String[]} containing the expressions
+     */
+    public String[] findMathExpressions() {
         if (codeFile != null) {
+            // read the file
             try (BufferedReader in = new BufferedReader(new FileReader(codeFile))) {
 
+                // list to store the expressions
+                List<String> list = new LinkedList<>();
+                // stack to store the chars
+                Deque<Integer> stack = new LinkedList<>();
+
+                // store the char
+                int c;
                 /*
-                operadores
-                + - * / %
-                ()
+                 * flags
                  */
+                // space after letter -> true, expression is over -> false
+                boolean banderaEspacio = false;
+                // symbol -> true, finish reading expression -> false
+                boolean banderaSimbolo = false;
+                // number -> true, no number -> false
+                boolean bandNumero = false;
+                // read the characters of the file
+                while ((c = in.read()) != -1) {
+                    // if char is an operator or space
+                    if (!(c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == ' ')) {
+                        // check flags
+                        if (banderaEspacio && bandNumero) {
+                            // check flag
+                            if (banderaSimbolo) {
+                                if (bandNumero) {
+                                    // valid expression
+                                    printM(list, stack);
+                                }
+                            }
+                            // remove elements from stack
+                            stack.clear();
+                            // set flag to false
+                            banderaSimbolo = false;
+                        }
+                        // set flag to false
+                        banderaEspacio = false;
+                        // set flag to on
+                        bandNumero = true;
+                        // add char to stack
+                        stack.addFirst(c);
+
+                        // check if character is space
+                    } else if (c == ' ') {
+                        // character is space
+                        banderaEspacio = true;
+                        // add char to stack
+                        stack.addFirst(c);
+
+                    } else {
+                        // else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%') {
+                        banderaSimbolo = true;
+                        banderaEspacio = false;
+                        bandNumero = false;
+                        // add character to stack
+                        stack.addFirst(c);
+                    }
+                }
+
+                if (banderaSimbolo) {
+                    // valid expression
+                    printM(list, stack);
+                }
+                // return expressions
+                return list.toArray(new String[0]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return new String[0];
+    }
+
+
+    /**
+     * <p>Adds the characters in the {@code Deque<Integer>} to the {@code List<String>} as characters.
+     * It is asume that the {@code Deque<Integer>} contains only characters and that it was used as a <b>Stack.</b></p>
+     *
+     * @param list  a list in which to store the word
+     * @param stack containing the characters
+     */
+    private void printM(List<String> list, Deque<Integer> stack) {
+        // get iterator in descending order
+        var iter = stack.descendingIterator();
+        StringBuilder s = new StringBuilder();
+        // while iterator has elements
+        while (iter.hasNext()) {
+            s.append(Character.toString(iter.next()));
+
+        }
+        // add string to the list
+        list.add(s.toString());
     }
 
     /**
@@ -352,5 +436,42 @@ public class Analyzer {
         } else {
             throw new UnsupportedOperationException("Invalid File");
         }
+    }
+
+    /*
+     * SECTION
+     * FIXME: NOT IMPLEMENTED OR USED
+     */
+
+    public static void arithmeticExpression(String f) {
+        String[][] strings = codeTo2DArray(f);
+        Objects.requireNonNull(strings);
+        String regex = ".*[ +*/%-].*";
+        List<String> math = new LinkedList<>();
+
+        for (int line = 0; line < strings.length; line++) {
+            for (int j = 0; j < strings[line].length; j++) {
+//                System.out.print(strings[i][j] + "\t");
+//                if (strings[line][j].matches(regex))
+
+            }
+//            System.out.println();
+        }
+
+    }
+
+    public static String[][] codeTo2DArray(String f) {
+        try (BufferedReader in = new BufferedReader(new FileReader(f))) {
+            List<String[]> list = new LinkedList<>();
+            String s;
+            while ((s = in.readLine()) != null) {
+                list.add(s.split(" "));
+            }
+            String[][] a = list.toArray(String[][]::new);
+            return a;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -45,7 +45,7 @@ public class SystemGUI implements WindowEvents {
     /**
      * <p>{@link ArithmeticGUI] instance.}</p>
      */
-    private final ArithmeticGUI mathGui;
+    private final ArithmeticGUI mathGUI;
 
 
     // creating Objects
@@ -53,7 +53,7 @@ public class SystemGUI implements WindowEvents {
         analyzer = new Analyzer();
         mainPage = new MainGUI(analyzer, this);
         tableGUI = new TableGUI(analyzer, this);
-        mathGui = new ArithmeticGUI();
+        mathGUI = new ArithmeticGUI(analyzer, this);
 
     }
 
@@ -92,7 +92,7 @@ public class SystemGUI implements WindowEvents {
         // setting close operation to hide
         mathWindow.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         // adding mathGUI panel
-        mathWindow.add(mathGui.getMathPanel());
+        mathWindow.add(mathGUI.getMathPanel());
         // set location relative to tableWindow
         mathWindow.setLocationRelativeTo(tableWindow);
         // set visible to false
@@ -157,6 +157,15 @@ public class SystemGUI implements WindowEvents {
 
     @Override
     public void updateMath() {
+
+        if (mathGUI != null) {
+            var m = mathGUI.getListModel();
+            m.removeAllElements();
+            for (String s : analyzer.findMathExpressions()) {
+                m.addElement(s);
+            }
+//            m.addAll(analyzer.findMathExpressions());
+        }
 
     }
 }

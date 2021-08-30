@@ -137,8 +137,17 @@ public class MainGUI {
 //            resizeWindow();
 
         });
+
+        /*
+         * adding action listener
+         */
         tableButton.addActionListener(e -> windowEvents.showTable());
+
+        /*
+         * adding action listener
+         */
         arithmeticButton.addActionListener(e -> windowEvents.showMath());
+
         /*
          * adding action listener for analyse button
          */
@@ -243,6 +252,8 @@ public class MainGUI {
         analyzer.setCodeFile(file);
         windowEvents.modifySymbolsData();
         windowEvents.showTable();
+        windowEvents.updateMath();
+        windowEvents.showMath();
 
     }
 
