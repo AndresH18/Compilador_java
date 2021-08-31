@@ -16,7 +16,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * <p>Graphic Interface class</p>
+ * <p><b>Graphic Interface class.</b></p>
+ * <p>Manages the main window interface.</p>
  * <p>This class makes use of an intellij form to connect the GUI objects to the code</p>
  */
 public class MainGUI {
@@ -161,12 +162,10 @@ public class MainGUI {
         /*
          * adding state change listener for the tabbed pane,
          * triggered when a different tab is selected
-         * TODO: delete listener?
          */
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                // TODO: Implement
                 System.out.println("tab's state changed");
 //                resizeWindow(); // dont use here, because if the text area changes size, the window will increase size and will not become smaller again
             }
@@ -243,22 +242,29 @@ public class MainGUI {
     }
 
     /**
-     * TODO: DOCUMENT
+     * <p>Analyze the file, creating the symbols and tokens table and finding
+     * posible arithmetic expressions.</p>
      */
     private void analyse() {
 
         System.out.println("Analyzing: " + file.getName());
+        // displays the code
         displayCode();
+        // set the file to analyze to the analyzer
         analyzer.setCodeFile(file);
+        // trigger a symbols table change event
         windowEvents.modifySymbolsData();
+        // shows the table
         windowEvents.showTable();
+        // triggers a math expressions change event
         windowEvents.updateMath();
+        // shows the Expressions
         windowEvents.showMath();
 
     }
 
     /**
-     * TODO: DOCUMENT
+     * <p>Puts the read file on the code display area</p>
      */
     private void displayCode() {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {

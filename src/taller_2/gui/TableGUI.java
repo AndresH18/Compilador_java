@@ -7,8 +7,11 @@ import taller_2.WindowEvents;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
- * TODO: DOCUMENT ALL
+ * <p><b>Graphic Interface class.</b></p>
+ * <p>Manages the Table window interface.</p>
+ * <p><i>This class makes use of an intellij form to connect the GUI objects to the code</i></p>
  */
 public class TableGUI {
 
@@ -19,7 +22,7 @@ public class TableGUI {
     private DefaultTableModel tableModel;
 
     /**
-     * TODO: DOCUMENT
+     * <p>Creates an instance of the TableGUI.</p>
      *
      * @param analyzer     the analyzer to use
      * @param windowEvents interface to interact with the window

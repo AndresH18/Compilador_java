@@ -285,18 +285,20 @@ public final class Analyzer {
      * @param partString if the word is inside " marks, therefore part of a string
      */
     private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
-        // TODO DOCUMENT
-
+        // require that the list and the word are not null
         Objects.requireNonNull(l);
         Objects.requireNonNull(word);
 
+        // if word length is 0 or is filled with spaces
         if (word.isBlank()) {
             return;
         }
-
-        // "SYMBOL", "LINE", "COLUMN", "TOKEN", "ID_TOKEN", "TYPE", "TYPE1", "TYPE2"
+        /* TEMPLATE FOR THE COLUMNS ORDER
+         * "SYMBOL", "LINE", "COLUMN", "TOKEN", "ID_TOKEN", "TYPE", "TYPE1", "TYPE2"
+         */
+        // create new String array with the size of the number of columns
         String[] s = new String[ColumnType.values().length];
-
+        // due to direct access to array positions, verify that they can be accessed
         if (s.length < 7) // s.length - 1 < 6 ==> s.length < 6 + 1
             throw new RuntimeException("Invalid length");
 
@@ -304,12 +306,11 @@ public final class Analyzer {
         s[1] = String.valueOf(line);
         s[2] = String.valueOf(col);
 
-        if (partString) {
-
+        if (partString) { // check if the word is inside the quote marks signifying a String
             s[3] = s[6] = s[7] = "";
             s[5] = "string";
-
-        } else if (SYMBOLS.containsKey(word)) {
+        } else if (SYMBOLS.containsKey(word)) { // check if the word is part of the symbols table
+            // loop through the information of the symbol
             for (int i = 3; i < s.length; i++) {
                 s[i] = SYMBOLS.get(word).get(ColumnType.values()[i]);
             }
@@ -320,7 +321,7 @@ public final class Analyzer {
                 s[i] = "";
             }
         }
-
+        // add the array to the list
         l.add(s);
     }
 
@@ -439,11 +440,10 @@ public final class Analyzer {
     }
 
     /*
-     * SECTION
-     * FIXME: NOT IMPLEMENTED OR USED
+     * THIS SECTION IS NOT IMPLEMENTED YET OR USED
      */
 
-    public static void arithmeticExpression(String f) {
+    private static void arithmeticExpression(String f) {
         String[][] strings = codeTo2DArray(f);
         Objects.requireNonNull(strings);
         String regex = ".*[ +*/%-].*";
@@ -460,15 +460,14 @@ public final class Analyzer {
 
     }
 
-    public static String[][] codeTo2DArray(String f) {
+    private static String[][] codeTo2DArray(String f) {
         try (BufferedReader in = new BufferedReader(new FileReader(f))) {
             List<String[]> list = new LinkedList<>();
             String s;
             while ((s = in.readLine()) != null) {
                 list.add(s.split(" "));
             }
-            String[][] a = list.toArray(String[][]::new);
-            return a;
+            return list.toArray(String[][]::new);
         } catch (IOException e) {
             e.printStackTrace();
         }
