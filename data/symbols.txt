@@ -6,223 +6,223 @@
 
 
 define
-ID_TOKEN : 1
+ID : 1
 TOKEN : definition
 TYPE: keyword
 TYPE1 : definition
 
 as
-ID_TOKEN : 2
+ID : 2
 TOKEN : assigment
 TYPE: keyword
 TYPE1 : definition
 
 ;
-ID_TOKEN : 3
+ID : 3
 TOKEN : finnish_statement
 TYPE: end_statement
 TYPE2 : assignment
 
 class
-ID_TOKEN : 4
+ID : 4
 TOKEN : class
 TYPE: keyword
 
 var
-ID_TOKEN : 5
+ID : 5
 TOKEN : variable
 TYPE: keyword
 
 const
-ID_TOKEN : 6
+ID : 6
 TOKEN : constant
 TYPE: keyword
 
 start
-ID_TOKEN : 7
+ID : 7
 TOKEN : start_statement
 TYPE: keyword
 
 end
-ID_TOKEN : 8
+ID : 8
 TOKEN : end_statement
 TYPE: keyword
 
 return
-ID_TOKEN : 9
+ID : 9
 TOKEN : return
 TYPE: keyword
 
 void
-ID_TOKEN : 10
+ID : 10
 TOKEN : void
 TYPE: keyword
 TYPE1 : return_type
 
 while
-ID_TOKEN : 11
+ID : 11
 TOKEN : while_statement
 TYPE: keyword
 TYPE1 : loop
 
 for
-ID_TOKEN : 12
+ID : 12
 TOKEN : for_statement
 TYPE: keyword
 TYPE1 : loop
 
 do
-ID_TOKEN : 13
+ID : 13
 TOKEN : do_statement
 TYPE: keyword
 TYPE1 : loop
 
 if
-ID_TOKEN : 14
+ID : 14
 TOKEN : if_statement
 TYPE: keyword
 TYPE1 : conditional
 
 then
-ID_TOKEN : 15
+ID : 15
 TOKEN : then_statement
 TYPE: keyword
 TYPE1 : conditional
 
 else
-ID_TOKEN : 16
+ID : 16
 TOKEN : else_statement
 TYPE: keyword
 TYPE1 : conditional
 
 true
-ID_TOKEN : 16
+ID : 16
 TOKEN : true_value
 TYPE: keyword
 TYPE1 : boolean
 
 false
-ID_TOKEN : 18
+ID : 18
 TOKEN : false_value
 TYPE: keyword
 TYPE1 : boolean
 
 and
-ID_TOKEN : 19
+ID : 19
 TOKEN : logical_and
 TYPE: keyword
 TYPE1 : boolean
 
 or
-ID_TOKEN : 20
+ID : 20
 TOKEN : logical_or
 TYPE: keyword
 TYPE1 : boolean
 
 ==
-ID_TOKEN : 21
+ID : 21
 TOKEN : equal_to
 TYPE: operator
 TYPE1 : boolean
 
 !=
-ID_TOKEN : 22
+ID : 22
 TOKEN : not_equal
 TYPE: operator
 TYPE1 : boolean
 
 <
-ID_TOKEN : 23
+ID : 23
 TOKEN : less_than
 TYPE: operator
 TYPE1 : boolean
 
 >
-ID_TOKEN : 24
+ID : 24
 TOKEN : greater_than
 TYPE: operator
 TYPE1 : boolean
 
 <=
-ID_TOKEN : 25
+ID : 25
 TOKEN : less_equal
 TYPE: operator
 TYPE1 : boolean
 
 >=
-ID_TOKEN : 26
+ID : 26
 TOKEN : greater_equal
 TYPE: operator
 TYPE1 : boolean
 
 !
-ID_TOKEN : 27
+ID : 27
 TOKEN : not
 TYPE: operator
 TYPE1 : boolean
 
 +
-ID_TOKEN : 28
+ID : 28
 TOKEN : plus
 TYPE: operator
 TYPE1 : addition
 TYPE2 : concatenation
 
 -
-ID_TOKEN : 29
+ID : 29
 TOKEN : minus
 TYPE: operator
 TYPE1 : subtraction
 
 *
-ID_TOKEN : 30
+ID : 30
 TOKEN : asterisk
 TYPE: operator
 TYPE1 : multiply
 
 /
-ID_TOKEN : 31
+ID : 31
 TOKEN : slash
 TYPE: operator
 TYPE1 : division
 
 =
-ID_TOKEN : 32
+ID : 32
 TOKEN : equal
 TYPE: operator
 TYPE1 : assignment
 
 
 "
-ID_TOKEN : 33
+ID : 33
 TOKEN : quote
 TYPE: string_q
 TYPE1 : grouper
 
 (
-ID_TOKEN : 34
+ID : 34
 TOKEN : opening_p
 TYPE: grouper
 
 )
-ID_TOKEN : 35
+ID : 35
 TOKEN : closing_p
 TYPE: grouper
 
 int
-ID_TOKEN : 36
+ID : 36
 TOKEN : integer
 
 double
-ID_TOKEN : 37
+ID : 37
 TOKEN : floating
 
 string
-ID_TOKEN : 38
+ID : 38
 TOKEN : string
 
 bool
-ID_TOKEN : 39
+ID : 39
 TOKEN : boolean
 
 

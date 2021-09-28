@@ -6,6 +6,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,8 +22,11 @@ public class EditorGUI implements DocumentListener, CaretListener {
 
     public EditorGUI() {
 
+        panel.setBorder(BorderFactory.createTitledBorder("Editor"));
         text.getDocument().addDocumentListener(this);
         text.addCaretListener(this);
+        // setting font manually to avoid it changing when the panel changes
+        text.setFont(new Font("Consolas", Font.PLAIN, 15));
 
     }
 
@@ -40,6 +44,14 @@ public class EditorGUI implements DocumentListener, CaretListener {
         }
     }
 
+    public JEditorPane getText() {
+        return text;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
     @Deprecated
     public void write(String s, boolean append) {
         if (!append) {
@@ -50,10 +62,6 @@ public class EditorGUI implements DocumentListener, CaretListener {
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-    }
-
-    public JPanel getPanel() {
-        return panel;
     }
 
 
