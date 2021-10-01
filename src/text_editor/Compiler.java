@@ -294,6 +294,9 @@ public class Compiler implements FileEvents {
         return menuBar;
     }
 
+    /**
+     * <p>Perform the lexical analysis and display the results</p>
+     */
     private void lexicalAnalysis() {
         symbolsView();
         // TODO: implementing, add debug comments
@@ -341,6 +344,9 @@ public class Compiler implements FileEvents {
         w.execute();
     }
 
+    /**
+     * <p>Display the symbols table panel</p>
+     */
     private void symbolsView() {
         frame.getContentPane().removeAll();
         frame.add(editor.getPanel(), BorderLayout.LINE_START);
@@ -352,6 +358,9 @@ public class Compiler implements FileEvents {
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
+    /**
+     * <p>Perform the arithmetic analysis and display the results.</p>
+     */
     private void arithmeticAnalysis() {
         mathView();
         // TODO: implementing, add debug comments
@@ -394,6 +403,9 @@ public class Compiler implements FileEvents {
         w.execute();
     }
 
+    /**
+     * <p>Display the arithmetic panel.</p>
+     */
     private void mathView() {
         frame.getContentPane().removeAll();
         frame.add(editor.getPanel(), BorderLayout.LINE_START);
@@ -405,6 +417,10 @@ public class Compiler implements FileEvents {
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
+    /**
+     * <p>Display the Normal view.</p>
+     * Remove any other panels except for the editor.
+     */
     private void normalView() {
 
         frame.getContentPane().removeAll();

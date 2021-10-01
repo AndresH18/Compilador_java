@@ -459,7 +459,7 @@ public abstract class Analyzer {
 
 
     /*
-     * GRAMÁTICA LIBRE DE CONTEXTO
+     * GRAMATICA LIBRE DE CONTEXTO
      */
 
     // TODO: this is what alejo is in charge
