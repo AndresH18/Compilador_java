@@ -88,11 +88,25 @@ public class Compiler implements FileEvents {
         SYMBOLS = loadSymbols();
     }
 
+    /**
+     * <P>{@link File} containing the abstract path of the opened file.</P>
+     */
     private File file;
-
+    /**
+     * <p>{@link JFrame} serving as the window for the application</p>
+     */
     private final JFrame frame;
+    /**
+     * <p>{@link EditorGUI} containing the elements needed for the editor</p>
+     */
     private final EditorGUI editor = new EditorGUI();
+    /**
+     * <p>{@link TableGUI} containing the elements needed for the symbols table</p>
+     */
     private final TableGUI table = new TableGUI();
+    /**
+     * <p>{@link ArithmeticGUI} containing the needed elements for the arithmeticAnalysis</p>
+     */
     private final ArithmeticGUI math = new ArithmeticGUI();
 
     /**

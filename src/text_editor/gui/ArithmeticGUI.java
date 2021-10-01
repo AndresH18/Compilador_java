@@ -89,6 +89,9 @@ public class ArithmeticGUI {
         SwingUtilities.updateComponentTreeUI(list);
     }
 
+    /**
+     * @return the {@link JPanel}
+     */
     public JPanel getPanel() {
         return panel;
     }

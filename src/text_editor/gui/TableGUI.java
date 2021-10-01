@@ -47,10 +47,16 @@ public class TableGUI {
 
     }
 
+    /**
+     * @return the {@link JPanel}
+     */
     public JPanel getPanel() {
         return panel;
     }
 
+    /**
+     * @return the {@link DefaultTableModel}
+     */
     public DefaultTableModel getTableModel() {
         return tableModel;
     }

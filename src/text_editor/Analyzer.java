@@ -9,8 +9,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * <p>Class containing abstract methods to analyze the file</p>
+ */
 public abstract class Analyzer {
 
+    /**
+     * Non instantiable class
+     */
     private Analyzer() {
         // No instantiable
     }
@@ -200,6 +206,7 @@ public abstract class Analyzer {
      * <p>Finds the possible <b><i>Arithmetic Expressions inside the code.</i></b>.
      * <i>Due to some issues, it can consider what is inside a String as an expression.</i></p>
      *
+     * @param codeFile the file from which to check for arithmetic expressions
      * @return {@code String[]} containing the expressions
      */
     public static String[] findMathExpressions(File codeFile) {
@@ -305,6 +312,7 @@ public abstract class Analyzer {
     /**
      * <p>Analyzes the file to create the symbols table.</p>
      *
+     * @param codeFile the file to analyze
      * @return {@code List<String[]>} containing the data of the analyzed file
      */
     @Deprecated(forRemoval = true)

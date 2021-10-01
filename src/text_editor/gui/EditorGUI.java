@@ -5,7 +5,6 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,18 +69,6 @@ public class EditorGUI implements DocumentListener, CaretListener {
     }
 
 
-    @Deprecated(forRemoval = true)
-    public void write(String s, boolean append) {
-        if (!append) {
-            text.setText("");
-        }
-        try {
-            text.getDocument().insertString(text.getDocument().getLength(), s, null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void insertUpdate(DocumentEvent e) {
         System.out.println("inserted something" + e.getOffset());
@@ -102,10 +89,16 @@ public class EditorGUI implements DocumentListener, CaretListener {
         System.out.println("Caret Position Changed");
     }
 
+    /**
+     * @return the {@link JEditorPane}
+     */
     public JEditorPane getText() {
         return text;
     }
 
+    /**
+     * @return the {@link JPanel}
+     */
     public JPanel getPanel() {
         return panel;
     }
