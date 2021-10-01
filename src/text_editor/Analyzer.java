@@ -14,25 +14,24 @@ public abstract class Analyzer {
     private Analyzer() {
         // No instantiable
     }
-    /**
-     * <p>Analyzes the file to create the symbols table.</p>
-     *
-     * @return {@code List<String[]>} containing the data of the analyzed file
-     */
+
     /**
      * <p>Analyzes the file to create the symbols table.</p>
      *
      * @param file the file to analyze.
-     * @return
+     * @return {@code List<String[]>} with the elements of the table
      * @throws CompilerExceptions.UnexpectedException   if there was an error analyzing the file.
      * @throws CompilerExceptions.FileNotFoundException if the file could not be found.
      */
     public static List<String[]> generateTable(File file) throws CompilerExceptions.UnexpectedException, CompilerExceptions.FileNotFoundException {
+        // read the lines form file
         String[] lines = Objects.requireNonNull(getTextFromFile(file));
-
+        /* control flags */
         boolean isString = false;
         boolean space = false;
+        // String Builder
         StringBuilder sb = new StringBuilder();
+        // List of type String[] containing the data of the table
         List<String[]> list = new LinkedList<>();
         // move between lines
         for (int i = 0; i < lines.length; i++) {
@@ -79,7 +78,7 @@ public abstract class Analyzer {
 
                     addWordInfo(list, ";", i, j - sb.length(), isString);
 
-                } else if (isOperator((char) lines[i].charAt(j))) {
+                } else if (isOperator(lines[i].charAt(j))) {
                     sb.append(lines[i].charAt(j));
                     space = false;
                 }
@@ -95,10 +94,11 @@ public abstract class Analyzer {
      *
      * @param file the file to read
      * @return {@code String[]} containing the file lines.
-     * @throws CompilerExceptions.FileNotFoundException
-     * @throws CompilerExceptions.UnexpectedException
+     * @throws CompilerExceptions.UnexpectedException   if there was an error analyzing the file.
+     * @throws CompilerExceptions.FileNotFoundException if the file could not be found.
      */
     private static String[] getTextFromFile(File file) throws CompilerExceptions.FileNotFoundException, CompilerExceptions.UnexpectedException {
+
         if (file == null || !file.exists()) {
             throw new CompilerExceptions.FileNotFoundException("File not Found");
         }
@@ -117,6 +117,12 @@ public abstract class Analyzer {
         return null;
     }
 
+    /**
+     * <p>Check if the char is a valid operator</p>
+     *
+     * @param c the character to check.
+     * @return true if the character is a valid operator, false otherwise.
+     */
     private static boolean isOperator(char c) {
         return switch (c) {
             case '+', '-', '*', '/', '=', '!' -> true;
@@ -124,6 +130,12 @@ public abstract class Analyzer {
         };
     }
 
+    /**
+     * <p>Check if the {@link String} contains a valid operator.</p>
+     *
+     * @param s the {@link String} to check.
+     * @return true if the {@link String} has a valid operator
+     */
     private static boolean containsOperator(String s) {
         return s.contains("+")
                 || s.contains("-")
@@ -256,7 +268,7 @@ public abstract class Analyzer {
                 printM(list, stack);
             }
             // return expressions
-            return list.toArray(new String[0]);
+            return list.toArray(String[]::new);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -275,9 +287,14 @@ public abstract class Analyzer {
         // get iterator in descending order
         var iter = stack.descendingIterator();
         StringBuilder s = new StringBuilder();
+        String c;
         // while iterator has elements
         while (iter.hasNext()) {
-            s.append(Character.toString(iter.next()));
+            c = Character.toString(iter.next());
+            if (c.contains(";")) {
+                break;
+            }
+            s.append(c);
 
         }
         // add string to the list
@@ -290,7 +307,7 @@ public abstract class Analyzer {
      *
      * @return {@code List<String[]>} containing the data of the analyzed file
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public List<String[]> analyzeFile(File codeFile) {
         // check file is not null
         if (codeFile != null) {
@@ -396,7 +413,7 @@ public abstract class Analyzer {
      * @param col        of the word
      * @param partString if the word is inside " marks, therefore part of a string
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     private void wordInfo(List<String[]> l, String word, int line, int col, boolean partString) {
         // require that the list and the word are not null
         Objects.requireNonNull(l);
@@ -445,6 +462,11 @@ public abstract class Analyzer {
      * GRAMÁTICA LIBRE DE CONTEXTO
      */
 
+    // TODO: this is what alejo is in charge
+    public static String checkExpression(String s) {
+        return "Hello World";
+    }
+
 
     private static void expressionPrima(String e) {
 //        if (e.isBlank()) {
@@ -454,7 +476,6 @@ public abstract class Analyzer {
         int pos = 0;
         for (int i = 0; i < s.length; pos += s[i++].length() + 1) {
             if (s[i].length() == 0) {
-                // TODO: reportar espacio invalido
             }
         }
         expressionPrima(s, 0);
@@ -497,11 +518,4 @@ public abstract class Analyzer {
     private static void factor(String[] s, int n) {
 
     }
-
-
-    public static void helloWorld() {
-        System.out.println("Hello World!!!");
-    }
-
-
 }

@@ -12,47 +12,65 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * <p>This class contains the information related to the management of the editor panel.</p>
+ *
+ * @see text_editor.Compiler
+ */
 public class EditorGUI implements DocumentListener, CaretListener {
-
+    /**
+     * <p>{@link JPanel} containing the elements.</p>
+     */
     private JPanel panel;
+    /**
+     * <p>{@link JEditorPane} for text input</p>
+     */
     private JEditorPane text;
 
-    private boolean edited = false;
-
-
+    /**
+     * <P>Class constructor.</P>
+     */
     public EditorGUI() {
-
+        // set border with title
         panel.setBorder(BorderFactory.createTitledBorder("Editor"));
+        // add listener to the document on the JEditorPane
         text.getDocument().addDocumentListener(this);
+        // add caret listener to the JEditorPane
         text.addCaretListener(this);
         // setting font manually to avoid it changing when the panel changes
         text.setFont(new Font("Consolas", Font.PLAIN, 15));
-
     }
 
-    public String gettext() {
-        return text.getText();
-    }
-
-    public final void setText(File file) {
+    /**
+     * <p>Set the text from the file to the {@link JEditorPane}.</p>
+     *
+     * @param file file containing the text
+     */
+    public final void setTextFromFile(File file) {
+        // remove the current text
+        text.setText(null);
+        // read file
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            text.getDocument().removeDocumentListener(this);
-            text.setPage(file.toURI().toURL());
-            text.getDocument().addDocumentListener(this);
+            // string to store the read lines
+            String s;
+            // stringBuilder to concatenate the strings
+            StringBuilder sb = new StringBuilder();
+            // read the lines and append them to the stringBuilder
+            while ((s = in.readLine()) != null) {
+                // append the lines with a line break at the end
+                sb.append(s).append("\n");
+            }
+            // set the text of the JEditorPane to the concatenated Strings
+            text.setText(sb.toString());
+            // update the gui
+            SwingUtilities.updateComponentTreeUI(text);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public JEditorPane getText() {
-        return text;
-    }
 
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public void write(String s, boolean append) {
         if (!append) {
             text.setText("");
@@ -64,23 +82,19 @@ public class EditorGUI implements DocumentListener, CaretListener {
         }
     }
 
-
     @Override
     public void insertUpdate(DocumentEvent e) {
         System.out.println("inserted something" + e.getOffset());
-        edited = true;
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
         System.out.println("removed something");
-        edited = true;
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
         System.out.println("changed something");
-        edited = true;
     }
 
     @Override
@@ -88,11 +102,11 @@ public class EditorGUI implements DocumentListener, CaretListener {
         System.out.println("Caret Position Changed");
     }
 
-    public boolean isEdited() {
-        return edited;
+    public JEditorPane getText() {
+        return text;
     }
 
-    public void setEdited(boolean edited) {
-        this.edited = edited;
+    public JPanel getPanel() {
+        return panel;
     }
 }

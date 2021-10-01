@@ -11,9 +11,18 @@ import javax.swing.table.DefaultTableModel;
  * <p><i>This class makes use of an intellij form to connect the GUI objects to the code</i></p>
  */
 public class TableGUI {
-    private JPanel panel;
-    private JTable symbolsTable;
+    /**
+     * <p>{@link DefaultTableModel} for the table</p>
+     */
     private final DefaultTableModel tableModel;
+    /**
+     * <p>{@link JPanel} containing the elements</p>
+     */
+    private JPanel panel;
+    /**
+     * <p>{@link JTable} to display the symbols</p>
+     */
+    private JTable symbolsTable;
 
     /**
      * <p><b>Graphic Interface class.</b></p>
@@ -28,6 +37,7 @@ public class TableGUI {
                 return false;
             }
         }));
+        // set the columns headers
         tableModel.setColumnIdentifiers(ColumnType.values());
         // move "Token id" column to position 0
         symbolsTable.moveColumn(4, 0);
@@ -39,10 +49,6 @@ public class TableGUI {
 
     public JPanel getPanel() {
         return panel;
-    }
-
-    public JTable getSymbolsTable() {
-        return symbolsTable;
     }
 
     public DefaultTableModel getTableModel() {

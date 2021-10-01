@@ -2,7 +2,10 @@ package text_editor;
 
 import java.io.IOException;
 
-public class CompilerExceptions {
+/**
+ * <p>Class containing posible used exceptions </p>
+ */
+public abstract class CompilerExceptions {
     public static final class FileNotFoundException extends java.io.FileNotFoundException {
         public FileNotFoundException() {
         }

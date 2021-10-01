@@ -3,7 +3,6 @@ package text_editor;
 import text_editor.gui.ArithmeticGUI;
 import text_editor.gui.EditorGUI;
 import text_editor.gui.TableGUI;
-import text_editor.old.SystemGUI;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,13 +16,14 @@ import java.util.concurrent.ExecutionException;
 
 
 /**
- * FIXME: delete comment
- * This class is the equivalent to {@link SystemGUI}
+ * <p>This is the main entry point to the program. </p>
  *
  * @see text_editor.FileEvents
- * @see WindowEvents
+ * @see Analyzer
+ * @see ArithmeticGUI
+ * @see EditorGUI
+ * @see TableGUI
  */
-
 public class Compiler implements FileEvents {
 
     /**
@@ -90,20 +90,10 @@ public class Compiler implements FileEvents {
 
     private File file;
 
-
     private final JFrame frame;
     private final EditorGUI editor = new EditorGUI();
     private final TableGUI table = new TableGUI();
     private final ArithmeticGUI math = new ArithmeticGUI();
-/*
-    private final MainGUI mainGUI = new MainGUI(this);
-
-     TODO: Decide how to use
-    private JFrame mathFrame;
-    private JFrame tableFrame;
-    private final TableGUI tableGUI = new TableGUI(new Analyzer(), this);
-    private ArithmeticGUI arithmeticGUI = new ArithmeticGUI(null, this);
-*/
 
     /**
      * <p>Program entry point</p>
@@ -113,7 +103,9 @@ public class Compiler implements FileEvents {
     }
 
     public Compiler() {
+        // set the window
         frame = new JFrame(Compiler.LANGUAGE_NAME + " Compiler");
+        // set the default close operation
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         System.out.println("i\tframe's layout class: " + frame.getLayout().getClass().toString());
@@ -124,10 +116,12 @@ public class Compiler implements FileEvents {
             b.setHgap(b.getHgap());
             b.setVgap(b.getVgap());
         }
+        // set the window menuBar
         frame.setJMenuBar(createMenuBarItems());
-
+        // add the editor panel to the center of the window
         frame.add(editor.getPanel(), BorderLayout.CENTER);
 //        frame.pack();
+        /* Set properties of the window */
         // FIXME: MAXIMIZED_BOTH
         frame.setExtendedState(JFrame.NORMAL);
         frame.setMinimumSize(new Dimension(700, 600));
@@ -156,10 +150,12 @@ public class Compiler implements FileEvents {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-/*
+                notYet();
+                /*TODO:
+                    new -> checks if there is any need to save, then resets all posible data, maybe close the program and run it again?
                 here
                 normalView();
-                editor.getText().setText("");
+                editor.getText().setTextFromFile("");
                 editor.setEdited(false);
                 file = null;
 */
@@ -181,14 +177,6 @@ public class Compiler implements FileEvents {
             @Override
             public void actionPerformed(ActionEvent e) {
                 save();
-                /**
-                 * TODO: You need to change every method that saves the file.
-                 *  Save As -> will always ask how to save the file (display dialog)
-                 *  Save -> checks somehow if the file exists. if it exists, it saves; otherwise to the same as "Save As."
-                 *  AutoSave -> when you need to save. For now: lexicalAnalysis, findMathExpressions, new.
-                 *  new -> checks if there is any need to save, then resets all posible data, maybe close the program and run it again?
-                 *
-                 */
             }
         });
         menu.add(menuItem);
@@ -211,8 +199,7 @@ public class Compiler implements FileEvents {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                notYet();
-                // TODO:
+                normalView();
             }
         });
         menu.add(menuItem);
@@ -223,8 +210,7 @@ public class Compiler implements FileEvents {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: implement display code
-                notYet();
+                normalView();
             }
         });
         menu.add(menuItem);
@@ -315,8 +301,6 @@ public class Compiler implements FileEvents {
         progressBar.setIndeterminate(true);
 
         frame.add(progressBar, BorderLayout.PAGE_END);
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        editor.getText().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         var w = new Background<List<String[]>, Void>(file) {
             @Override
             protected List<String[]> doInBackground() throws Exception {
@@ -347,8 +331,8 @@ public class Compiler implements FileEvents {
                     e.printStackTrace();
                 } finally {
                     frame.remove(progressBar);
-                    frame.setCursor(Cursor.getDefaultCursor());
-                    editor.getText().setCursor(Cursor.getDefaultCursor());
+//                    frame.setCursor(Cursor.getDefaultCursor());
+//                    editor.getText().setCursor(Cursor.getDefaultCursor());
                     frame.pack();
                     SwingUtilities.updateComponentTreeUI(frame);
                 }
@@ -370,15 +354,14 @@ public class Compiler implements FileEvents {
 
     private void arithmeticAnalysis() {
         mathView();
-        saveAs();
         // TODO: implementing, add debug comments
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
 
         frame.add(progressBar, BorderLayout.PAGE_END);
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        math.getList().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        editor.getText().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//        math.getList().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//        editor.getText().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         var w = new Background<String[], Void>(file) {
             @Override
             protected String[] doInBackground() throws Exception {
@@ -389,22 +372,20 @@ public class Compiler implements FileEvents {
             @Override
             protected void done() {
                 try {
-                    var m = math.getListModel();
-                    m.removeAllElements();
-                    for (String s : get()) {
-                        m.addElement(s);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (NullPointerException e) {
+                    math.addExpressions(get());
+
+//                    var m = math.getListModel();
+//                    m.removeAllElements();
+//                    for (String s : get()) {
+//                        m.addElement(s);
+//                    }
+                } catch (InterruptedException | ExecutionException | NullPointerException e) {
                     e.printStackTrace();
                 } finally {
                     frame.remove(progressBar);
-                    frame.setCursor(Cursor.getDefaultCursor());
-                    math.getList().setCursor(Cursor.getDefaultCursor());
-                    editor.getText().setCursor(Cursor.getDefaultCursor());
+//                    frame.setCursor(Cursor.getDefaultCursor());
+//                    math.getList().setCursor(Cursor.getDefaultCursor());
+//                    editor.getText().setCursor(Cursor.getDefaultCursor());
                     frame.pack();
                     SwingUtilities.updateComponentTreeUI(frame);
                 }
@@ -471,57 +452,18 @@ public class Compiler implements FileEvents {
      */
     @Override
     public void openFile(File file) {
-        // checks if there is content on the editor
-        if (!editor.getText().getText().isBlank()) {
-            // save content
-            save();
-        }
-        // check if the file is null or if it doesn't exist
-        if (file == null || !file.exists()) {
-            throw new RuntimeException("File should exist and not be null");
-        }
-        // check that the editor is not null, set the file content to the editor.
-        Objects.requireNonNull(editor).setText(file);
-        /*
+        if (JOptionPane.showConfirmDialog(frame, "The file will not be saved.\n" +
+                        "Are you sure you want to continue?", "Save",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 
-        SwingWorker<String[], Void> work = new SwingWorker<String[], Void>() {
-            @Override
-            protected String[] doInBackground() throws Exception {
-                try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-                    List<String> l = new LinkedList<>();
-                    String s;
-                    while ((s = in.readLine()) != null) {
-                        l.add(s);
-                    }
-
-                    return l.toArray(String[]::new);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                System.err.println("returning null");
-                return null;
+            // check if the file is null or if it doesn't exist
+            if (file == null || !file.exists()) {
+                throw new RuntimeException("File should exist and not be null");
             }
+            // check that the editor is not null, set the file content to the editor.
+            Objects.requireNonNull(editor).setTextFromFile(file);
+        }
 
-            @Override
-            protected void done() {
-                try {
-                    String[] t = get();
-                    if (t != null) {
-
-                        for (String s : t) {
-                            editor.write(s, true);
-                        }
-                    } else {
-                        System.err.println("NULL STRING");
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        work.execute();
-*/
     }
 
     /**
@@ -534,16 +476,18 @@ public class Compiler implements FileEvents {
             return saveSourceFile(file);
         } else {
 
-            if (saveDialog(null)) {
-                // inform the user that the file was saved
-                JOptionPane.showMessageDialog(frame, "Save Successful!");
-                return true;
-            } else {
-                // inform the user that there was an error saving the file
-                JOptionPane.showMessageDialog(frame, "Something went wrong.", "Error", JOptionPane.ERROR_MESSAGE);
-                Toolkit.getDefaultToolkit().beep();
-                return false;
-            }
+            return saveDialog(null);
+//            if (saveDialog(null)) {
+//
+//                return true;
+//            }
+//            else {
+//                // inform the user that there was an error saving the file
+//                JOptionPane.showMessageDialog(frame, "Something went wrong.", "Error", JOptionPane.ERROR_MESSAGE);
+//                Toolkit.getDefaultToolkit().beep();
+////                return false;
+//            }
+//            return false;
         }
     }
 
@@ -582,6 +526,8 @@ public class Compiler implements FileEvents {
             // save the file and assign it to the global variable
             if (saveSourceFile(file = new File(path))) {
                 System.out.println("D\tThe file was saved successfully.");
+                // inform the user that the file was saved
+                JOptionPane.showMessageDialog(frame, "Save Successful!");
                 return true;
             } else {
                 System.out.println("E\tthe file could not be opened.");
@@ -607,13 +553,13 @@ public class Compiler implements FileEvents {
         // save the file
         try (PrintWriter out = new PrintWriter(new FileWriter(file))) {
             // print to the file the contents of the editor
-            out.println(editor.gettext());
+            out.println(editor.getText().getText());
 
             System.out.println("D\tFile was saved.");
 
-            // tell editor that the file has been saved
-            editor.setEdited(false);
-
+//            tell editor that the file has been saved
+//            editor.setEdited(false);
+//            actionPerformed(true);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -720,12 +666,38 @@ public class Compiler implements FileEvents {
         }
         throw new RuntimeException("Symbols file not found");
     }
+
+
 }
 
+/**
+ * <p>
+ * This class extends the {@link SwingWorker}.<br>
+ * It is used to process a file in the background.
+ * </p>
+ *
+ * @param <T> the result type returned by this SwingWorker's doInBackground and get methods.
+ * @param <V> the type used for carrying out intermediate results by this SwingWorker's publish and process methods.
+ * @see javax.swing.SwingWorker
+ * @see java.lang.Runnable
+ * @see java.util.concurrent.Future
+ * @see java.util.concurrent.RunnableFuture
+ */
 abstract class Background<T, V> extends SwingWorker<T, V> {
+    /**
+     * <p>File to analyze in the background</p>
+     */
     protected final File mFile;
 
+    /**
+     * <p>Constructor.</p>
+     *
+     * @param file the file to analyze in the background.
+     * @see File
+     */
     public Background(File file) {
         this.mFile = file;
     }
 }
+
+
