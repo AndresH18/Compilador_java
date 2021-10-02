@@ -8,20 +8,34 @@ public class analizadorExpr {
     int posicion;
     char cadenaAnalizada[];
 
+    void iniciarAnalisis(char x[]) {
+        System.out.println("Iniciando analisis");
+        cadenaAnalizada = x;
+        posicion = 0;
+        Token_Entrada=primerToken();
+        expresion();
+    }
+
     void match(char t){
-        if (t == Token_Entrada){
-            Token_Entrada= SigToken();
-        }else{
-            System.out.println("errormatch");
+        if (t == Token_Entrada) {
+            Token_Entrada = SigToken();
+        } else {
+                System.out.println("errormatch");
         }
     }
     char primerToken(){
         posicion++;
         return (cadenaAnalizada[0]);
     }
-    char SigToken(){
-        posicion++;
-        return(cadenaAnalizada[posicion-1]);
+    char SigToken() {
+        if (posicion==cadenaAnalizada.length) {
+            System.out.println("\nAnalisis finalizado");
+            System.exit(0);
+            return 'x';
+        }else {
+            posicion++;
+            return (cadenaAnalizada[posicion - 1]);
+        }
     }
     void expresion(){
         term();
@@ -29,8 +43,11 @@ public class analizadorExpr {
     }
 
     void expresion_prima(){
-        if(){
-
+        if(Token_Entrada=='+' || Token_Entrada=='-'){
+            System.out.print(Token_Entrada);
+            match(Token_Entrada);
+            term();
+            expresion_prima();
         }else{
             ;
         }
@@ -39,18 +56,37 @@ public class analizadorExpr {
     void term(){
         factor();
         term_prima();
-
     }
 
     void term_prima(){
-        if (){
-
-        }else{
-            ;
+        if (Token_Entrada=='*' || Token_Entrada=='/'){
+            System.out.print(Token_Entrada);
+            match(Token_Entrada);
+            factor();
+            term_prima();
         }
     }
 
     void factor(){
+        if (Token_Entrada=='('){
+            System.out.print(Token_Entrada);
+            match(Token_Entrada);
+            expresion();
+            if (Token_Entrada==')') {
+                System.out.print(Token_Entrada);
+                match(Token_Entrada);
+            }else{
+                System.out.println("errorFactor");
+            }
+        }else if(Token_Entrada==')'){
+            System.out.println("ErrorFactor");
+        } else if (Character.isDigit(Token_Entrada)){
+            num();
+        }else if (Character.isLetter(Token_Entrada)){
+            ident();
+        }else{
+            System.out.println("ErrorFactor");
+        }
 
     }
 
@@ -63,6 +99,8 @@ public class analizadorExpr {
         if (Character.isDigit(Token_Entrada)){
             dig();
             num_prima();
+        }else if(Character.isLetter(Token_Entrada)) {
+            System.out.println("Error numprima");
         }else{
             ;
         }
@@ -87,7 +125,10 @@ public class analizadorExpr {
         if (Character.isLetter(Token_Entrada)){
             letra();
             ident_prima();
-        }else{
+        }else if(Character.isDigit(Token_Entrada)){
+            System.out.println("errorIdentprima");
+        }
+        else{
             ;
         }
     }
@@ -101,13 +142,13 @@ public class analizadorExpr {
         }
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
+        analizadorExpr a=new analizadorExpr();
+        System.out.println("Inserte la cadena a analizar");
         Scanner sc = new Scanner(System.in);
-        String expr = sc.nextLine();
-        System.out.println("Iniciando analisis");
-        posicion=0;
-        Token_Entrada=primerToken();
-        expresion();
+        String cadena = sc.nextLine();
+        char[] cadenaAnalizada = cadena.toCharArray();
+        a.iniciarAnalisis(cadenaAnalizada);
     }
 
 }
