@@ -6,6 +6,7 @@ package text_editor.glc;
 public interface IndividualExpression {
     /**
      * <p>Check the expression.</p>
+     * <p>This method is intended to allow a {@link javax.swing.JDialog} to be triggered between classes</p>
      */
     void checkExpression();
 }
