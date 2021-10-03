@@ -602,8 +602,9 @@ public final class Compiler implements FileEvents, IndividualExpression {
     @Override
     public void checkExpression() {
         System.out.println("D\texpression calculator");
-        ExpressionCalculator ec = new ExpressionCalculator();
+        ExpressionCalculator ec = new ExpressionCalculator(frame);
         ec.pack();
+        ec.setLocationRelativeTo(frame);
         ec.setVisible(true);
     }
 

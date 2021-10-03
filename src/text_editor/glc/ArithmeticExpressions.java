@@ -22,6 +22,10 @@ import java.util.Queue;
                     | epsilon
 
  */
+
+/**
+ * <p>Class for GLC of Arithmetic Expressions</p>
+ */
 public class ArithmeticExpressions {
 
     private Character c;
@@ -31,30 +35,25 @@ public class ArithmeticExpressions {
     private Queue<String> errors = new LinkedList<>();
     private Queue<Character> content = new LinkedList<>();
 
-
+    /**
+     * <p>Public constructor, that receives the expression to evaluate</p>
+     *
+     * @param word the expression to evaluate
+     */
     public ArithmeticExpressions(String word) {
         this.word = word;
         c = word.charAt(0);
         currentPosition = 0;
     }
 
-//    public final String checkExpression222() {
-//        expression();
-//        if (errors.isEmpty() && word.length() == content.size()) {
-//            return "The expression is Valid!";
-//        } else if (!errors.isEmpty()) {
-//            StringBuilder sb = new StringBuilder();
-//            for (String error : errors) {
-//                sb.append(error).append('\n');
-//            }
-//            return sb.toString();
-//        } else {
-//            return "The expression is NOT valid.";
-//        }
-//    }
-
+    /**
+     * <p>Checks if the Expression is valid.</p>
+     *
+     * @return a message indicating the result of the analysis
+     */
     public final String checkExpression() {
         if (checkParen()) {
+            expression();
             if (errors.isEmpty() && word.length() == content.size()) {
                 return "The Expression is Valid!";
             } else if (!errors.isEmpty()) {
@@ -72,6 +71,13 @@ public class ArithmeticExpressions {
     }
 
     /* from here */
+
+    /**
+     * <p>Check if there is the same amount of opening and closing parenthesis</p>
+     * If the amounts are different, add an error message.
+     *
+     * @return true if there is the same amount, false otherwise.
+     */
     private boolean checkParen() {
         int n = 0;
         for (char c1 : word.toCharArray()) {
@@ -137,6 +143,24 @@ public class ArithmeticExpressions {
             num();
         } else if (c != null && Character.isLetter(c)) {
             ident();
+        } else {
+            // error
+            error("digit");
+//            nextChar();
+            if (c != null) {
+                if (c == '+' || c == '-') {
+//                redoChar();
+                    // expressionPrime
+                    expressionPrime();
+                } else if (c == '*' || c == '/') {
+//                redoChar();
+                    // termPrime
+                    termPrime();
+                } else if (match(false, ')')) {
+//                    redoChar(); // este caracter estorba
+                    error("Expression");
+                }
+            }
         }
     }
 
@@ -215,6 +239,12 @@ public class ArithmeticExpressions {
         }
     }
 
+    /**
+     * <p>Publish error</p>
+     *
+     * @param expected the value that was expected
+     * @param <T>      generic type to allow for multiple parameter types
+     */
     private <T> void error(T expected) {
         errors.add("Received '" + c + "' on column " + (currentPosition + 1) + ", while expecting " + expected.toString());
     }

@@ -3,8 +3,8 @@ package text_editor.gui;
 import text_editor.glc.IndividualExpression;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -43,14 +43,13 @@ public class ArithmeticGUI {
         individualExpression = i;
         // set the model for the list
         list.setModel(listModel);
-        // add a mouse listener to the list
-        list.addMouseListener(new MouseAdapter() {
+        showExpressionEvaluatorButton.addActionListener(e -> individualExpression.checkExpression());
+        list.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                // check if there are any expressions
-                if (expressions != null) {
-                    // count 2 or more clicks
-                    if (e.getClickCount() >= 2) {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    // check if there are any expressions
+                    if (expressions != null) {
                         /*
                          * initiate a swingWorker to check if the selected expression has been
                          * typed correctly, on a thread different to the EDT (Event Dispatch Thread)
@@ -76,8 +75,8 @@ public class ArithmeticGUI {
                     }
                 }
             }
+        
         });
-        showExpressionEvaluatorButton.addActionListener(e -> individualExpression.checkExpression());
     }
 
     /**

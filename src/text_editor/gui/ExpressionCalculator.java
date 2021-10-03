@@ -12,7 +12,8 @@ public class ExpressionCalculator extends JDialog {
     private JTextField text;
     private JTextArea show;
 
-    public ExpressionCalculator() {
+    public ExpressionCalculator(JFrame frame) {
+        super(frame);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -60,7 +61,7 @@ public class ExpressionCalculator extends JDialog {
     }
 
     public static void main(String[] args) {
-        ExpressionCalculator dialog = new ExpressionCalculator();
+        ExpressionCalculator dialog = new ExpressionCalculator(null);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
