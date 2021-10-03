@@ -3,7 +3,7 @@ package text_editor;
 import java.io.File;
 
 /**
- * <p>Interface to interact with files.</p>
+ * <p>This Interface denotes some methods that are used to interact with the files of the computer.</p>
  */
 public interface FileEvents {
 

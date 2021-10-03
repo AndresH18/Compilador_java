@@ -7,19 +7,19 @@ import java.io.IOException;
  */
 public abstract class CompilerExceptions {
     /**
-     * <p>File was not found</p>
+     * <p>Exception thrown to indicate that a file was not found.</p>
      */
     public static final class FileNotFoundException extends java.io.FileNotFoundException {
         /**
-         * <p>Empty Constructor</p>
+         * <p>Constructs an instance without a detailed message</p>
          */
         public FileNotFoundException() {
         }
 
         /**
-         * <p>Constructor, pass String argument</p>
+         * <p>Constructs an instance with a detailed message</p>
          *
-         * @param s exception message
+         * @param s the detailed message
          */
         public FileNotFoundException(String s) {
             super(s);
@@ -27,10 +27,12 @@ public abstract class CompilerExceptions {
     }
 
     /**
-     * <p>Unexpected Exceptions</p>
+     * <p>Exception thrown when there are unexpected events.</p>
      */
     public static final class UnexpectedException extends IOException {
         /**
+         * <p>Constructs an instance with a detailed Message.</p>
+         *
          * @param message exception message
          */
         public UnexpectedException(String message) {
@@ -38,15 +40,19 @@ public abstract class CompilerExceptions {
         }
 
         /**
-         * @param message exception message
-         * @param cause   exception cause
+         * <p>Constructs an instance with a detailed message and a cause</p>
+         *
+         * @param message the detailed message
+         * @param cause   the cause
          */
         public UnexpectedException(String message, Throwable cause) {
             super(message, cause);
         }
 
         /**
-         * @param cause exception cause
+         * <p>Constructs an instance without a detailed messaged but with a cause</p>
+         *
+         * @param cause the cause
          */
         public UnexpectedException(Throwable cause) {
             super(cause);
@@ -67,7 +73,7 @@ public abstract class CompilerExceptions {
         }
 
         /**
-         * <p>Constructs and {@link IllegalSymbolException} with no detailed messaged.</p>
+         * <p>Constructs a {@link IllegalSymbolException} with no detailed messaged.</p>
          */
         public IllegalSymbolException() {
         }
