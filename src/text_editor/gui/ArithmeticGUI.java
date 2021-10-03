@@ -1,6 +1,6 @@
 package text_editor.gui;
 
-import text_editor.Analyzer;
+import text_editor.glc.IndividualExpression;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
  * <p>This class makes use of an intellij form to connect the GUI objects to the code</p>
  */
 public class ArithmeticGUI {
+    private final IndividualExpression individualExpression;
     /**
      * <p>Default list model for the list.</p>
      */
@@ -26,6 +27,11 @@ public class ArithmeticGUI {
      */
     private JList<String> list;
     /**
+     * <p>{@link JTextArea} to display word info</p>
+     */
+    private JTextArea expressionInfo;
+    private JButton showExpressionEvaluatorButton;
+    /**
      * <p>{@link String}[] containing the expressions for fast acces</p>
      */
     private String[] expressions;
@@ -33,7 +39,8 @@ public class ArithmeticGUI {
     /**
      * <p>Create an instance of the Arithmetic Expression GUI.</p>
      */
-    public ArithmeticGUI() {
+    public ArithmeticGUI(IndividualExpression i) {
+        individualExpression = i;
         // set the model for the list
         list.setModel(listModel);
         // add a mouse listener to the list
@@ -52,14 +59,15 @@ public class ArithmeticGUI {
                             @Override
                             protected String doInBackground() throws Exception {
                                 // return the results performed in the background
-                                return Analyzer.checkExpression(list.getSelectedValue());
+                                return new text_editor.glc.ArithmeticExpressions(list.getSelectedValue()).checkExpression();
                             }
 
                             @Override
                             protected void done() {
                                 try {
                                     // display the result to the user, this is done on the EDT
-                                    JOptionPane.showMessageDialog(panel, get());
+//                                    JOptionPane.showMessageDialog(panel, get());
+                                    expressionInfo.setText(get());
                                 } catch (InterruptedException | ExecutionException ex) {
                                     ex.printStackTrace();
                                 }
@@ -69,6 +77,7 @@ public class ArithmeticGUI {
                 }
             }
         });
+        showExpressionEvaluatorButton.addActionListener(e -> individualExpression.checkExpression());
     }
 
     /**
@@ -83,7 +92,7 @@ public class ArithmeticGUI {
         listModel.removeAllElements();
         // add elements to the list
         for (String s : strings) {
-            listModel.addElement(s);
+            listModel.addElement(s.trim());
         }
         // update the gui
         SwingUtilities.updateComponentTreeUI(list);

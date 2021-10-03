@@ -52,4 +52,24 @@ public abstract class CompilerExceptions {
             super(cause);
         }
     }
+
+    /**
+     * <p>Thrown to indicate that a symbol or character is not valid.</p>
+     */
+    public static final class IllegalSymbolException extends IllegalArgumentException {
+        /**
+         * <p>Constructs an {@link IllegalSymbolException} with the specified detail message.</p>
+         *
+         * @param s the detail message
+         */
+        public IllegalSymbolException(String s) {
+            super(s);
+        }
+
+        /**
+         * <p>Constructs and {@link IllegalSymbolException} with no detailed messaged.</p>
+         */
+        public IllegalSymbolException() {
+        }
+    }
 }

@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <p>Class containing abstract methods to analyze the file</p>
@@ -42,53 +39,57 @@ public abstract class Analyzer {
         // move between lines
         for (int i = 0; i < lines.length; i++) {
             // move through line
-            for (int j = 0; j < lines[i].length(); j++) {
+            for (int j = 0; j <= lines[i].length(); j++) {
+                if (j < lines[i].length()) {
+                    if (Character.isLetterOrDigit(lines[i].charAt(j)) || lines[i].charAt(j) == '_') {
+                        sb.append(lines[i].charAt(j));
+                        space = false;
 
-                if (Character.isLetterOrDigit(lines[i].charAt(j)) || lines[i].charAt(j) == '_') {
-                    sb.append(lines[i].charAt(j));
-                    space = false;
+                    } else if (lines[i].charAt(j) == '(' || lines[i].charAt(j) == ')') {
+                        addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
+                        sb.setLength(0);
+                        addWordInfo(list, String.valueOf(lines[i].charAt(j)), i, j, isString);
+                        space = false;
 
-                } else if (lines[i].charAt(j) == '(' || lines[i].charAt(j) == ')') {
-                    addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
-                    sb.setLength(0);
-                    addWordInfo(list, String.valueOf(lines[i].charAt(j)), i, j, isString);
-                    space = false;
+                    } else if (lines[i].charAt(j) == '"') {
+                        // print word info, take into account the isString
+                        addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
 
-                } else if (lines[i].charAt(j) == '"') {
-                    // print word info, take into account the isString
-                    addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
+                        sb.setLength(0);
+                        // print char
+                        addWordInfo(list, "\"", i, j, isString);
 
-                    sb.setLength(0);
-                    // print char
-                    addWordInfo(list, "\"", i, j, isString);
+                        isString = !isString;
+                        space = false;
 
-                    isString = !isString;
-                    space = false;
-
-                } else if (lines[i].charAt(j) == ' ' || lines[i].charAt(j) == '\n') {
-                    if (space && !isString) {
-                        // report invalid space
-                    } else {
-                        if (!sb.isEmpty()) {
-                            // print word info
-                            addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
-                            sb.setLength(0);
+                    } else if (lines[i].charAt(j) == ' ' || lines[i].charAt(j) == '\n') {
+                        if (space && !isString) {
+                            // report invalid space
+                        } else {
+                            if (!sb.isEmpty()) {
+                                // print word info
+                                addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
+                                sb.setLength(0);
+                            }
+                            space = true;
                         }
-                        space = true;
+
+                    } else if (lines[i].charAt(j) == ';') {
+                        // print word info
+                        addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
+                        sb.setLength(0);
+
+                        addWordInfo(list, ";", i, j - sb.length(), isString);
+
+                    } else if (isOperator(lines[i].charAt(j))) {
+                        sb.append(lines[i].charAt(j));
+                        space = false;
                     }
-
-                } else if (lines[i].charAt(j) == ';') {
-                    // print word info
+                } else if (!sb.isEmpty()) {
                     addWordInfo(list, sb.toString(), i, j - sb.length(), isString);
-                    sb.setLength(0);
-
-                    addWordInfo(list, ";", i, j - sb.length(), isString);
-
-                } else if (isOperator(lines[i].charAt(j))) {
-                    sb.append(lines[i].charAt(j));
-                    space = false;
                 }
             }
+
 
         }
 
@@ -475,55 +476,4 @@ public abstract class Analyzer {
         return "Hello World";
     }
 
-
-    private static void expressionPrima(String e) {
-//        if (e.isBlank()) {
-//            return;
-//        }
-        String[] s = e.split(" ");
-        int pos = 0;
-        for (int i = 0; i < s.length; pos += s[i++].length() + 1) {
-            if (s[i].length() == 0) {
-            }
-        }
-        expressionPrima(s, 0);
-
-        // 5 + 6 * 8 + 2
-//        String s = e.substring(0, e.indexOf(" "));
-//
-//        expressionArithmetic(e.substring(s.length() + 1));
-    }
-
-    private static void expressionPrima(String[] s, int n) {
-        if (n == s.length) {
-            return;
-        }
-        termino(s, n);
-        // TERM
-        if (s[n].matches("[0-9]+")) {
-
-        } else if (s[n].equals("(")) {
-
-        } else {
-            //
-        }
-    }
-
-    private static void termino(String[] s, int n) {
-        factor(s, n);
-        terminoPrimo(s, n + 1);
-    }
-
-    private static void terminoPrimo(String[] s, int n) {
-        // * factor terminoPrimo
-        // / factor terminoPrimo
-        // ""
-        if (s[n].equals("*")) {
-            factor(s, n + 1);
-        }
-    }
-
-    private static void factor(String[] s, int n) {
-
-    }
 }

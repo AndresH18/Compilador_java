@@ -1,7 +1,9 @@
 package text_editor;
 
+import text_editor.glc.IndividualExpression;
 import text_editor.gui.ArithmeticGUI;
 import text_editor.gui.EditorGUI;
+import text_editor.gui.ExpressionCalculator;
 import text_editor.gui.TableGUI;
 
 import javax.swing.*;
@@ -24,7 +26,7 @@ import java.util.concurrent.ExecutionException;
  * @see EditorGUI
  * @see TableGUI
  */
-public class Compiler implements FileEvents {
+public final class Compiler implements FileEvents, IndividualExpression {
 
     /**
      * <p>Language name.</p>
@@ -107,7 +109,7 @@ public class Compiler implements FileEvents {
     /**
      * <p>{@link ArithmeticGUI} containing the needed elements for the arithmeticAnalysis</p>
      */
-    private final ArithmeticGUI math = new ArithmeticGUI();
+    private final ArithmeticGUI math = new ArithmeticGUI(this);
 
     /**
      * <p>Program entry point</p>
@@ -594,10 +596,16 @@ public class Compiler implements FileEvents {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
+    @Override
+    public void checkExpression() {
+        System.out.println("D\texpression calculator");
+        ExpressionCalculator ec = new ExpressionCalculator();
+        ec.pack();
+        ec.setVisible(true);
+    }
 
     /**
      * <p><b>This method is used as a place holder.</b></p>
