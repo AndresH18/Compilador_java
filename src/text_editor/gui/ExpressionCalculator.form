@@ -76,7 +76,9 @@
             <children>
               <component id="beff" class="javax.swing.JTextArea" binding="show">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

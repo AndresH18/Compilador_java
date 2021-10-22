@@ -14,9 +14,10 @@ end if;
 
 start if (s == "some string" or false) then
     define var int j = 0;
+    define var int someValue = 20;
     for (j < 10) do
         print j;
-        j = j+1;
+        j = (j+1)*((someValue-j)/35)+2;
     end for;
 end if;
 
@@ -25,6 +26,7 @@ start do
 while (condition) end;
  
 holla alejo
+
 
 
 

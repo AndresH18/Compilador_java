@@ -11,5 +11,5 @@ public enum ColumnType {
     ID,
     TYPE,
     TYPE1,
-    TYPE2;
+    TYPE2
 }

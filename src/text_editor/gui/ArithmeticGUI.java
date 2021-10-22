@@ -3,8 +3,6 @@ package text_editor.gui;
 import text_editor.glc.IndividualExpression;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -44,38 +42,34 @@ public class ArithmeticGUI {
         // set the model for the list
         list.setModel(listModel);
         showExpressionEvaluatorButton.addActionListener(e -> individualExpression.checkExpression());
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // check if there are any expressions
-                    if (expressions != null) {
-                        /*
-                         * initiate a swingWorker to check if the selected expression has been
-                         * typed correctly, on a thread different to the EDT (Event Dispatch Thread)
-                         */
-                        (new SwingWorker<String, Void>() {
-                            @Override
-                            protected String doInBackground() throws Exception {
-                                // return the results performed in the background
-                                return new text_editor.glc.ArithmeticExpressions(list.getSelectedValue()).checkExpression();
-                            }
+        list.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                // check if there are any expressions
+                if (expressions != null) {
+                    /*
+                     * initiate a swingWorker to check if the selected expression has been
+                     * typed correctly, on a thread different to the EDT (Event Dispatch Thread)
+                     */
+                    (new SwingWorker<String, Void>() {
+                        @Override
+                        protected String doInBackground() {
+                            // return the results performed in the background
+                            return new text_editor.glc.ArithmeticExpressions(list.getSelectedValue()).checkExpression();
+                        }
 
-                            @Override
-                            protected void done() {
-                                try {
-                                    // display the result to the user, this is done on the EDT
+                        @Override
+                        protected void done() {
+                            try {
+                                // display the result to the user, this is done on the EDT
 //                                    JOptionPane.showMessageDialog(panel, get());
-                                    expressionInfo.setText(get());
-                                } catch (InterruptedException | ExecutionException ex) {
-                                    ex.printStackTrace();
-                                }
+                                expressionInfo.setText(get());
+                            } catch (InterruptedException | ExecutionException ex) {
+                                ex.printStackTrace();
                             }
-                        }).execute(); // execute the SwingWorker
-                    }
+                        }
+                    }).execute(); // execute the SwingWorker
                 }
             }
-        
         });
     }
 

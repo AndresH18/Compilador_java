@@ -1,5 +1,6 @@
 package text_editor.glc;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,13 +28,12 @@ import java.util.Queue;
  * <p>Class for GLC of Arithmetic Expressions</p>
  */
 public class ArithmeticExpressions {
-
     private Character c;
     private int currentPosition;
     private int paren;
-    private String word;
-    private Queue<String> errors = new LinkedList<>();
-    private Queue<Character> content = new LinkedList<>();
+    private final String word;
+    private final Queue<String> errors = new LinkedList<>();
+    private final Queue<Character> content = new LinkedList<>();
 
     /**
      * <p>Public constructor, that receives the expression to evaluate</p>
@@ -55,19 +55,32 @@ public class ArithmeticExpressions {
         if (checkParen()) {
             expression();
             if (errors.isEmpty() && word.length() == content.size()) {
-                return "The Expression is Valid!";
+                // return new String[]{queueToString(content), Arrays.toString(content.toArray()), "The Expression is Valid"};
+//                return queueToString(content) + "The Expression is Valid!";
+                return ExpressionForms.getExpressionForms(queueToString(content));
             } else if (!errors.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 for (String error : errors) {
                     sb.append(error).append('\n');
                 }
                 return sb.toString();
+//                return sb.toString();
             } else {
-                return "The expression is Not Valid";
+                return "The expression is Not Valid.";
+//                return "The expression is Not Valid";
             }
         } else {
             return errors.peek();
+//            return errors.peek();
         }
+    }
+
+    private <T> String queueToString(Queue<T> queue) {
+        StringBuilder sb = new StringBuilder();
+        for (T t : queue) {
+            sb.append(t);
+        }
+        return sb.toString();
     }
 
     /* from here */
@@ -79,31 +92,46 @@ public class ArithmeticExpressions {
      * @return true if there is the same amount, false otherwise.
      */
     private boolean checkParen() {
-        int n = 0;
+//        int n = 0;
+//        for (char c1 : word.toCharArray()) {
+//            if (c1 == '(') {
+//                n++;
+//            } else if (c1 == ')') {
+//                n--;
+//            }
+//        }
+
+        Deque<Character> stack = new LinkedList<>();
+
         for (char c1 : word.toCharArray()) {
             if (c1 == '(') {
-                n++;
+                stack.push(c1);
             } else if (c1 == ')') {
-                n--;
+                if (stack.isEmpty()) {
+                    errors.add("Parenthesis error");
+                    return false;
+                } else {
+                    stack.pop();
+                }
             }
         }
+        return stack.isEmpty();
 
-        if (n == 0) {
-            return true;
-        } else if (n > 0) {
-            errors.add("Missing Opening ('s");
-        } else {
-            errors.add("Missing Closing )'s");
-        }
-        return false;
+
+//        if (n == 0) {
+//            return true;
+//        } else if (n > 0) {
+//            errors.add("Missing Opening ('s");
+//        } else {
+//            errors.add("Missing Closing )'s");
+//        }
+//        return false;
     }
 
 
     private void expression() {
         term();
         expressionPrime();
-
-
     }
 
     private void expressionPrime() {
@@ -231,6 +259,16 @@ public class ArithmeticExpressions {
         }
     }
 
+    /**
+     * <p>Publish error</p>
+     *
+     * @param expected the value that was expected
+     * @param <T>      generic type to allow for multiple parameter types
+     */
+    private <T> void error(T expected) {
+        errors.add("Received '" + c + "' on column " + (currentPosition + 1) + ", while expecting " + expected.toString());
+    }
+
     private void redoChar() {
         if (currentPosition - 1 >= 0) {
             c = word.charAt(--currentPosition);
@@ -240,12 +278,158 @@ public class ArithmeticExpressions {
     }
 
     /**
-     * <p>Publish error</p>
-     *
-     * @param expected the value that was expected
-     * @param <T>      generic type to allow for multiple parameter types
+     * <p>Private class to convert infix expression to postfix and prefix.</p>
      */
-    private <T> void error(T expected) {
-        errors.add("Received '" + c + "' on column " + (currentPosition + 1) + ", while expecting " + expected.toString());
+    private static class ExpressionForms {
+        /**
+         * <p>{@link String} used  for control.</p>
+         */
+        private static final String REPLACE = ";";
+        /**
+         * <p>{@link String} used  for control.</p>
+         */
+        private static final String CHANGE = "##";
+
+        /**
+         * <p>Devuelve la expression de forma infija, postfija, infija.</p>
+         * <p>
+         * InFix   : < infix > <br>
+         * PreFix  : < prefix > <br>
+         * PostFix : < postfix > <br>
+         * </p>
+         *
+         * @param exp la cadena a convertir
+         * @return una cadena con
+         */
+        public static String getExpressionForms(String exp) {
+            return String.format("%-8s: %s\n%-8s: %s\n%-8s: %s\n",
+                    "InFix", exp,
+                    "PreFix", infixToPrefix(exp),
+                    "PostFix", infixToPostfix(exp));
+        }
+
+        /**
+         * <p>Invierte la cadena, remplazando ")" con "(" y "(" con ")"</p>
+         *
+         * @param s la cadena a invertir
+         * @return la cadena invertida
+         */
+        private static String reverse(String s) {
+            s = new StringBuilder(s).reverse().toString();
+            s = s.replace(" ", "")
+                    .replace("(", CHANGE)
+                    .replace(")", "(")
+                    .replace(CHANGE, ")")
+                    .replace("*", " * ")
+                    .replace("/", " / ")
+                    .replace("+", " + ")
+                    .replace("-", " - ")
+                    .replace("^", " ^ ")
+                    .replace("(", "( ")
+                    .replace(")", " )");
+            return s;
+        }
+
+        /**
+         * <p>Converts the {@param s} to prefix expression.</p>
+         *
+         * @param s the string to convert
+         * @return the prefix expression
+         */
+        private static String infixToPrefix(String s) {
+            s = reverse(s);
+            s = infixToPostfix(s, true);
+            s = reverse(s);
+            s = s.replace(" ", "")
+                    .replace(REPLACE + REPLACE, " ")
+                    .replace(REPLACE, "");
+            return s;
+        }
+
+        /**
+         * <p>Converts the string to postfix expression.</p>
+         *
+         * @param s the string to convert
+         * @return the postfix expression
+         */
+        private static String infixToPostfix(String s) {
+            return infixToPostfix(s, false);
+        }
+
+        /**
+         * <p>Converts the string to postfix expression.</p>
+         *
+         * @param exp    the string to convert
+         * @param prefix if the transformation is meant for a real postfix or for prefix.
+         * @return the postfix expression
+         */
+        private static String infixToPostfix(String exp, boolean prefix) {
+            StringBuilder sb = new StringBuilder();
+            Deque<String> stack = new LinkedList<>();
+
+            exp = exp.replace(" ", "")
+                    .replace("*", " * ")
+                    .replace("/", " / ")
+                    .replace("+", " + ")
+                    .replace("-", " - ")
+                    .replace("^", " ^ ")
+                    .replace("(", "( ")
+                    .replace(")", " )");
+
+            String[] strings = exp.split(" ");
+
+            for (String string : strings) {
+
+                if (string.matches("[A-Za-z0-9]+")) {
+                    sb.append(prefix ? REPLACE : "").append(string).append(prefix ? REPLACE : " ");
+
+                } else if (string.equalsIgnoreCase("(")) {
+                    stack.push(string);
+
+                } else if (string.equalsIgnoreCase(")")) {
+                    while (!stack.isEmpty() && !stack.peek().equalsIgnoreCase("(")) {
+                        sb.append(prefix ? REPLACE : "").append(stack.pop()).append(prefix ? REPLACE : " ");
+                    }
+                    stack.pop();
+
+                } else {
+                    if (!prefix) {
+                        while (!stack.isEmpty() && precedence(string) <= precedence(stack.peek())) {
+//                            sb.append(prefix ? REPLACE : "").append(stack.pop()).append(prefix ? REPLACE : " ");
+                            sb.append(stack.pop()).append(" ");
+
+                        }
+                    } else {
+                        while (!stack.isEmpty() && precedence(string) < precedence(stack.peek())) {
+//                            sb.append(prefix ? REPLACE : "").append(stack.pop()).append(prefix ? REPLACE : " ");
+                            sb.append(REPLACE).append(stack.pop()).append(REPLACE);
+                        }
+                    }
+                    stack.push(string);
+                }
+            }
+            while (!stack.isEmpty()) {
+                if (stack.peek().equalsIgnoreCase("(")) {
+                    return "Invalid";
+                }
+                sb.append(prefix ? REPLACE : "").append(stack.pop()).append(prefix ? REPLACE : " ");
+            }
+            return sb.toString();
+        }
+
+        /**
+         * <p>Devuelve la precedencia de la cadena, si no es un operador entonces devuelve -1.</p>
+         *
+         * @param s la cadena para revisar la precedencia
+         * @return la precedencia de la cadena
+         */
+        private static int precedence(String s) {
+            return switch (s) {
+                case "+", "-" -> 1;
+                case "*", "/" -> 2;
+                // case "^" -> 3;
+                default -> -1;
+            };
+        }
     }
 }
