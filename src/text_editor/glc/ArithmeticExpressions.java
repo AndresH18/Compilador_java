@@ -293,9 +293,9 @@ public class ArithmeticExpressions {
         /**
          * <p>Devuelve la expression de forma infija, postfija, infija.</p>
          * <p>
-         * InFix   : < infix > <br>
-         * PreFix  : < prefix > <br>
-         * PostFix : < postfix > <br>
+         * InFix   : "infix" <br>
+         * PreFix  : "prefix" <br>
+         * PostFix : "postfix" <br>
          * </p>
          *
          * @param exp la cadena a convertir
